@@ -1,53 +1,131 @@
 # Estrutura de Dados (C++)
 
----
+Repositório com as implementações das Estruturas de Dados desenvolvidas na disciplina de **GAC108 — DCC/UFLA**.
+Os códigos foram baseados nas aulas e materiais disponibilizados pelos docentes e são de autoria de **Arthur
+Valadares Campideli** e **Gabriel Coelho**.
 
-Repositório que contém o código das Estruturas de Dados desenvolvidos na disciplina de **GAC108 - DCC/UFLA**.
-Todos códigos foram baseados nas aulas e materiais disponibilizados pelos docentes e são de minha autoria.
+> As estruturas deste repositório são implementadas seguindo a abstração em TADs (Tipos Abstratos de Dados), usando
+> o padrão `Interface → Abstract → Implementação`. Se este for o seu primeiro contato com o paradigma, comece por
+> [Introdução a TAD](wiki/tad.md).
 
-# Conteúdos
+## Conteúdo
 
-> As estruturas de dados disponibilizadas neste repositório foram todas implementadas utilizando a abstração em TAD's,
-> mais especificamente classes. Portanto, caso seja seu primeiro contato com esse paradigma de programação, recomendo
-> que comece por [aqui](doc/TAD.md).
+Cada linha abaixo aponta tanto para a explicação conceitual (wiki) quanto para o código-fonte (header + implementação).
 
+| Estrutura de Dados             | Conceito                        | Header (`include/`)                                                                                                 | Implementação (`src/`)                                                                        |
+|:--------------------------------|:---------------------------------|:----------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|
+| Pilha (Array)                    | [Pilha](wiki/pilha.md)           | [ArrayStack.h](include/data-structure/stack/ArrayStack.h)                                                             | [ArrayStack.cpp](src/data-structure/stack/ArrayStack.cpp)                                       |
+| Pilha (Encadeada)                 | [Pilha](wiki/pilha.md)           | [LinkedStack.h](include/data-structure/stack/LinkedStack.h)                                                           | [LinkedStack.cpp](src/data-structure/stack/LinkedStack.cpp)                                     |
+| Fila (Array circular)             | [Fila](wiki/fila.md)             | [ArrayQueue.h](include/data-structure/queue/ArrayQueue.h)                                                             | [ArrayQueue.cpp](src/data-structure/queue/ArrayQueue.cpp)                                       |
+| Fila (Encadeada)                  | [Fila](wiki/fila.md)             | [LinkedQueue.h](include/data-structure/queue/LinkedQueue.h)                                                           | [LinkedQueue.cpp](src/data-structure/queue/LinkedQueue.cpp)                                     |
+| MaxHeap                          | [Heap](wiki/heap.md) · [MaxHeap](wiki/max-heap.md) | [MaxHeap.h](include/data-structure/heap/MaxHeap.h)                                                | [MaxHeap.cpp](src/data-structure/heap/MaxHeap.cpp)                                              |
+| MinHeap                          | [Heap](wiki/heap.md) · [MinHeap](wiki/min-heap.md) | [MinHeap.h](include/data-structure/heap/MinHeap.h)                                                | [MinHeap.cpp](src/data-structure/heap/MinHeap.cpp)                                              |
+| Torneio                          | [Torneio](wiki/torneio.md)       | [Tournament.h](include/data-structure/heap/Tournament.h)                                                              | [Tournament.cpp](src/data-structure/heap/Tournament.cpp)                                        |
+| Lista Simplesmente Encadeada      | [Lista](wiki/lista.md) · [Lista Encadeada](wiki/lista-encadeada.md) | [SinglyLinkedList.h](include/data-structure/list/SinglyLinkedList.h)         | [SinglyLinkedList.cpp](src/data-structure/list/SinglyLinkedList.cpp)                            |
+| Lista Duplamente Encadeada        | [Lista](wiki/lista.md) · [Lista Encadeada](wiki/lista-encadeada.md) | [DoublyLinkedList.h](include/data-structure/list/DoublyLinkedList.h)         | [DoublyLinkedList.cpp](src/data-structure/list/DoublyLinkedList.cpp)                            |
+| Tabela Hash (encadeamento)         | [Hash](wiki/hash.md) · [Encadeada](wiki/hash-encadeado.md) | [LinkedHashTable.h](include/data-structure/hash/LinkedHashTable.h)                          | [LinkedHashTable.cpp](src/data-structure/hash/LinkedHashTable.cpp)                              |
+| Tabela Hash (endereçamento aberto) | [Hash](wiki/hash.md) · [Endereço Aberto](wiki/hash-com-endereco-aberto.md) | [OpenAddressHashTable.h](include/data-structure/hash/OpenAddressHashTable.h)  | [OpenAddressHashTable.cpp](src/data-structure/hash/OpenAddressHashTable.cpp)                    |
+| Árvore Binária de Busca            | [Árvore Binária de Busca](wiki/arvore-binaria-de-busca.md) | [BinarySearchTree.h](include/data-structure/tree/binary_search_tree/BinarySearchTree.h) | [BinarySearchTree.cpp](src/data-structure/tree/binary_search_tree/BinarySearchTree.cpp)        |
+| Árvore Binária de Busca (dup. encadeada) | [Árvore Binária de Busca](wiki/arvore-binaria-de-busca.md) | [DoublyLinkedBinarySearchTree.h](include/data-structure/tree/binary_search_tree/DoublyLinkedBinarySearchTree.h) | [DoublyLinkedBinarySearchTree.cpp](src/data-structure/tree/binary_search_tree/DoublyLinkedBinarySearchTree.cpp) |
 
-> Ao longo da disciplina, para se verificar o aprendizado dos alunos, os diversos conteúdos abordados são aplicados em
-> exercícios disponibilizados na plataforma **[Dredd](https://dredd.dac.ufla.br/)**. Você pode conferir uma das
-> possíveis soluções para tais exercícios **[aqui](exerciciosDredd)**.
+> Os nós (`node/`) que dão suporte às listas e árvores (`SinglyLinkedNode`, `DoublyLinkedNode`,
+> `SinglyLinkedBinaryTreeNode`, `DoublyLinkedBinaryTreeNode`, entre outros) ficam em
+> [`include/data-structure/node`](include/data-structure/node) e
+> [`src/data-structure/node`](src/data-structure/node), e normalmente não precisam ser usados diretamente — servem
+> como peça interna das estruturas acima.
 
-| Estrutura de Dados                          |                                                         Tópicos                                                          |
-|:--------------------------------------------|:------------------------------------------------------------------------------------------------------------------------:|
-| [Pilhas](src/stack)                         |                   [Pilhas Encadeadas](src/stack/linked)     <br/>[Pilhas em Arrays](src/stack/_array)                    |
-| [Filas](src/queue)                          |             [Filas Encadeadas](src/queue/linked/)  <br/>   [Filas em Arrays (Circulares)](src/queue/_array/)             |
-| [Heaps](src/heap)                           |    [MaxHeaps](src/heap/maxHeap)   <br/>     [MinHeaps](src/heap/minHeap)   <br/>     [Torneios](src/heap/tournament)     |
-| [Listas](src/list)                          |  [Listas Encadeadas](src/list/linked)   <br/>   [Deques]()   <br/>   [Vetores Expansíveis]()  <br/>   [Sequence Set]()   |
-| [Tabelas Hash](src/hash)                    |     [Colisão por Encadeamento](src/hash/linked)   <br/>   [Colisão por Endereçamento Aberto](src/hash/open_address)      |
-| [Árvores Binárias de Busca](/arvores/abb)   |                     [Árvores Binárias de Busca](/arvores/abb/abb) <br/>  [Tries](arvores/abb/tries)                      |
-| [Árvores Balanceadas](/arvores/balanceadas) |                [AVL](/arvores/balanceadas/avl)   <br/>   [Árvores Rubro-Negras](/arvores/balanceadas/rb)                 |
-| [Árvores B](/arvores/B)                     | [Árvores 2-3](/)   <br/>    [Árvores 2-3-4](/)  <br/>   [Árvores B](/)  <br/>   [Árvores B+](/)  <br/>   [Árvores B*](/) |
+Todas as estruturas seguem o mesmo padrão de organização interna: uma **interface** (`interface/XInterface.h`)
+define o contrato público, uma classe **abstrata** (`AbstractX.h`) implementa o que é comum a todas as variações, e
+as classes **concretas** (ex.: `MaxHeap`, `ArrayStack`) implementam os detalhes específicos.
 
----
+## Documentação
 
-## Sobre o repositório
+Além deste README, o projeto conta com duas fontes de documentação complementares:
 
-### Estrutura
+- `wiki/` — explicações conceituais de cada estrutura de dados (o "porquê" e a teoria por trás delas),
+  escritas em Markdown.
+- **Doxygen** — documentação gerada automaticamente a partir dos comentários no código-fonte (`include/` e `src/`),
+  cobrindo classes, métodos e a hierarquia `Interface → Abstract → Implementação`. A configuração fica em
+  [`doc/Doxyfile.in`](doc/Doxyfile.in) e pode ser gerada com CMake.
 
-O repositório consiste em alguns arquivos mui importantes ao funcionamento do que ele se dispõem, eles são:
+  ```fish
+  cmake .
+  
+  doxygen # Na raiz do projeto
+  doxygen Doxyfile # ou referenciando o arquivo gerado pelo CMake na raiz do projeto
+  ```
 
-- [.gitignore](.gitignore), arquivo contendo os arquivos, padrões de arquivos, que devem ser ignorados pelo git, sistema
-  de controle de versionamento;
-- [.pre-commit-config.yaml](.pre-commit-config.yaml), arquivo contendo as especificações de gatilhos que devem ser
-  acionados pelo pre-commit mediante um commit, a fim de manter padrões de estruturação de arquivos e, possivelmente,
-  evitar erros passíveis de identificação por ferramentas dedicadas a isso;
-- [conanfile.py](conanfile.py), arquivo de configuração do Conan 2. De forma simplificada, o Conan é um gerenciados de
-  pacotes para C++, ele permite incluir bibliotecas públicas que não fazem parte da biblioteca padrão do C++;
-- Diretório [src](src), este diretório contem as implementações das estruturas de dados que jazem nesse repositório no
-  formato de arquivos .cpp;
-- Diretório [include](include), diretório que contem os arquivos de cebeçalhos das estruturas de dados do projeto;
-- [requirements.txt](requirements.txt), arquivo que contém as bibliotecas requeridas em um ambiente virtual python para
-  a manipulação do projeto;
-- [meson.build](meson.build), arquivo de configuração na raiz do projeto no que tange ao funcionamento adequado do
-  sistema de auxílio à construção do projeto, o meson;
-- [exerciciosDredd](exerciciosDredd), diretório contendo a solução de algumas atividades da plataforma Dredd;
-- 
+  > Existe também um `Doxyfile.in` na raiz do repositório; ele é um resquício do `doxygen -g` inicial e **não** é o
+  > arquivo de configuração oficial — use sempre o de `doc/Doxyfile.in`.
+
+## Exemplos (Dredd)
+
+O diretório [`examples/dredd`](examples/dredd) reúne soluções de exercícios aplicados durante a disciplina na
+plataforma [Dredd](https://dredd.dac.ufla.br/), organizados por assunto:
+
+| Categoria                                  | Diretório                              |
+|:--------------------------------------------|:-----------------------------------------|
+| Exercícios diversos (arquivos, recursão etc.) | [`Arquivos`](examples/dredd/Arquivos)   |
+| Filas                                       | [`Fila`](examples/dredd/Fila)            |
+| Heaps                                       | [`Heap`](examples/dredd/Heap)            |
+| Matrizes                                    | [`Matriz`](examples/dredd/Matriz)        |
+| Pilhas                                      | [`Pilha`](examples/dredd/Pilha)          |
+| Ponteiros e alocação dinâmica                | [`Ponteiros`](examples/dredd/Ponteiros)  |
+| Vetores                                     | [`Vetor`](examples/dredd/Vetor)          |
+
+> Esses exemplos são soluções pontuais de exercícios (não fazem parte da API pública da biblioteca) e por isso ficam
+> fora da documentação gerada pelo Doxygen.
+
+## Estrutura do Repositório
+
+```
+.
+├── CMakeLists.txt        # Configuração de build do projeto (biblioteca)
+├── conanfile.py           # Receita do Conan 2 (empacotamento/dependências)
+├── doc/
+│   └── Doxyfile.in        # Configuração oficial do Doxygen
+├── examples/
+│   ├── CMakeLists.txt     # Build dos exemplos
+│   └── dredd/             # Soluções de exercícios da plataforma Dredd
+├── include/
+│   └── data-structure/    # Headers (.h) das estruturas de dados, por módulo
+├── src/
+│   └── data-structure/    # Implementações (.cpp) correspondentes aos headers
+├── test_package/          # Pacote de teste padrão do Conan (valida a instalação/consumo da lib)
+└── wiki/                  # Documentação conceitual de cada estrutura, em Markdown
+```
+
+Cada módulo dentro de `include/data-structure` e `src/data-structure` (`hash`, `heap`, `list`, `node`, `queue`,
+`stack`, `tree`) segue o mesmo padrão: uma pasta `interface/` com os contratos (`.h`), classes abstratas na raiz do
+módulo, e as implementações concretas.
+
+## Ambiente de Desenvolvimento
+
+O projeto usa **CMake** para build e **Conan 2** para gerenciamento de dependências e empacotamento.
+
+1. Instale o [Conan 2](https://docs.conan.io/2/installation.html) e o CMake.
+2. Na raiz do repositório, crie/instale o pacote localmente:
+
+   ```bash
+   conan create . --build=missing
+   ```
+
+   Esse comando compila a biblioteca e roda o `test_package/`, validando que ela pode ser consumida por outro
+   projeto via Conan.
+
+3. Para desenvolvimento local com CMake diretamente (sem empacotar via Conan), configure e compile normalmente:
+
+   ```bash
+   cmake -S . -B build
+   cmake --build build
+   ```
+
+> Os comandos exatos podem variar conforme as opções definidas em `CMakeLists.txt` e `conanfile.py` — consulte esses
+> arquivos para eventuais flags específicas do projeto (ex.: build de testes ou exemplos).
+
+## Ferramentas Utilizadas
+
+- **Git** — controle de versão.
+- **CMake** — geração e build do projeto, de forma independente de plataforma.
+- **Conan 2** — gerenciamento de dependências e empacotamento em C++.
+- **Doxygen** — geração da documentação de API a partir do código-fonte.
