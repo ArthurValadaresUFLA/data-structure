@@ -1,43 +1,40 @@
 from conan import ConanFile
-from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout
 
 
 class DataStructureRecipe(ConanFile):
     name = "data-structure"
     version = "0.1.0"
-    package_type = "library"
 
-    # Optional metadata
-    license = "<Put the package license here>"
-    author = "<Put your name here> <And your email here>"
-    url = "<Package recipe repository url here, for issues about the package>"
-    description = "<Description of data-structure package here>"
-    topics = ("<Put some tag here>", "<here>", "<and here>")
+    # Todas as estruturas de dados são templates definidos em cabeçalhos, logo o
+    # pacote não contém binário algum.
+    package_type = "header-library"
 
-    # Binary configuration
+    # Metadados
+    # TODO: definir a licença do projeto (não há arquivo LICENSE no repositório).
+    author = "Arthur Valadares Campideli, Gabriel Coelho"
+    url = "https://github.com/ArthurValadaresUFLA/data-structure"
+    description = (
+        "Estruturas de dados genéricas (pilhas, filas, listas, heaps, tabelas "
+        "hash e árvores) implementadas como TADs na disciplina GAC108 - DCC/UFLA."
+    )
+    topics = ("data-structures", "algorithms", "header-only", "cpp17", "educational")
+
+    # Settings são declarados apenas para que o CMakeToolchain gere a
+    # configuração corretamente (padrão C++, etc.), mesmo sem produzir nenhum
+    # binário: o package_id() abaixo limpa todos os settings do pacote. A
+    # suíte de testes unitários (Catch2) não é compilada por esta receita --
+    # ela vive em test_package e roda automaticamente após o `conan create`.
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
 
-    # Sources are located in the same place as this recipe, copy them to the recipe
-    exports_sources = "CMakeLists.txt", "src/*", "include/*", "tests/*"
-
-    requires = "catch2/3.7.0"
-
-    def config_options(self):
-        if self.settings.os == "Windows":
-            self.options.rm_safe("fPIC")
-
-    def configure(self):
-        if self.options.shared:
-            self.options.rm_safe("fPIC")
+    # src/ precisa ser exportado junto com include/: os cabeçalhos incluem, ao
+    # final, as definições de template que vivem lá.
+    exports_sources = "CMakeLists.txt", "include/*", "src/*"
 
     def layout(self):
         cmake_layout(self)
-    
+
     def generate(self):
-        deps = CMakeDeps(self)
-        deps.generate()
         tc = CMakeToolchain(self)
         tc.generate()
 
@@ -48,8 +45,17 @@ class DataStructureRecipe(ConanFile):
 
     def package(self):
         cmake = CMake(self)
-        cmake.test(target="test_data_structure")
         cmake.install()
 
+    def package_id(self):
+        # Header-only: o conteúdo do pacote é idêntico para qualquer
+        # compilador, arquitetura ou build_type.
+        self.info.clear()
+
     def package_info(self):
-        self.cpp_info.libs = ["data-structure"]
+        # Não há biblioteca para linkar; o consumidor recebe apenas o include
+        # path. As definições de template em <package>/src são alcançadas por
+        # caminho relativo a partir dos cabeçalhos, sem entrar no include path.
+        self.cpp_info.bindirs = []
+        self.cpp_info.libdirs = []
+
