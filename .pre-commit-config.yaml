@@ -1,12 +1,55 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
-fail_fast: false
+exclude: '^examples/dredd/'
+
 repos:
-- repo: https://github.com/pocc/pre-commit-hooks
-  rev: v1.3.5
-  hooks:
-  - id: clang-format
-    args: [ --style=Google, -i]
-  - id: cppcheck
-    args: [--language=c++]
-#  - id: include-what-you-use
+  # Higiene geral de arquivos
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: detect-private-key
+      - id: check-executables-have-shebangs
+      - id: check-yaml
+      - id: check-ast          # valida conanfile.py e test_package/conanfile.py
+      - id: debug-statements   # pega print()/pdb esquecidos nos conanfiles
+
+  # Formatação C++ (headers e implementações da biblioteca)
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.8
+    hooks:
+      - id: clang-format
+        types_or: [c++, c]
+        args: ['-i', '--style=file']
+
+  # Formatação/lint dos CMakeLists.txt
+  - repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+      - id: cmake-format
+      - id: cmake-lint
+        args: ['--disabled-codes=C0301']   # ignora limite de largura de linha, se incomodar
+
+  # Lint de Markdown (README.md e wiki/)
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.41.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        files: '\.md$'
+
+  # Ortografia (comentários/docs em PT-BR podem gerar falsos positivos, ver nota abaixo)
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        args: ['--ignore-words=.codespellrc-ignore']
+        files: '\.(md|h|hpp|cpp)$'
+
