@@ -50,7 +50,7 @@ Além deste README, o projeto conta com duas fontes de documentação complement
 
   ```fish
   cmake .
-  
+
   doxygen # Na raiz do projeto
   doxygen Doxyfile # ou referenciando o arquivo gerado pelo CMake na raiz do projeto
   ```
