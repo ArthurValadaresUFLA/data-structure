@@ -58,4 +58,3 @@ class DataStructureRecipe(ConanFile):
         # caminho relativo a partir dos cabeçalhos, sem entrar no include path.
         self.cpp_info.bindirs = []
         self.cpp_info.libdirs = []
-

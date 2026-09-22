@@ -38,4 +38,3 @@ class DataStructureTestConan(ConanFile):
         if can_run(self):
             cmake = CMake(self)
             cmake.test()
-
