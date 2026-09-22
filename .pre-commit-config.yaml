@@ -52,4 +52,3 @@ repos:
       - id: codespell
         args: ['--ignore-words=.codespellrc-ignore']
         files: '\.(md|h|hpp|cpp)$'
-
