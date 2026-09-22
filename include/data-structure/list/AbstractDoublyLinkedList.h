@@ -15,11 +15,10 @@
 /// programação genérica. Isto usa modelos para permitir qualquer tipo T,
 /// tornando-o útil para vários tipos de dados.
 /// @tparam T O tipo de elementos armazenados na lista.
-template <class T>
-class AbstractDoublyLinkedList {
- protected:
-  DoublyLinkedNodeInterface<T>* _begin = nullptr;
-  DoublyLinkedNodeInterface<T>* _end = nullptr;
+template <class T> class AbstractDoublyLinkedList {
+protected:
+  DoublyLinkedNodeInterface<T> *_begin = nullptr;
+  DoublyLinkedNodeInterface<T> *_end = nullptr;
 
   /// Construtor que inicializa atributos referentes a uma lista duplamente
   /// vinculada
@@ -27,9 +26,9 @@ class AbstractDoublyLinkedList {
   /// representa o início da lista
   /// @param end um objeto que implementa um DoublyLinkedInterface que
   /// representa o fim da lista
-  AbstractDoublyLinkedList(DoublyLinkedNodeInterface<T>* begin,
-                           DoublyLinkedNodeInterface<T>* end)
+  AbstractDoublyLinkedList(DoublyLinkedNodeInterface<T> *begin,
+                           DoublyLinkedNodeInterface<T> *end)
       : _begin(begin), _end(end) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDLIST_H
+#endif // DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDLIST_H

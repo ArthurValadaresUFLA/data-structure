@@ -14,8 +14,7 @@ DoublyLinkedNodeInterface<T> *DoublyLinkedNode<T>::getNext() const {
   return this->_next;
 }
 
-template <class T>
-T DoublyLinkedNode<T>::getData() const {
+template <class T> T DoublyLinkedNode<T>::getData() const {
   return this->_data;
 }
 

@@ -16,12 +16,12 @@
 /// @tparam T
 template <class T>
 class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
- private:
-  DoublyLinkedList(DoublyLinkedNodeInterface<T>* begin,
-                   DoublyLinkedNodeInterface<T>* end)
+private:
+  DoublyLinkedList(DoublyLinkedNodeInterface<T> *begin,
+                   DoublyLinkedNodeInterface<T> *end)
       : AbstractDoublyLinkedList<T>(begin, end) {}
 
- public:
+public:
   /// Construtor público da classe que inicializa todos os atributos
   DoublyLinkedList() : AbstractDoublyLinkedList<T>(nullptr, nullptr) {}
 
@@ -32,7 +32,7 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   /// constante para o valor contido no respectivo endereço
   /// de memória. Se o índice passado exceder o número de
   /// elementos levanta uma exceção
-  T& operator[](std::size_t index) const override;
+  T &operator[](std::size_t index) const override;
 
   /// Método responsável por retornar o tamanho da lista
   /// O tamanho da lista é calculado a cada vez que acessado,
@@ -45,13 +45,13 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   /// índice do elemento, se o elemento não for achado retorna o
   /// final da lista.
   /// @param data valor a ser buscado
-  size_t find(const T& data) const override;
+  size_t find(const T &data) const override;
 
   /// Método responsável por iterar sobre os nós contituintes
   /// e verificar se o valor contido em cada um deles é o valor
   /// procurado. Pior cenário O(n).
   /// @param data valor a ser verificado se está dentro da lista
-  bool contains(const T& data) const override;
+  bool contains(const T &data) const override;
 
   /// Método responsável por adiciona um dado ao início da lista encadeada
   /// @param data passado como argumento é encapsulado em um nó duplamente
@@ -62,7 +62,7 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
   /// [nullptr]
   /// @param data o valor a ser inserido no início
-  void push(const T& data) override;
+  void push(const T &data) override;
 
   /// Método responsável por adicionar um dado ao final de uma lista encadeada
   /// @param data passado como argumento é encapsulado em um nó duplamente
@@ -73,7 +73,7 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
   /// [nullptr]
   /// @param data o valor a ser inserido no final
-  void pushBack(const T& data) override;
+  void pushBack(const T &data) override;
 
   /// Método responsável por inserir um elemento na respectiva posição passada
   /// como argumento. Se a posição passada no argumento não estiver no intervalo
@@ -109,7 +109,7 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   /// posição for maior que o número de elementos ou menos que 0,
   /// lança uma exceção.
   /// @param position indicando a posição do valor a ser removido
-  T removeAt(const std::size_t& position) override;
+  T removeAt(const std::size_t &position) override;
 
   /// Método responsável por retornar um booleano indicando se a lista está
   /// vazia ou não.
@@ -121,4 +121,4 @@ class DoublyLinkedList : AbstractDoublyLinkedList<T>, public ListInterface<T> {
   void removeWhere(std::function<bool(std::size_t, T)> predicate) override;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDLIST_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDLIST_H

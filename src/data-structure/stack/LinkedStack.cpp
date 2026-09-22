@@ -9,9 +9,8 @@
 
 #include "data-structure/node/DoublyLinkedNode.h"
 
-template <class T>
-void LinkedStack<T>::stackUp(T data) {
-  DoublyLinkedNodeInterface<T>* node = new DoublyLinkedNode(data);
+template <class T> void LinkedStack<T>::stackUp(T data) {
+  DoublyLinkedNodeInterface<T> *node = new DoublyLinkedNode(data);
 
   if (this->_end == nullptr) {
     this->_end = node;
@@ -22,8 +21,7 @@ void LinkedStack<T>::stackUp(T data) {
   }
 }
 
-template <class T>
-T LinkedStack<T>::unstack() {
+template <class T> T LinkedStack<T>::unstack() {
   if (this->_end != nullptr) {
     T data = this->_end->getData();
 
@@ -39,17 +37,15 @@ T LinkedStack<T>::unstack() {
   throw std::runtime_error("The stack is empty");
 }
 
-template <class T>
-T LinkedStack<T>::peek() const {
+template <class T> T LinkedStack<T>::peek() const {
   if (this->_end != nullptr) {
     return this->_end->getData();
   }
   throw std::runtime_error("The stack is empty");
 }
 
-template <class T>
-size_t LinkedStack<T>::size() const {
-  const DoublyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> size_t LinkedStack<T>::size() const {
+  const DoublyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
   while (current != nullptr) {
@@ -61,7 +57,6 @@ size_t LinkedStack<T>::size() const {
   return i;
 }
 
-template <class T>
-bool LinkedStack<T>::empty() const {
+template <class T> bool LinkedStack<T>::empty() const {
   return this->_end == nullptr;
 }

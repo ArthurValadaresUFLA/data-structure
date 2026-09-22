@@ -5,8 +5,8 @@
 #ifndef DATA_STRUCTURE_SINGLYLINKEDNODE_H
 #define DATA_STRUCTURE_SINGLYLINKEDNODE_H
 
-#include "data-structure/node/interface/SinglyLinkedNodeInterface.h"
 #include "data-structure/node/AbstractNode.h"
+#include "data-structure/node/interface/SinglyLinkedNodeInterface.h"
 
 /// @brief Nó vinculado individualmente
 ///
@@ -22,17 +22,17 @@
 /// @tparam T o tipo de dados armazenados no nó
 template <class T>
 class SinglyLinkedNode : AbstractNode<T>, public SinglyLinkedNodeInterface<T> {
- private:
+private:
   /// Atributo usado para representar o próximo nó
   /// do tópico. A princípio o
   /// valor é nulo.
-  T* _next = nullptr;
+  T *_next = nullptr;
 
- public:
+public:
   /// Construtor público usado para inicializar todos os atributos da classe
   /// @param data o valor dos dados a serem interrompidos no nó
   /// @param próximo ao próximo nó duplamente vinculado da cadeia
-  SinglyLinkedNode(T data, T* next) : AbstractNode<T>(data), _next(next) {}
+  SinglyLinkedNode(T data, T *next) : AbstractNode<T>(data), _next(next) {}
 
   /// Construtor público usado para inicializar o atributo contido no nó.
   /// O método deve ser declarado com a palavra-chave explícita porque é
@@ -44,12 +44,12 @@ class SinglyLinkedNode : AbstractNode<T>, public SinglyLinkedNodeInterface<T> {
   /// da cadeia. O método é constante, implementa o que está declarado na
   /// interface e retorna um ponteiro para DoublyLinkedNode
   /// @return próximo nó da cadeia
-  SinglyLinkedNodeInterface<T>* getNext() const override;
+  SinglyLinkedNodeInterface<T> *getNext() const override;
 
   /// Método set usado para definir o valor do próximo atributo, com base no
   /// ponteiro passado como argumento
   /// @param próximo ao ponteiro para o próximo nó da cadeia a ser definido
-  void setNext(SinglyLinkedNodeInterface<T>* next) override;
+  void setNext(SinglyLinkedNodeInterface<T> *next) override;
 
   /// Método get usado para acessar o valor contido em um nó, obtendo uma cópia
   /// dele
@@ -57,4 +57,4 @@ class SinglyLinkedNode : AbstractNode<T>, public SinglyLinkedNodeInterface<T> {
   T getData() const override;
 };
 
-#endif  // DATA_STRUCTURE_SINGLYLINKEDNODE_H
+#endif // DATA_STRUCTURE_SINGLYLINKEDNODE_H

@@ -16,9 +16,8 @@
  * árvore de pesquisa binária. A árvore armazena elementos do tipo T e permite
  * inserção, remoção e busca de elementos.
  */
-template <class T>
-class BinarySearchTreeInterface {
- public:
+template <class T> class BinarySearchTreeInterface {
+public:
   /**
    * @brief Insere um valor na árvore de pesquisa binária.
    *
@@ -26,7 +25,7 @@ class BinarySearchTreeInterface {
    *
    * @param value O valor a ser inserido na árvore.
    */
-  virtual void insert(const T& value) = 0;
+  virtual void insert(const T &value) = 0;
 
   /**
    * @fn virtual void BinarySearchTreeInterface::remove(const T& valor) = 0;
@@ -45,7 +44,7 @@ class BinarySearchTreeInterface {
    * @see BinarySearchTreeInterface::inserir
    * @see BinarySearchTreeInterface::search
    */
-  virtual void remove(const T& value) = 0;
+  virtual void remove(const T &value) = 0;
 
   /**
    * @fn virtual SinglyLinkedBinaryTreeNodeInterface<T>*
@@ -60,8 +59,8 @@ class BinarySearchTreeInterface {
    * @return Um ponteiro para o nó que contém o valor ou nullptr se o valor não
    * for encontrado na árvore.
    */
-  virtual SinglyLinkedBinaryTreeNodeInterface<T>* search(
-      const T& value) const = 0;
+  virtual SinglyLinkedBinaryTreeNodeInterface<T> *
+  search(const T &value) const = 0;
 };
 
-#endif  // DATA_STRUCTURE_BINARYSEARCHTREEINTERFACE_H
+#endif // DATA_STRUCTURE_BINARYSEARCHTREEINTERFACE_H

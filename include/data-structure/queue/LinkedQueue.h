@@ -23,7 +23,7 @@
  */
 template <class T>
 class LinkedQueue : AbstractLinkedQueue<T>, QueueInterface<T> {
- private:
+private:
   /**
    * @class LinkedQueue
    * @brief Uma classe que representa uma implementação de uma fila vinculada
@@ -36,11 +36,11 @@ class LinkedQueue : AbstractLinkedQueue<T>, QueueInterface<T> {
    * @see AbstractLinkedQueue, QueueInterface, DoublyLinkedNodeInterface,
    * AbstractNode
    */
-  LinkedQueue(DoublyLinkedNode<T>* begin, DoublyLinkedNode<T>* end)
+  LinkedQueue(DoublyLinkedNode<T> *begin, DoublyLinkedNode<T> *end)
       : AbstractLinkedQueue<T>(begin, end) {}
 
- public:
- private:
+public:
+private:
   /**
    * @brief Adiciona um elemento ao final da fila
    *
@@ -94,4 +94,4 @@ class LinkedQueue : AbstractLinkedQueue<T>, QueueInterface<T> {
   T peek() const override;
 };
 
-#endif  // DATA_STRUCTURE_LINKEDQUEUE_H
+#endif // DATA_STRUCTURE_LINKEDQUEUE_H

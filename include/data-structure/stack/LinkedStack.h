@@ -23,7 +23,7 @@
  */
 template <class T>
 class LinkedStack : AbstractLinkedStack<T>, public StackInterface<T> {
- public:
+public:
   /**
    * @brief Coloca um elemento no topo da pilha.
    *
@@ -82,4 +82,4 @@ class LinkedStack : AbstractLinkedStack<T>, public StackInterface<T> {
   [[nodiscard]] bool empty() const override;
 };
 
-#endif  // DATA_STRUCTURE_LINKEDSTACK_H
+#endif // DATA_STRUCTURE_LINKEDSTACK_H

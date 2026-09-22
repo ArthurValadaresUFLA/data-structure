@@ -24,30 +24,30 @@
 /// @tparam T o tipo de dados armazenados no nó
 template <class T>
 class DoublyLinkedNode : AbstractNode<T>, public DoublyLinkedNodeInterface<T> {
- private:
+private:
   /// Atributo usado para representar o próximo nó
   ///  do tópico. A princípio o
   ///  _valor é nulo.
-  DoublyLinkedNode<T>* _next = nullptr;
+  DoublyLinkedNode<T> *_next = nullptr;
   /// Atributo usado para representar um nó anterior
   ///  do tópico. A princípio o
   ///  _valor é nulo.
-  DoublyLinkedNode<T>* _previous = nullptr;
+  DoublyLinkedNode<T> *_previous = nullptr;
 
- public:
+public:
   /// Construtor público usado para inicializar todos os atributos da classe
   /// @param data o valor a ser armazenado no nó
   /// @param próximo ao próximo nó da cadeia
   /// @param anterior ao nó anterior da cadeia
-  DoublyLinkedNode(T data, DoublyLinkedNode<T>* next,
-                   DoublyLinkedNode<T>* previous)
+  DoublyLinkedNode(T data, DoublyLinkedNode<T> *next,
+                   DoublyLinkedNode<T> *previous)
       : AbstractNode<T>(data), _next(next), _previous(previous) {}
 
   /// Construtor público usado para inicializar o _value contido no nó e no
   /// próximo nó na cadeia
   /// @param data o valor a ser armazenado no nó
   /// @param próximo ao próximo nó da cadeia
-  DoublyLinkedNode(T data, DoublyLinkedNode<T>* next)
+  DoublyLinkedNode(T data, DoublyLinkedNode<T> *next)
       : AbstractNode<T>(data), _next(next), _previous(nullptr) {}
 
   /// Construtor público usado para inicializar o atributo contido no nó.
@@ -61,13 +61,13 @@ class DoublyLinkedNode : AbstractNode<T>, public DoublyLinkedNodeInterface<T> {
   /// da cadeia. O método é constante, implementa o que está declarado na
   /// interface e retorna um ponteiro para DoublyLinkedNode
   /// @return próximo nó da cadeia
-  DoublyLinkedNodeInterface<T>* getNext() const override;
+  DoublyLinkedNodeInterface<T> *getNext() const override;
 
   /// Obtém o método usado para acessar o atributo anterior, que indica o nó
   /// anterior da cadeia. O método é constante, implementa o que está declarado
   /// na interface e retorna um ponteiro para DoublyLinkedNode
   /// @return o nó anterior da cadeia
-  DoublyLinkedNodeInterface<T>* getPrevious() const override;
+  DoublyLinkedNodeInterface<T> *getPrevious() const override;
 
   /// método get usado para acessar o _value contido em um nó, obtendo uma cópia
   /// dele
@@ -77,17 +77,17 @@ class DoublyLinkedNode : AbstractNode<T>, public DoublyLinkedNodeInterface<T> {
   /// método set usado para definir o _value do atributo anterior, baseado no
   /// ponteiro passado como argumento
   /// @param anterior ao nó anterior da cadeia
-  void setPrevious(DoublyLinkedNodeInterface<T>* previous) override;
+  void setPrevious(DoublyLinkedNodeInterface<T> *previous) override;
 
   /// método set usado para definir o _value do próximo atributo, baseado no
   /// ponteiro passado como argumento
   /// @param próximo ao próximo nó da cadeia
-  void setNext(DoublyLinkedNodeInterface<T>* next) override;
+  void setNext(DoublyLinkedNodeInterface<T> *next) override;
 
   /// Método usado para obter ambos os atributos: anterior e próximo
   /// @returns tupla com ambos: nó anterior e seguinte
-  std::tuple<DoublyLinkedNodeInterface<T>*, DoublyLinkedNodeInterface<T>*>
+  std::tuple<DoublyLinkedNodeInterface<T> *, DoublyLinkedNodeInterface<T> *>
   getBoth() const;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDNODE_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDNODE_H

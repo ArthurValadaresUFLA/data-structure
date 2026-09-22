@@ -4,8 +4,7 @@
 
 #include "data-structure/queue/LinkedQueue.h"
 
-template <class T>
-void LinkedQueue<T>::queue(T data) {
+template <class T> void LinkedQueue<T>::queue(T data) {
   DoublyLinkedNodeInterface<T> node = new DoublyLinkedNode(data);
   if (this->_end == nullptr) {
     this->_end = node;
@@ -17,8 +16,7 @@ void LinkedQueue<T>::queue(T data) {
   }
 }
 
-template <class T>
-T LinkedQueue<T>::dequeue() {
+template <class T> T LinkedQueue<T>::dequeue() {
   if (this->_begin == nullptr) {
     return nullptr;
   }
@@ -31,8 +29,7 @@ T LinkedQueue<T>::dequeue() {
   return data;
 }
 
-template <class T>
-size_t LinkedQueue<T>::size() const {
+template <class T> size_t LinkedQueue<T>::size() const {
   DoublyLinkedNodeInterface<T> current = this->_begin;
   std::size_t i = 0;
   while (current.getNext() != nullptr) {
@@ -43,12 +40,8 @@ size_t LinkedQueue<T>::size() const {
   return i;
 }
 
-template <class T>
-bool LinkedQueue<T>::isEmpty() const {
+template <class T> bool LinkedQueue<T>::isEmpty() const {
   return this->_begin == nullptr and this->_end == nullptr;
 }
 
-template <class T>
-T LinkedQueue<T>::peek() const {
-  return *(this->_end);
-}
+template <class T> T LinkedQueue<T>::peek() const { return *(this->_end); }

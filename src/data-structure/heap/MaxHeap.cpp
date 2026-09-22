@@ -19,8 +19,7 @@ MaxHeap<T> MaxHeap<T>::from(const T *array) {
   return heap;
 }
 
-template <class T>
-T MaxHeap<T>::removeRoot() const {
+template <class T> T MaxHeap<T>::removeRoot() const {
   if (this->isEmpty()) {
     throw std::out_of_range("Heap is empty, cannot remove root.");
   }
@@ -59,8 +58,7 @@ T MaxHeap<T>::removeRoot() const {
   return root;
 }
 
-template <class T>
-void MaxHeap<T>::insert(const T &value) {
+template <class T> void MaxHeap<T>::insert(const T &value) {
   size_t hole = this->getSize();
   while (hole > 0 && value > this->_data[this->parentOf(hole)]) {
     this->_data[hole] = this->_data[this->parentOf(hole)];

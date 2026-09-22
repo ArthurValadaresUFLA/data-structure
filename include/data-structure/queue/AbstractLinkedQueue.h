@@ -19,11 +19,10 @@
  *
  * @see DoubleLinkedNodeInterface
  */
-template <class T>
-class AbstractLinkedQueue {
- protected:
-  DoublyLinkedNodeInterface<T>* _begin = nullptr;
-  DoublyLinkedNodeInterface<T>* _end = nullptr;
+template <class T> class AbstractLinkedQueue {
+protected:
+  DoublyLinkedNodeInterface<T> *_begin = nullptr;
+  DoublyLinkedNodeInterface<T> *_end = nullptr;
 
   /**
    * @brief Constrói um objeto AbstractLinkedQueue com determinados nós iniciais
@@ -31,9 +30,9 @@ class AbstractLinkedQueue {
    * @param start O nó inicial da fila
    * @param end O nó final da fila
    */
-  AbstractLinkedQueue(DoublyLinkedNodeInterface<T>* begin,
-                      DoublyLinkedNodeInterface<T>* end)
+  AbstractLinkedQueue(DoublyLinkedNodeInterface<T> *begin,
+                      DoublyLinkedNodeInterface<T> *end)
       : _begin(begin), _end(end) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTLINKEDQUEUE_H
+#endif // DATA_STRUCTURE_ABSTRACTLINKEDQUEUE_H

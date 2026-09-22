@@ -11,7 +11,7 @@
 #include "data-structure/heap/interface/HeapInterface.h"
 
 /**
- * @class Torneio
+ * @class Tournament
  * @brief Uma classe que representa uma pilha de torneio.
  *
  * Esta classe herda da classe AbstractHeap e implementa a funcionalidade
@@ -23,9 +23,8 @@
  *
  * @tparam T O tipo de elementos a serem armazenados no heap.
  */
-template <class T>
-class Tournament : AbstractHeap<T> {
- public:
+template <class T> class Tournament : AbstractHeap<T> {
+public:
   T removeRoot() const override {
     throw std::runtime_error("Unimplemented error");
   }
@@ -42,4 +41,4 @@ class Tournament : AbstractHeap<T> {
   void insert(const T &value) override;
 };
 
-#endif  // DATA_STRUCTURE_TOURNAMENT_H
+#endif // DATA_STRUCTURE_TOURNAMENT_H

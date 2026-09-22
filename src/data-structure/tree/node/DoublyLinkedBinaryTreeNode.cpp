@@ -13,8 +13,8 @@ void DoublyLinkedBinaryTreeNode<T>::setRight(
 }
 
 template <class T>
-DoublyLinkedBinaryTreeNodeInterface<T> *DoublyLinkedBinaryTreeNode<T>::getLeft()
-    const {
+DoublyLinkedBinaryTreeNodeInterface<T> *
+DoublyLinkedBinaryTreeNode<T>::getLeft() const {
   return this->_left;
 }
 
@@ -24,18 +24,15 @@ void DoublyLinkedBinaryTreeNode<T>::setLeft(
   this->_left = left;
 }
 
-template <class T>
-T DoublyLinkedBinaryTreeNode<T>::getValue() const {
+template <class T> T DoublyLinkedBinaryTreeNode<T>::getValue() const {
   return this->_value;
 }
 
-template <class T>
-void DoublyLinkedBinaryTreeNode<T>::setValue(T value) {
+template <class T> void DoublyLinkedBinaryTreeNode<T>::setValue(T value) {
   this->_value = value;
 }
 
-template <class T>
-int DoublyLinkedBinaryTreeNode<T>::childCount() const {
+template <class T> int DoublyLinkedBinaryTreeNode<T>::childCount() const {
   int count = 0;
 
   if (this->getRight() != nullptr) {

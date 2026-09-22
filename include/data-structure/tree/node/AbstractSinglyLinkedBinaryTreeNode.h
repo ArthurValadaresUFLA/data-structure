@@ -19,13 +19,12 @@
  *
  * @tparam T O tipo do valor mantido pelo nó.
  */
-template <class T>
-class AbstractSinglyLinkedBinaryTreeNode {
- protected:
+template <class T> class AbstractSinglyLinkedBinaryTreeNode {
+protected:
   T _value;
 
-  SinglyLinkedBinaryTreeNodeInterface<T>* _right = nullptr;
-  SinglyLinkedBinaryTreeNodeInterface<T>* _left = nullptr;
+  SinglyLinkedBinaryTreeNodeInterface<T> *_right = nullptr;
+  SinglyLinkedBinaryTreeNodeInterface<T> *_left = nullptr;
 
   /**
    * @brief Construtor para a classe AbstractSinglyLinkedBinaryTreeNode.
@@ -39,8 +38,8 @@ class AbstractSinglyLinkedBinaryTreeNode {
    * @param left Um ponteiro para o nó filho esquerdo.
    */
   AbstractSinglyLinkedBinaryTreeNode(
-      T value, SinglyLinkedBinaryTreeNodeInterface<T>* right,
-      SinglyLinkedBinaryTreeNodeInterface<T>* left)
+      T value, SinglyLinkedBinaryTreeNodeInterface<T> *right,
+      SinglyLinkedBinaryTreeNodeInterface<T> *left)
       : _value(value), _right(right), _left(left) {}
 
   /**
@@ -52,7 +51,7 @@ class AbstractSinglyLinkedBinaryTreeNode {
    * @param right O filho certo do nó.
    */
   AbstractSinglyLinkedBinaryTreeNode(
-      T value, SinglyLinkedBinaryTreeNodeInterface<T>* right)
+      T value, SinglyLinkedBinaryTreeNodeInterface<T> *right)
       : _value(value), _right(right) {}
 
   /**
@@ -63,4 +62,4 @@ class AbstractSinglyLinkedBinaryTreeNode {
   explicit AbstractSinglyLinkedBinaryTreeNode(T value) : _value(value) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTSINGLYLINKEDBINARYTREENODE_H
+#endif // DATA_STRUCTURE_ABSTRACTSINGLYLINKEDBINARYTREENODE_H

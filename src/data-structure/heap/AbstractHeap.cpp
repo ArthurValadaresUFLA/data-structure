@@ -6,7 +6,6 @@
 
 #include <stdexcept>
 
-
 template <class T>
 AbstractHeap<T>::AbstractHeap(const AbstractHeap &other)
     : _capacity(other._capacity), _top(nullptr) {
@@ -17,48 +16,39 @@ AbstractHeap<T>::AbstractHeap(const AbstractHeap &other)
   }
 }
 
-template <class T>
-size_t AbstractHeap<T>::parentOf(const size_t &index) {
+template <class T> size_t AbstractHeap<T>::parentOf(const size_t &index) {
   return (index - 1) / 2;
 }
 
-template <class T>
-size_t AbstractHeap<T>::rightChildOf(const size_t &index) {
+template <class T> size_t AbstractHeap<T>::rightChildOf(const size_t &index) {
   return 2 * index + 1;
 }
 
-template <class T>
-size_t AbstractHeap<T>::leftChildOf(const size_t &index) {
+template <class T> size_t AbstractHeap<T>::leftChildOf(const size_t &index) {
   return 2 * index + 2;
 }
 
-template <class T>
-T AbstractHeap<T>::peekRoot() const {
+template <class T> T AbstractHeap<T>::peekRoot() const {
   return this->_data[0];
 }
 
-template <class T>
-bool AbstractHeap<T>::isFull() const {
+template <class T> bool AbstractHeap<T>::isFull() const {
   return this->_top == this->_data + this->_capacity;
 }
 
-template <class T>
-bool AbstractHeap<T>::isEmpty() const {
+template <class T> bool AbstractHeap<T>::isEmpty() const {
   return this->_top == nullptr;
 }
 
-template <class T>
-size_t AbstractHeap<T>::getCapacity() const {
+template <class T> size_t AbstractHeap<T>::getCapacity() const {
   return this->_capacity;
 }
 
-template <class T>
-size_t AbstractHeap<T>::getSize() const {
+template <class T> size_t AbstractHeap<T>::getSize() const {
   return this->_top - this->_data;
 }
 
-template <class T>
-T &AbstractHeap<T>::operator[](std::size_t index) const {
+template <class T> T &AbstractHeap<T>::operator[](std::size_t index) const {
   if (index > this->getSize()) {
     throw std::out_of_range("Index out of range");
   }
@@ -68,15 +58,15 @@ T &AbstractHeap<T>::operator[](std::size_t index) const {
 
 template <class T>
 bool AbstractHeap<T>::operator==(const AbstractHeap &other) const {
-  if (this == &other) {  // Verifica se os ponteiros são iguais
+  if (this == &other) { // Verifica se os ponteiros são iguais
     return true;
   }
 
-  if (_capacity != other._capacity) {  // Verifica se têm a mesma capacidade
+  if (_capacity != other._capacity) { // Verifica se têm a mesma capacidade
     return false;
   }
 
-  for (std::size_t i = 0; i < _capacity; ++i) {  // Compara os elementos
+  for (std::size_t i = 0; i < _capacity; ++i) { // Compara os elementos
     if (_data[i] != other._data[i]) {
       return false;
     }

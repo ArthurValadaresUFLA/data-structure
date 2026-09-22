@@ -12,9 +12,8 @@
 /// encadeados, por exemplo, nós encadeados e
 /// duplamente encadeados
 /// @tparam T o tipo de dado armazenado dentro do nó
-template <class T>
-class AbstractNode {
- protected:
+template <class T> class AbstractNode {
+protected:
   /// Atributo usado para representar
   /// o dado genérico contido dentro
   /// do nó, A princípio, é protegido,
@@ -31,4 +30,4 @@ class AbstractNode {
   explicit AbstractNode(T data) : _data(data) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTNODE_H
+#endif // DATA_STRUCTURE_ABSTRACTNODE_H

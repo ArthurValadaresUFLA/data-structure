@@ -17,9 +17,8 @@
  *
  * @tparam T O tipo de elementos armazenados na fila.
  */
-template <class T>
-class ArrayQueue : AbstractArrayQueue<T>, QueueInterface<T> {
- public:
+template <class T> class ArrayQueue : AbstractArrayQueue<T>, QueueInterface<T> {
+public:
   /**
    * @fn ArrayQueue::ArrayQueue
    * @brief Construtor para a classe ArrayQueue.
@@ -100,4 +99,4 @@ class ArrayQueue : AbstractArrayQueue<T>, QueueInterface<T> {
   T peek() const override;
 };
 
-#endif  // DATA_STRUCTURE_ARRAYQUEUE_H
+#endif // DATA_STRUCTURE_ARRAYQUEUE_H

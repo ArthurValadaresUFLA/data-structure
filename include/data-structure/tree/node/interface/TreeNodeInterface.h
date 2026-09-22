@@ -14,9 +14,8 @@
  *
  * @tparam T O tipo de valor armazenado no nó da árvore
  */
-template <class T>
-class TreeNodeInterface {
- public:
+template <class T> class TreeNodeInterface {
+public:
   /**
    * @brief Obtenha o valor armazenado no nó da árvore.
    *
@@ -39,4 +38,4 @@ class TreeNodeInterface {
   virtual void setValue(T value) = 0;
 };
 
-#endif  // DATA_STRUCTURE_TREENODEINTERFACE_H
+#endif // DATA_STRUCTURE_TREENODEINTERFACE_H

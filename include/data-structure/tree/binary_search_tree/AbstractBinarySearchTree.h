@@ -17,9 +17,8 @@
  *
  * @tparam T O tipo de valor armazenado na árvore.
  */
-template <class T>
-class AbstractBinarySearchTree {
- protected:
+template <class T> class AbstractBinarySearchTree {
+protected:
   SinglyLinkedBinaryTreeNodeInterface<T> *_root = nullptr;
 
   explicit AbstractBinarySearchTree(
@@ -27,4 +26,4 @@ class AbstractBinarySearchTree {
       : _root(root) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTBINARYSEARCHTREE_H
+#endif // DATA_STRUCTURE_ABSTRACTBINARYSEARCHTREE_H

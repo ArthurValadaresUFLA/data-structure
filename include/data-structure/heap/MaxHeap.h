@@ -13,9 +13,8 @@
  * binário e implementa o HeapInterface. É uma classe genérica que pode
  * armazenar elementos de qualquer tipo T.
  */
-template <class T>
-class MaxHeap : AbstractHeap<T>, public HeapInterface<T> {
- public:
+template <class T> class MaxHeap : AbstractHeap<T>, public HeapInterface<T> {
+public:
   explicit MaxHeap(const size_t &capacity);
 
   /**
@@ -62,4 +61,4 @@ class MaxHeap : AbstractHeap<T>, public HeapInterface<T> {
   void insert(const T &value) override;
 };
 
-#endif  // DATA_STRUCTURE_MAXHEAP_H
+#endif // DATA_STRUCTURE_MAXHEAP_H

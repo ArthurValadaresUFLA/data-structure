@@ -18,7 +18,7 @@
  */
 template <class T>
 class DoublyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
- public:
+public:
   /**
    * @brief Obtenha o nó pai do nó atual.
    *
@@ -89,4 +89,4 @@ class DoublyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
   [[nodiscard]] virtual int childCount() const = 0;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDBINARYTREENODEINTERFACE_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDBINARYTREENODEINTERFACE_H

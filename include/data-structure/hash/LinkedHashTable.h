@@ -5,9 +5,9 @@
 #ifndef DATA_STRUCTURE_LINKEDHASHTABLE_H
 #define DATA_STRUCTURE_LINKEDHASHTABLE_H
 
-#include "data-structure/list/DoublyLinkedList.h"
 #include "data-structure/hash/AbstractHashTable.h"
 #include "data-structure/hash/interface/HashTableInterface.h"
+#include "data-structure/list/DoublyLinkedList.h"
 
 /**
  * @class LinkedHashTable
@@ -25,13 +25,13 @@
 template <class T>
 class LinkedHashTable : public HashTableInterface<T>,
                         public AbstractHashTable<T> {
- private:
+private:
   DoublyLinkedList<T> *table = nullptr;
 
- public:
+public:
   explicit LinkedHashTable(
       std::size_t capacity,
-      std::function<std::size_t (T value, std::size_t capacity)> hashFunction);
+      std::function<std::size_t(T value, std::size_t capacity)> hashFunction);
 
   /**
    * @brief Copia o construtor para a classe LinkedHashTable.
@@ -120,4 +120,4 @@ class LinkedHashTable : public HashTableInterface<T>,
   LinkedHashTable<T> &operator=(const LinkedHashTable<T> &other);
 };
 
-#endif  // DATA_STRUCTURE_LINKEDHASHTABLE_H
+#endif // DATA_STRUCTURE_LINKEDHASHTABLE_H

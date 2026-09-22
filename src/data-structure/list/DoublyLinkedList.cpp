@@ -8,15 +8,13 @@
 
 #include "data-structure/node/DoublyLinkedNode.h"
 
-template <class T>
-void DoublyLinkedList<T>::push(const T &data) {
+template <class T> void DoublyLinkedList<T>::push(const T &data) {
   DoublyLinkedNode<T> *node = new DoublyLinkedNode(data);
   node->setNext(this->_begin);
   this->_begin = node;
 }
 
-template <class T>
-void DoublyLinkedList<T>::pushBack(const T &data) {
+template <class T> void DoublyLinkedList<T>::pushBack(const T &data) {
   DoublyLinkedNode<T> *node = new DoublyLinkedNode(data);
   node->setPrevious(this->_end);
   this->_end = node;
@@ -38,8 +36,7 @@ void DoublyLinkedList<T>::insertAt(std::size_t index, T data) {
   current->setPrevious(node);
 }
 
-template <class T>
-T DoublyLinkedList<T>::removeOnBegin() {
+template <class T> T DoublyLinkedList<T>::removeOnBegin() {
   auto current = this->_begin;
   this->_begin = current->getNext();
 
@@ -49,8 +46,7 @@ T DoublyLinkedList<T>::removeOnBegin() {
   return value;
 }
 
-template <class T>
-T DoublyLinkedList<T>::removeAtEnd() {
+template <class T> T DoublyLinkedList<T>::removeAtEnd() {
   auto current = this->_end;
   this->_end = current->getPrevious();
 
@@ -84,13 +80,11 @@ T DoublyLinkedList<T>::removeAt(const std::size_t &position) {
   throw std::runtime_error("Index out of bounds");
 }
 
-template <class T>
-bool DoublyLinkedList<T>::isEmpty() const {
+template <class T> bool DoublyLinkedList<T>::isEmpty() const {
   return this->_begin == nullptr and this->_end == nullptr;
 }
 
-template <class T>
-size_t DoublyLinkedList<T>::find(const T &data) const {
+template <class T> size_t DoublyLinkedList<T>::find(const T &data) const {
   const DoublyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
@@ -102,8 +96,7 @@ size_t DoublyLinkedList<T>::find(const T &data) const {
   return i;
 }
 
-template <class T>
-size_t DoublyLinkedList<T>::size() const {
+template <class T> size_t DoublyLinkedList<T>::size() const {
   const DoublyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
@@ -115,8 +108,7 @@ size_t DoublyLinkedList<T>::size() const {
   return i;
 }
 
-template <class T>
-bool DoublyLinkedList<T>::contains(const T &data) const {
+template <class T> bool DoublyLinkedList<T>::contains(const T &data) const {
   const DoublyLinkedNodeInterface<T> *current = this->_begin;
 
   while (current->getNext() != nullptr) {
@@ -129,8 +121,7 @@ bool DoublyLinkedList<T>::contains(const T &data) const {
   return false;
 }
 
-template <class T>
-T &DoublyLinkedList<T>::operator[](std::size_t index) const {
+template <class T> T &DoublyLinkedList<T>::operator[](std::size_t index) const {
   const DoublyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
@@ -146,8 +137,7 @@ T &DoublyLinkedList<T>::operator[](std::size_t index) const {
   throw std::runtime_error("Index out of bounds");
 }
 
-template <class T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
+template <class T> DoublyLinkedList<T>::~DoublyLinkedList() {
   DoublyLinkedNodeInterface<T> *previous = nullptr;
   DoublyLinkedNodeInterface<T> *current = this->_begin;
 

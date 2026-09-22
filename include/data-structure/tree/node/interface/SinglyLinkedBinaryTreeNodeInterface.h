@@ -21,13 +21,13 @@
  */
 template <class T>
 class SinglyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
- public:
+public:
   /**
    * @brief Este método recupera o nó filho correto do nó atual.
    *
    * @return Um ponteiro para o nó filho certo.
    */
-  virtual SinglyLinkedBinaryTreeNodeInterface<T>* getRight() const = 0;
+  virtual SinglyLinkedBinaryTreeNodeInterface<T> *getRight() const = 0;
 
   /**
    * @brief Define o filho certo do nó atual.
@@ -36,7 +36,7 @@ class SinglyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
    *
    * @param right Um ponteiro para o nó filho certo.
    */
-  virtual void setRight(SinglyLinkedBinaryTreeNodeInterface<T>* right) = 0;
+  virtual void setRight(SinglyLinkedBinaryTreeNodeInterface<T> *right) = 0;
 
   /**
    * @brief Obtém o filho esquerdo do nó atual.
@@ -44,7 +44,7 @@ class SinglyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
    * @return Um ponteiro para o filho esquerdo do nó atual ou nullptr se não
    * existir.
    */
-  virtual SinglyLinkedBinaryTreeNodeInterface<T>* getLeft() const = 0;
+  virtual SinglyLinkedBinaryTreeNodeInterface<T> *getLeft() const = 0;
 
   /**
    * @brief Define o filho esquerdo do nó atual da árvore binária.
@@ -54,7 +54,7 @@ class SinglyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
    *
    * @param left O nó a ser definido como filho esquerdo do nó atual.
    */
-  virtual void setLeft(SinglyLinkedBinaryTreeNodeInterface<T>* left) = 0;
+  virtual void setLeft(SinglyLinkedBinaryTreeNodeInterface<T> *left) = 0;
 
   /**
    * @brief Função virtual que retorna o número de nós filhos do nó atual.
@@ -67,4 +67,4 @@ class SinglyLinkedBinaryTreeNodeInterface : public TreeNodeInterface<T> {
   [[nodiscard]] virtual int childCount() const = 0;
 };
 
-#endif  // DATA_STRUCTURE_BINARYTREENODEINTERFACE_H
+#endif // DATA_STRUCTURE_BINARYTREENODEINTERFACE_H

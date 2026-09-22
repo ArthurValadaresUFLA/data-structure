@@ -22,7 +22,7 @@ template <class T>
 class DoublyLinkedBinaryTreeNode
     : AbstractDoublyLinkedBinaryTreeNode<T>,
       public DoublyLinkedBinaryTreeNodeInterface<T> {
- public:
+public:
   DoublyLinkedBinaryTreeNode(T value,
                              DoublyLinkedBinaryTreeNodeInterface<T> *right,
                              DoublyLinkedBinaryTreeNodeInterface<T> *left,
@@ -117,7 +117,7 @@ class DoublyLinkedBinaryTreeNode
    */
   [[nodiscard]] int childCount() const override;
 
- private:
+private:
   /**
    * @brief Get the parent node of the current node.
    *
@@ -138,4 +138,4 @@ class DoublyLinkedBinaryTreeNode
   void setParent(DoublyLinkedBinaryTreeNodeInterface<T> *parent) override;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDBINARYTREENODE_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDBINARYTREENODE_H

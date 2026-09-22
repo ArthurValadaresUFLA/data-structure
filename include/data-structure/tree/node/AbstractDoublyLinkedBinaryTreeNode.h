@@ -16,20 +16,19 @@
  * duplamente vinculado. É uma classe de modelo que usa um parâmetro de tipo que
  * especifica o tipo de valor armazenado no nó.
  */
-template <class T>
-class AbstractDoublyLinkedBinaryTreeNode {
- protected:
-  DoublyLinkedBinaryTreeNodeInterface<T>* _parent = nullptr;
+template <class T> class AbstractDoublyLinkedBinaryTreeNode {
+protected:
+  DoublyLinkedBinaryTreeNodeInterface<T> *_parent = nullptr;
 
   T _value;
 
-  DoublyLinkedBinaryTreeNodeInterface<T>* _right = nullptr;
-  DoublyLinkedBinaryTreeNodeInterface<T>* _left = nullptr;
+  DoublyLinkedBinaryTreeNodeInterface<T> *_right = nullptr;
+  DoublyLinkedBinaryTreeNodeInterface<T> *_left = nullptr;
 
   AbstractDoublyLinkedBinaryTreeNode(
-      T value, DoublyLinkedBinaryTreeNodeInterface<T>* right,
-      DoublyLinkedBinaryTreeNodeInterface<T>* left,
-      DoublyLinkedBinaryTreeNodeInterface<T>* parent)
+      T value, DoublyLinkedBinaryTreeNodeInterface<T> *right,
+      DoublyLinkedBinaryTreeNodeInterface<T> *left,
+      DoublyLinkedBinaryTreeNodeInterface<T> *parent)
       : _value(value), _right(right), _left(left), _parent(parent) {}
 
   /**
@@ -41,8 +40,8 @@ class AbstractDoublyLinkedBinaryTreeNode {
    * @param left Um ponteiro para o filho esquerdo do nó.
    */
   AbstractDoublyLinkedBinaryTreeNode(
-      T value, DoublyLinkedBinaryTreeNodeInterface<T>* right,
-      DoublyLinkedBinaryTreeNodeInterface<T>* left)
+      T value, DoublyLinkedBinaryTreeNodeInterface<T> *right,
+      DoublyLinkedBinaryTreeNodeInterface<T> *left)
       : _value(value), _right(right), _left(left) {}
 
   /**
@@ -52,7 +51,7 @@ class AbstractDoublyLinkedBinaryTreeNode {
    * @param right Um ponteiro para o nó filho certo.
    */
   AbstractDoublyLinkedBinaryTreeNode(
-      T value, DoublyLinkedBinaryTreeNodeInterface<T>* right)
+      T value, DoublyLinkedBinaryTreeNodeInterface<T> *right)
       : _value(value), _right(right) {}
 
   /**
@@ -67,4 +66,4 @@ class AbstractDoublyLinkedBinaryTreeNode {
   explicit AbstractDoublyLinkedBinaryTreeNode(T value) : _value(value) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDBINARYTREENODE_H
+#endif // DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDBINARYTREENODE_H

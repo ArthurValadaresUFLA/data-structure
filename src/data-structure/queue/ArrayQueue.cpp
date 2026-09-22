@@ -6,13 +6,9 @@
 
 #include <stdexcept>
 
-template <class T>
-ArrayQueue<T>::~ArrayQueue() {
-  delete[] this->array;
-}
+template <class T> ArrayQueue<T>::~ArrayQueue() { delete[] this->array; }
 
-template <class T>
-void ArrayQueue<T>::queue(T data) {
+template <class T> void ArrayQueue<T>::queue(T data) {
   if (this->_begin == nullptr and this->_end == nullptr) {
     this->array[0] = data;
     this->_begin = &(this->array)[0];
@@ -30,8 +26,7 @@ void ArrayQueue<T>::queue(T data) {
   }
 }
 
-template <class T>
-T ArrayQueue<T>::dequeue() {
+template <class T> T ArrayQueue<T>::dequeue() {
   if (this->_begin == this->_end and this->_begin != nullptr) {
     T data = *(this->_begin);
 
@@ -49,8 +44,7 @@ T ArrayQueue<T>::dequeue() {
   }
 }
 
-template <class T>
-size_t ArrayQueue<T>::size() const {
+template <class T> size_t ArrayQueue<T>::size() const {
   if (this->_end > this->_begin) {
     return this->_end - this->_begin;
   }
@@ -59,12 +53,8 @@ size_t ArrayQueue<T>::size() const {
          (this->array + this->_capacity - this->_begin);
 }
 
-template <class T>
-bool ArrayQueue<T>::isEmpty() const {
+template <class T> bool ArrayQueue<T>::isEmpty() const {
   return this->_end == nullptr and this->_begin == nullptr;
 }
 
-template <class T>
-T ArrayQueue<T>::peek() const {
-  return *(this->_begin);
-}
+template <class T> T ArrayQueue<T>::peek() const { return *(this->_begin); }

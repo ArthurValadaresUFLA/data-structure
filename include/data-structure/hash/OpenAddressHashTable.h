@@ -28,13 +28,13 @@
 template <class T>
 class OpenAddressHashTable : AbstractHashTable<T>,
                              public HashTableInterface<T> {
- private:
+private:
   T *_table = nullptr;
 
- public:
+public:
   OpenAddressHashTable(
       std::size_t capacity,
-      std::function<std::size_t (T value, std::size_t capacity)> hashFunction);
+      std::function<std::size_t(T value, std::size_t capacity)> hashFunction);
 
   /**
    * @brief Constrói um novo objeto OpenAddressHashTable copiando outro objeto
@@ -127,4 +127,4 @@ class OpenAddressHashTable : AbstractHashTable<T>,
   }
 };
 
-#endif  // DATA_STRUCTURE_OPENADDRESSHASHTABLE_H
+#endif // DATA_STRUCTURE_OPENADDRESSHASHTABLE_H

@@ -17,9 +17,8 @@
  *
  * @tparam T O tipo dos elementos na pilha
  */
-template <class T>
-class StackInterface {
- public:
+template <class T> class StackInterface {
+public:
   /**
    * @brief Adiciona um elemento ao topo da pilha.
    *
@@ -75,4 +74,4 @@ class StackInterface {
   [[nodiscard]] virtual bool empty() const = 0;
 };
 
-#endif  // DATA_STRUCTURE_STACKINTERFACE_H
+#endif // DATA_STRUCTURE_STACKINTERFACE_H

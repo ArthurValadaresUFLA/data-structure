@@ -5,8 +5,8 @@
 #ifndef DATA_STRUCTURE_ABSTRACTARRAYSTACK_H
 #define DATA_STRUCTURE_ABSTRACTARRAYSTACK_H
 
+#include <algorithm>
 #include <cstddef>
-#include <stdexcept>
 
 /**
  * @class AbstractArrayStack
@@ -22,11 +22,10 @@
  *
  * @tparam T O tipo de elementos armazenados na pilha.
  */
-template <class T>
-class AbstractArrayStack {
- protected:
-  T* _array = nullptr;
-  T* _top = nullptr;
+template <class T> class AbstractArrayStack {
+protected:
+  T *_array = nullptr;
+  T *_top = nullptr;
 
   std::size_t _capacity{};
 
@@ -52,14 +51,14 @@ class AbstractArrayStack {
    *
    * @param source A instância a ser copiada.
    */
-  AbstractArrayStack(const AbstractArrayStack& source) {
+  AbstractArrayStack(const AbstractArrayStack &source) {
     this->_capacity = source._capacity;
     this->_array = new T[source._capacity];
     std::copy(source._array, source._array + source._capacity, this->_array);
     this->_top = this->_array + (source._top - source._array);
   }
 
-  AbstractArrayStack& operator=(const AbstractArrayStack& source) {
+  AbstractArrayStack &operator=(const AbstractArrayStack &source) {
     if (this != &source) {
       delete[] this->_array;
       this->_capacity = source._capacity;
@@ -71,4 +70,4 @@ class AbstractArrayStack {
   }
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTARRAYSTACK_H
+#endif // DATA_STRUCTURE_ABSTRACTARRAYSTACK_H

@@ -21,7 +21,7 @@ template <class T>
 class SinglyLinkedBinaryTreeNode
     : AbstractSinglyLinkedBinaryTreeNode<T>,
       public SinglyLinkedBinaryTreeNodeInterface<T> {
- public:
+public:
   /**
    * @brief Constrói um nó com um valor e dois filhos.
    *
@@ -95,4 +95,4 @@ class SinglyLinkedBinaryTreeNode
   void setValue(T value) override;
 };
 
-#endif  // DATA_STRUCTURE_SINGLYLINKEDBINARYTREENODE_H
+#endif // DATA_STRUCTURE_SINGLYLINKEDBINARYTREENODE_H

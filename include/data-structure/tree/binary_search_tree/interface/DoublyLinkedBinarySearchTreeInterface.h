@@ -20,9 +20,8 @@
  *
  * @tparam T O tipo de valor armazenado na árvore
  */
-template <class T>
-class DoublyLinkedBinarySearchTreeInterface {
- public:
+template <class T> class DoublyLinkedBinarySearchTreeInterface {
+public:
   /**
    * @brief Insere um valor na árvore de pesquisa binária.
    *
@@ -56,8 +55,8 @@ class DoublyLinkedBinarySearchTreeInterface {
    * @return Um ponteiro para o nó com o valor fornecido ou nullptr se não for
    * encontrado.
    */
-  virtual DoublyLinkedBinaryTreeNodeInterface<T> *search(
-      const T &value) const = 0;
+  virtual DoublyLinkedBinaryTreeNodeInterface<T> *
+  search(const T &value) const = 0;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDBINARYSEARCHTREEINTERFACE_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDBINARYSEARCHTREEINTERFACE_H

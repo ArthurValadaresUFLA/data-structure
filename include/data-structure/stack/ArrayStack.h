@@ -22,7 +22,7 @@
  */
 template <class T>
 class ArrayStack : AbstractArrayStack<T>, public StackInterface<T> {
- public:
+public:
   explicit ArrayStack(std::size_t capacity) : AbstractArrayStack<T>(capacity) {}
 
   /**
@@ -94,4 +94,4 @@ class ArrayStack : AbstractArrayStack<T>, public StackInterface<T> {
   [[nodiscard]] bool empty() const override;
 };
 
-#endif  // DATA_STRUCTURE_ARRAYSTACK_H
+#endif // DATA_STRUCTURE_ARRAYSTACK_H

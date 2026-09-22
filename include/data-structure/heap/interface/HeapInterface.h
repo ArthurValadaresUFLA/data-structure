@@ -15,9 +15,8 @@
  *
  * @tparam T O tipo dos elementos armazenados no heap.
  */
-template <class T>
-class HeapInterface {
- public:
+template <class T> class HeapInterface {
+public:
   /**
    * Recupera o índice do nó pai do índice especificado no heap.
    *
@@ -30,7 +29,7 @@ class HeapInterface {
    * @note O atributo `[[nodiscard]]` indica que o valor de retorno não deve ser
    * ignorado.
    */
-  [[nodiscard]] virtual std::size_t parentOf(const std::size_t& index) = 0;
+  [[nodiscard]] virtual std::size_t parentOf(const std::size_t &index) = 0;
 
   /**
    * @brief Retorna o índice do filho direito do índice fornecido.
@@ -42,7 +41,7 @@ class HeapInterface {
    * @param index O índice do nó pai.
    * @return O índice do filho direito do nó pai.
    */
-  [[nodiscard]] virtual std::size_t rightChildOf(const size_t& index) = 0;
+  [[nodiscard]] virtual std::size_t rightChildOf(const size_t &index) = 0;
 
   /**
    * @brief Retorna o índice do nó filho esquerdo do índice especificado no
@@ -61,7 +60,7 @@ class HeapInterface {
    * @note O atributo `[[nodiscard]]` indica que o valor de retorno não deve ser
    * ignorado.
    */
-  [[nodiscard]] virtual std::size_t leftChildOf(const std::size_t& index) = 0;
+  [[nodiscard]] virtual std::size_t leftChildOf(const std::size_t &index) = 0;
 
   /**
    * @brief Retorna o valor do elemento raiz no heap.
@@ -97,7 +96,7 @@ class HeapInterface {
    *
    * @param value O valor a ser inserido no heap.
    */
-  virtual void insert(const T& value) = 0;
+  virtual void insert(const T &value) = 0;
 
   /**
    * @brief Indica se o heap está cheio ou não.
@@ -157,7 +156,7 @@ class HeapInterface {
    * heap.
    * @note Este operador não realiza nenhuma verificação de limites.
    */
-  [[nodiscard]] virtual T& operator[](std::size_t index) const = 0;
+  [[nodiscard]] virtual T &operator[](std::size_t index) const = 0;
 };
 
-#endif  // DATA_STRUCTURE_HEAPINTERFACE_H
+#endif // DATA_STRUCTURE_HEAPINTERFACE_H

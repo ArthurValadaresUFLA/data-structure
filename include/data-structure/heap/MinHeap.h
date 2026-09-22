@@ -22,9 +22,26 @@
  *
  * @tparam T O tipo de elementos a serem armazenados no heap.
  */
-template <class T>
-class MinHeap : AbstractHeap<T> {
- public:
+template <class T> class MinHeap : AbstractHeap<T> {
+private:
+  /**
+   * @brief Encontre o índice do menor nó filho.
+   *
+   * Esta função obtém o índice do nó atual, os índices de seus nós filhos
+   * esquerdo e direito, e o tamanho da pilha. Ele retorna o índice do menor nó
+   * filho entre os dois filhos.
+   *
+   * @param currNode O índice do nó atual.
+   * @param leftChild O índice do nó filho esquerdo.
+   * @param rightChild O índice do nó filho certo.
+   * @param heapSize O tamanho do heap.
+   * @return O índice do menor nó filho.
+   */
+  [[nodiscard]] size_t findSmallestChild(size_t currNode, size_t leftChild,
+                                         size_t rightChild,
+                                         size_t heapSize) const;
+
+public:
   explicit MinHeap(const size_t &capacity) : AbstractHeap<T>(capacity) {}
 
   /**
@@ -78,23 +95,6 @@ class MinHeap : AbstractHeap<T> {
    * @param valor O valor a ser inserido.
    */
   void insert(const T &value) override;
-
-  /**
-   * @brief Encontre o índice do menor nó filho.
-   *
-   * Esta função obtém o índice do nó atual, os índices de seus nós filhos
-   * esquerdo e direito, e o tamanho da pilha. Ele retorna o índice do menor nó
-   * filho entre os dois filhos.
-   *
-   * @param currNode O índice do nó atual.
-   * @param leftChild O índice do nó filho esquerdo.
-   * @param rightChild O índice do nó filho certo.
-   * @param heapSize O tamanho do heap.
-   * @return O índice do menor nó filho.
-   */
-  [[nodiscard]] size_t findSmallestChild(size_t currNode, size_t leftChild,
-                                         size_t rightChild,
-                                         size_t heapSize) const;
 };
 
-#endif  // DATA_STRUCTURE_MINHEAP_H
+#endif // DATA_STRUCTURE_MINHEAP_H

@@ -7,8 +7,8 @@ void SinglyLinkedBinaryTreeNode<T>::setRight(
 }
 
 template <class T>
-SinglyLinkedBinaryTreeNodeInterface<T> *SinglyLinkedBinaryTreeNode<T>::getLeft()
-    const {
+SinglyLinkedBinaryTreeNodeInterface<T> *
+SinglyLinkedBinaryTreeNode<T>::getLeft() const {
   return this->_left;
 }
 
@@ -18,13 +18,11 @@ void SinglyLinkedBinaryTreeNode<T>::setLeft(
   this->_left = left;
 }
 
-template <class T>
-T SinglyLinkedBinaryTreeNode<T>::getValue() const {
+template <class T> T SinglyLinkedBinaryTreeNode<T>::getValue() const {
   return this->_value;
 }
 
-template <class T>
-void SinglyLinkedBinaryTreeNode<T>::setValue(T value) {
+template <class T> void SinglyLinkedBinaryTreeNode<T>::setValue(T value) {
   this->_value = value;
 }
 

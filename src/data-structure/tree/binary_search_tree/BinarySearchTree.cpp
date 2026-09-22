@@ -46,8 +46,7 @@ void BinarySearchTree<T>::transplant(
   }
 }
 
-template <class T>
-BinarySearchTree<T>::~BinarySearchTree() {
+template <class T> BinarySearchTree<T>::~BinarySearchTree() {
   auto stack = LinkedStack<SinglyLinkedBinaryTreeNode<T> *>();
 
   stack.stackUp(this->_root);
@@ -77,8 +76,7 @@ BinarySearchTree<T>::~BinarySearchTree() {
   }
 }
 
-template <class T>
-void BinarySearchTree<T>::insert(const T &value) {
+template <class T> void BinarySearchTree<T>::insert(const T &value) {
   SinglyLinkedBinaryTreeNode<T> *node = new SinglyLinkedBinaryTreeNode(value);
 
   SinglyLinkedBinaryTreeNode<T> *parent = nullptr;
@@ -105,8 +103,7 @@ void BinarySearchTree<T>::insert(const T &value) {
   }
 }
 
-template <class T>
-void BinarySearchTree<T>::remove(const T &value) {
+template <class T> void BinarySearchTree<T>::remove(const T &value) {
   auto [parent, node] = _search(value);
   if (node->getLeft() == nullptr) {
     transplant(node, parent, node->getRight());
@@ -124,8 +121,8 @@ void BinarySearchTree<T>::remove(const T &value) {
 }
 
 template <class T>
-const SinglyLinkedBinaryTreeNodeInterface<T> *BinarySearchTree<T>::search(
-    const T &value) const {
+const SinglyLinkedBinaryTreeNodeInterface<T> *
+BinarySearchTree<T>::search(const T &value) const {
   const auto result = _search(value);
   return result;
 }

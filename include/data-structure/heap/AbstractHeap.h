@@ -5,6 +5,7 @@
 #ifndef DATA_STRUCTURE_ABSTRACTHEAP_H
 #define DATA_STRUCTURE_ABSTRACTHEAP_H
 
+#include <algorithm>
 #include <cstddef>
 
 #include "data-structure/heap/interface/HeapInterface.h"
@@ -19,9 +20,8 @@
  *
  * @tparam T O tipo de dados a serem armazenados no heap.
  */
-template <class T>
-class AbstractHeap : public HeapInterface<T> {
- protected:
+template <class T> class AbstractHeap : public HeapInterface<T> {
+protected:
   T *_data;
   T *_top;
   std::size_t _capacity;
@@ -59,7 +59,7 @@ class AbstractHeap : public HeapInterface<T> {
    */
   AbstractHeap(const AbstractHeap &other);
 
- public:
+public:
   /**
    * @brief Retorna o índice do nó pai do índice fornecido.
    *
@@ -202,16 +202,16 @@ class AbstractHeap : public HeapInterface<T> {
    */
   AbstractHeap &operator=(const AbstractHeap &other) {
     if (this != &other) {
-      delete[] _data;  // Libera a memória anterior
+      delete[] _data; // Libera a memória anterior
 
       _capacity = other._capacity;
-      _data = new T[_capacity];  // Aloca nova memória
-      std::copy(other._data, other._data + _capacity, _data);  // Copia os dados
+      _data = new T[_capacity]; // Aloca nova memória
+      std::copy(other._data, other._data + _capacity, _data); // Copia os dados
 
-      _top = &_data[other._top - other._data];  // Ajusta o ponteiro _top
+      _top = &_data[other._top - other._data]; // Ajusta o ponteiro _top
     }
-    return *this;  // Retorna a instância atual
+    return *this; // Retorna a instância atual
   }
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTHEAP_H
+#endif // DATA_STRUCTURE_ABSTRACTHEAP_H

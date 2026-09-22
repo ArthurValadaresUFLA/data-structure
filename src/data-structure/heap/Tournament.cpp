@@ -4,8 +4,7 @@
 
 #include "data-structure/heap/Tournament.h"
 
-template <class T>
-void Tournament<T>::insert(const T &value) {
+template <class T> void Tournament<T>::insert(const T &value) {
   if (this->isFull()) {
     throw std::runtime_error("The heap is full");
   }

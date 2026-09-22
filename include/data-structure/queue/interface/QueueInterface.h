@@ -18,8 +18,7 @@
  *
  * @tparam T O tipo de elementos a serem armazenados na fila
  */
-template <class T>
-class QueueInterface {
+template <class T> class QueueInterface {
   /**
    * @brief Adiciona um elemento à fila.
    *
@@ -74,4 +73,4 @@ class QueueInterface {
   virtual T peek() const = 0;
 };
 
-#endif  // DATA_STRUCTURE_QUEUEINTERFACE_H
+#endif // DATA_STRUCTURE_QUEUEINTERFACE_H

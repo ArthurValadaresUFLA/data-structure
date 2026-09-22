@@ -6,8 +6,8 @@
 #define DATA_STRUCTURE_DOUBLYLINKEDBINARYSEARCHTREE_H
 
 #include "data-structure/tree/binary_search_tree/AbstractBinarySearchTree.h"
-#include "data-structure/tree/node/interface/DoublyLinkedBinaryTreeNodeInterface.h"
 #include "data-structure/tree/binary_search_tree/interface/BinarySearchTreeInterface.h"
+#include "data-structure/tree/node/interface/DoublyLinkedBinaryTreeNodeInterface.h"
 
 /**
  * @class DoublyLinkedBinarySearchTree
@@ -23,7 +23,7 @@
 template <class T>
 class DoublyLinkedBinarySearchTree : AbstractBinarySearchTree<T>,
                                      public BinarySearchTreeInterface<T> {
- private:
+private:
   /**
    * @brief Encontra o nó com o valor mínimo em uma determinada árvore.
    *
@@ -36,8 +36,8 @@ class DoublyLinkedBinarySearchTree : AbstractBinarySearchTree<T>,
    * @return Um ponteiro para o nó com o valor mínimo ou nullptr se a árvore
    * estiver vazia.
    */
-  DoublyLinkedBinaryTreeNodeInterface<T> *treeMinimum(
-      const DoublyLinkedBinaryTreeNodeInterface<T> &node);
+  DoublyLinkedBinaryTreeNodeInterface<T> *
+  treeMinimum(const DoublyLinkedBinaryTreeNodeInterface<T> &node);
 
   /**
    * @brief Método privado para procurar um nó com um determinado valor na
@@ -65,7 +65,7 @@ class DoublyLinkedBinarySearchTree : AbstractBinarySearchTree<T>,
   void transplant(DoublyLinkedBinaryTreeNodeInterface<T> *rootOn,
                   DoublyLinkedBinaryTreeNodeInterface<T> *subtree);
 
- public:
+public:
   ~DoublyLinkedBinarySearchTree();
 
   /**
@@ -121,8 +121,8 @@ class DoublyLinkedBinarySearchTree : AbstractBinarySearchTree<T>,
    * @return Um ponteiro constante para o nó encontrado ou nullptr se o valor
    * não for encontrado.
    */
-  const DoublyLinkedBinaryTreeNodeInterface<T> *search(
-      const T &value) const override;
+  const DoublyLinkedBinaryTreeNodeInterface<T> *
+  search(const T &value) const override;
 };
 
-#endif  // DATA_STRUCTURE_DOUBLYLINKEDBINARYSEARCHTREE_H
+#endif // DATA_STRUCTURE_DOUBLYLINKEDBINARYSEARCHTREE_H

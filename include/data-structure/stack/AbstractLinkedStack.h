@@ -5,7 +5,6 @@
 #ifndef DATA_STRUCTURE_ABSTRACTLINKEDSTACK_H
 #define DATA_STRUCTURE_ABSTRACTLINKEDSTACK_H
 
-#include "data-structure/node/DoublyLinkedNode.h"
 #include "data-structure/node/interface/DoublyLinkedNodeInterface.h"
 
 /**
@@ -18,12 +17,11 @@
  *
  * @tparam T O tipo de dados a serem armazenados na pilha.
  */
-template <class T>
-class AbstractLinkedStack {
- protected:
-  DoublyLinkedNodeInterface<T>* _end = nullptr;
+template <class T> class AbstractLinkedStack {
+protected:
+  DoublyLinkedNodeInterface<T> *_end = nullptr;
 
-  explicit AbstractLinkedStack(DoublyLinkedNodeInterface<T>* end) : _end(end) {}
+  explicit AbstractLinkedStack(DoublyLinkedNodeInterface<T> *end) : _end(end) {}
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTLINKEDSTACK_H
+#endif // DATA_STRUCTURE_ABSTRACTLINKEDSTACK_H

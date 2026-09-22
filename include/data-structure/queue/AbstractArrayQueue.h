@@ -18,13 +18,12 @@
  *
  * @tparam T O tipo de elementos armazenados na fila.
  */
-template <class T>
-class AbstractArrayQueue {
- protected:
-  T* array = nullptr;
+template <class T> class AbstractArrayQueue {
+protected:
+  T *array = nullptr;
   std::size_t _capacity;
-  T* _begin = nullptr;
-  T* _end = nullptr;
+  T *_begin = nullptr;
+  T *_end = nullptr;
 
   /**
    * @brief Constroi um novo objeto AbstractArrayQueue.
@@ -49,7 +48,7 @@ class AbstractArrayQueue {
    *
    * @param other A instância de AbstractArrayQueue a ser copiada.
    */
-  AbstractArrayQueue(const AbstractArrayQueue& other)
+  AbstractArrayQueue(const AbstractArrayQueue &other)
       : _capacity(other._capacity) {
     array = new T[other._capacity];
     std::copy(other.array, other.array + other._capacity, array);
@@ -66,12 +65,12 @@ class AbstractArrayQueue {
    * @param other A instância de AbstractArrayQueue a ser atribuída.
    * @return Referência para a instância atual após a atribuição.
    */
-  AbstractArrayQueue& operator=(const AbstractArrayQueue& other) {
+  AbstractArrayQueue &operator=(const AbstractArrayQueue &other) {
     if (this == &other) {
-      return *this;  // Evita auto-atribuição
+      return *this; // Evita auto-atribuição
     }
 
-    delete[] array;  // Libera a memória existente
+    delete[] array; // Libera a memória existente
 
     _capacity = other._capacity;
     array = new T[other._capacity];
@@ -83,4 +82,4 @@ class AbstractArrayQueue {
   }
 };
 
-#endif  // DATA_STRUCTURE_ABSTRACTARRAYQUEUE_H
+#endif // DATA_STRUCTURE_ABSTRACTARRAYQUEUE_H

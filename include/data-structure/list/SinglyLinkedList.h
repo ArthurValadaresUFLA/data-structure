@@ -10,12 +10,12 @@
 
 template <class T>
 class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
- private:
-  SinglyLinkedList(SinglyLinkedNodeInterface<T>* begin,
-                   SinglyLinkedNodeInterface<T>* end)
+private:
+  SinglyLinkedList(SinglyLinkedNodeInterface<T> *begin,
+                   SinglyLinkedNodeInterface<T> *end)
       : AbstractSinglyLinkedList<T>(begin, end) {}
 
- public:
+public:
   /// Construtor público da classe que inicializa todos os atributos
   SinglyLinkedList() : AbstractSinglyLinkedList<T>(nullptr, nullptr) {}
 
@@ -31,7 +31,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// Método responsável por retornar o tamanho da lista
   /// O tamanho da lista é calculado a cada vez que acessado,
   /// de modo que se itere sobre os nós contituintes
-  size_t find(const T& data) const override;
+  size_t find(const T &data) const override;
 
   /// Método responsável por retornar a posição do dado informado
   /// Este método itera ao longo da lista de modo a não exceder o
@@ -45,7 +45,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// e verificar se o valor contido em cada um deles é o valor
   /// procurado. Pior cenário O(n).
   /// @param data valor a ser verificado se está dentro da lista
-  bool contains(const T& data) const override;
+  bool contains(const T &data) const override;
 
   /// Método responsável por adiciona um dado ao início da lista encadeada
   /// @param data passado como argumento é encapsulado em um nó duplamente
@@ -56,7 +56,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
   /// [nullptr]
   /// @param data o valor a ser inserido no início
-  void push(const T& data) override;
+  void push(const T &data) override;
 
   /// Método responsável por adicionar um dado ao final de uma lista encadeada
   /// @param data passado como argumento é encapsulado em um nó duplamente
@@ -67,7 +67,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
   /// [nullptr]
   /// @param data o valor a ser inserido no final
-  void pushBack(const T& data) override;
+  void pushBack(const T &data) override;
 
   /// Método responsável por inserir um elemento na respectiva posição passada
   /// como argumento. Se a posição passada no argumento não estiver no intervalo
@@ -83,7 +83,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// o anterior a ele.
   /// @param index índice no qual o valor deve ser inserido
   /// @param data o valor a ser inserido
-  void insertAt(std::size_t index, const T& data) override;
+  void insertAt(std::size_t index, const T &data) override;
 
   /// Método responsável por remover o nó no início da lista
   /// Uma variável temporária é criada para armazenar o endereço
@@ -103,7 +103,7 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   /// posição for maior que o número de elementos ou menos que 0,
   /// lança uma exceção.
   /// @param position indicando a posição do valor a ser removido
-  T removeAt(const std::size_t& position) override;
+  T removeAt(const std::size_t &position) override;
 
   /// Função responsável por remover um elemento mediante um predicado
   /// @param predicate predicado que recebe como argumento o índice e o valor
@@ -111,4 +111,4 @@ class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
   [[nodiscard]] bool isEmpty() const override;
 };
 
-#endif  // DATA_STRUCTURE_SINGLYLINKEDLIST_H
+#endif // DATA_STRUCTURE_SINGLYLINKEDLIST_H

@@ -8,24 +8,22 @@
 
 #include "data-structure/node/SinglyLinkedNode.h"
 
-template <class T>
-void SinglyLinkedList<T>::push(const T& data) {
-  SinglyLinkedNode<T>* node = new SinglyLinkedNode(data);
+template <class T> void SinglyLinkedList<T>::push(const T &data) {
+  SinglyLinkedNode<T> *node = new SinglyLinkedNode(data);
   node->setNext(this->_begin);
   this->_begin = node;
 }
 
-template <class T>
-void SinglyLinkedList<T>::pushBack(const T& data) {
-  SinglyLinkedNode<T>* node = new SinglyLinkedNode(data);
+template <class T> void SinglyLinkedList<T>::pushBack(const T &data) {
+  SinglyLinkedNode<T> *node = new SinglyLinkedNode(data);
   this->_end->setNext(node);
   this->_end = node;
 }
 
 template <class T>
-void SinglyLinkedList<T>::insertAt(std::size_t index, const T& data) {
+void SinglyLinkedList<T>::insertAt(std::size_t index, const T &data) {
   auto current = this->_begin;
-  SinglyLinkedNode<T>* previous = nullptr;
+  SinglyLinkedNode<T> *previous = nullptr;
   std::size_t i = 0;
 
   while (current->getNext() != nullptr and i < index) {
@@ -35,7 +33,7 @@ void SinglyLinkedList<T>::insertAt(std::size_t index, const T& data) {
     i++;
   }
 
-  SinglyLinkedNode<T>* node = new SinglyLinkedNode(data);
+  SinglyLinkedNode<T> *node = new SinglyLinkedNode(data);
 
   if (previous == nullptr) {
     node->setNext(this->_begin);
@@ -49,26 +47,24 @@ void SinglyLinkedList<T>::insertAt(std::size_t index, const T& data) {
   }
 }
 
-template <class T>
-T SinglyLinkedList<T>::removeOnBegin() {
+template <class T> T SinglyLinkedList<T>::removeOnBegin() {
   if (this->_begin == nullptr) {
     throw std::runtime_error("Cannot remove on begin: the list is empty");
   }
-  SinglyLinkedNode<T>* next = this->_begin->getNext();
+  SinglyLinkedNode<T> *next = this->_begin->getNext();
   auto value = this->_begin->getData();
   this->_begin = next;
   return value;
 }
 
-template <class T>
-T SinglyLinkedList<T>::removeAtEnd() {
+template <class T> T SinglyLinkedList<T>::removeAtEnd() {
   if (this->_end == nullptr) {
     throw std::runtime_error("Cannot remove at end: the list is empty");
   }
   T data = this->_end->getData();
 
-  SinglyLinkedNode<T>* previous = nullptr;
-  SinglyLinkedNode<T>* current = this->_begin;
+  SinglyLinkedNode<T> *previous = nullptr;
+  SinglyLinkedNode<T> *current = this->_begin;
   while (current->getNext() != nullptr) {
     previous = current;
     current = current->getNext();
@@ -84,9 +80,9 @@ T SinglyLinkedList<T>::removeAtEnd() {
 }
 
 template <class T>
-T SinglyLinkedList<T>::removeAt(const std::size_t& position) {
-  SinglyLinkedNode<T>* previous = nullptr;
-  SinglyLinkedNode<T>* current = this->_begin;
+T SinglyLinkedList<T>::removeAt(const std::size_t &position) {
+  SinglyLinkedNode<T> *previous = nullptr;
+  SinglyLinkedNode<T> *current = this->_begin;
   std::size_t i = 0;
 
   while (current->getNext() != nullptr and i < position) {
@@ -109,14 +105,12 @@ T SinglyLinkedList<T>::removeAt(const std::size_t& position) {
   return data;
 }
 
-template <class T>
-bool SinglyLinkedList<T>::isEmpty() const {
+template <class T> bool SinglyLinkedList<T>::isEmpty() const {
   return this->_begin == nullptr and this->_end == nullptr;
 }
 
-template <class T>
-bool SinglyLinkedList<T>::contains(const T& data) const {
-  const SinglyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> bool SinglyLinkedList<T>::contains(const T &data) const {
+  const SinglyLinkedNodeInterface<T> *current = this->_begin;
 
   while (current->getNext() != nullptr) {
     if (current->getData() == data) {
@@ -129,9 +123,8 @@ bool SinglyLinkedList<T>::contains(const T& data) const {
   return false;
 }
 
-template <class T>
-size_t SinglyLinkedList<T>::size() const {
-  const SinglyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> size_t SinglyLinkedList<T>::size() const {
+  const SinglyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
   while (current->getNext() != nullptr) {
@@ -142,9 +135,8 @@ size_t SinglyLinkedList<T>::size() const {
   return i;
 }
 
-template <class T>
-size_t SinglyLinkedList<T>::find(const T& data) const {
-  const SinglyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> size_t SinglyLinkedList<T>::find(const T &data) const {
+  const SinglyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
   while (current->getNext() != nullptr and current->getData() != data) {
@@ -155,9 +147,8 @@ size_t SinglyLinkedList<T>::find(const T& data) const {
   return i;
 }
 
-template <class T>
-T SinglyLinkedList<T>::operator[](std::size_t index) const {
-  const SinglyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> T SinglyLinkedList<T>::operator[](std::size_t index) const {
+  const SinglyLinkedNodeInterface<T> *current = this->_begin;
   std::size_t i = 0;
 
   while (current->getNext() != nullptr and i < index) {
@@ -168,10 +159,9 @@ T SinglyLinkedList<T>::operator[](std::size_t index) const {
   return current->getData();
 }
 
-template <class T>
-SinglyLinkedList<T>::~SinglyLinkedList() {
-  SinglyLinkedNodeInterface<T>* previous = nullptr;
-  SinglyLinkedNodeInterface<T>* current = this->_begin;
+template <class T> SinglyLinkedList<T>::~SinglyLinkedList() {
+  SinglyLinkedNodeInterface<T> *previous = nullptr;
+  SinglyLinkedNodeInterface<T> *current = this->_begin;
 
   while (current != nullptr) {
     previous = current;

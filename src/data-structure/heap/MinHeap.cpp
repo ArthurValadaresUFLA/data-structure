@@ -16,8 +16,7 @@ MinHeap<T> MinHeap<T>::from(const T *array) {
   return heap;
 }
 
-template <class T>
-T MinHeap<T>::removeRoot() const {
+template <class T> T MinHeap<T>::removeRoot() const {
   static const std::string HEAP_EMPTY_ERROR =
       "Heap is empty, cannot remove root.";
 
@@ -64,8 +63,7 @@ std::size_t MinHeap<T>::findSmallestChild(std::size_t currNode,
   return smallestChild;
 }
 
-template <class T>
-void MinHeap<T>::insert(const T &value) {
+template <class T> void MinHeap<T>::insert(const T &value) {
   std::size_t hole = this->getSize();
   while (hole > 0 && value < this->_data[this->parentOf(hole)]) {
     this->_data[hole] = this->_data[this->parentOf(hole)];
