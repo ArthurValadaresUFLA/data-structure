@@ -33,17 +33,7 @@ template <class T> void DoublyLinkedBinaryTreeNode<T>::setValue(T value) {
 }
 
 template <class T> int DoublyLinkedBinaryTreeNode<T>::childCount() const {
-  int count = 0;
-
-  if (this->getRight() != nullptr) {
-    count++;
-  }
-
-  if (this->getLeft() != nullptr) {
-    count++;
-  }
-
-  return count;
+  return (this->_left != nullptr ? 1 : 0) + (this->_right != nullptr ? 1 : 0);
 }
 
 template <class T>

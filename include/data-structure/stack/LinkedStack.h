@@ -11,25 +11,43 @@
 #include "data-structure/stack/interface/StackInterface.h"
 
 /**
- * @classLinkedStack
+ * @class LinkedStack
  * @brief Representa uma implementação de pilha vinculada.
  *
  * Esta classe é uma classe modelo que representa uma pilha vinculada. Herda de
  * AbstractLinkedStack<T> e implementa a interface StackInterface<T>. Ele
- * fornece funcionalidade básica para manipular uma pilha usando um estrutura
- * duplamente ligada.
+ * fornece funcionalidade básica para manipular uma pilha usando uma estrutura
+ * simplesmente ligada. A pilha é dona dos nós: eles são liberados ao
+ * desempilhar e no destrutor. Cópia é profunda; movimentação transfere a posse.
  *
  * @tparam T O tipo de dados a serem armazenados na pilha.
  */
 template <class T>
 class LinkedStack : AbstractLinkedStack<T>, public StackInterface<T> {
 public:
+  /// Cria uma pilha vazia
+  LinkedStack() : AbstractLinkedStack<T>(nullptr) {}
+
+  /// Construtor de cópia profunda (preserva a ordem dos elementos)
+  LinkedStack(const LinkedStack &other);
+
+  /// Construtor de movimentação: a pilha de origem fica vazia
+  LinkedStack(LinkedStack &&other) noexcept;
+
+  /// Atribuição por cópia ou movimentação (copy-and-swap)
+  LinkedStack &operator=(LinkedStack other) noexcept;
+
+  /// Destrutor: libera todos os nós
+  ~LinkedStack() override;
+
+  /// Troca o conteúdo com outra pilha, em O(1)
+  void swap(LinkedStack &other) noexcept;
+
   /**
    * @brief Coloca um elemento no topo da pilha.
    *
    * Esta função adiciona o elemento fornecido ao topo da pilha. Ele cria um
-   * novo nó duplamente vinculado que armazena os dados e atualiza os ponteiros
-   * para torná-los o novo final da pilha.
+   * novo nó que armazena os dados e o torna o novo topo da pilha.
    *
    * @tparam T O tipo de dados a serem armazenados na pilha.
    * @param data Os dados a serem adicionados à pilha.
@@ -81,5 +99,7 @@ public:
    */
   [[nodiscard]] bool empty() const override;
 };
+
+#include "data-structure/stack/LinkedStack.cpp"
 
 #endif // DATA_STRUCTURE_LINKEDSTACK_H

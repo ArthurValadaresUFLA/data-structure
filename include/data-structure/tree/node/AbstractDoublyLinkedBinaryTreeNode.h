@@ -29,7 +29,7 @@ protected:
       T value, DoublyLinkedBinaryTreeNodeInterface<T> *right,
       DoublyLinkedBinaryTreeNodeInterface<T> *left,
       DoublyLinkedBinaryTreeNodeInterface<T> *parent)
-      : _value(value), _right(right), _left(left), _parent(parent) {}
+      : _parent(parent), _value(value), _right(right), _left(left) {}
 
   /**
    * @brief Constrói um objeto AbstractDoublyLinkedBinaryTreeNode com o valor

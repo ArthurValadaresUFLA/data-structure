@@ -10,9 +10,12 @@
 /// Interface usada para representar todos
 /// os métodos que devem ser implementados
 /// dentro de uma tabela hash
-/// @tparam T representa o tipo de dado armazenado dentro da tebela hash
+/// @tparam T representa o tipo de dado armazenado dentro da tabela hash
 template <class T> class HashTableInterface {
 public:
+  /// Destrutor virtual, permite destruir a tabela por meio da interface
+  virtual ~HashTableInterface() = default;
+
   /// Método usado para adicionar um valor dentro da tabela hash, puramente
   /// abstrato
   /// @param value representa o valor a ser adicionado
@@ -22,6 +25,10 @@ public:
   /// puramente abstrato
   /// @param value representa o valor a ser buscado
   virtual bool contains(const T &value) const = 0;
+
+  /// Método usado para remover o valor da tabela hash, puramente abstrato
+  /// @param value representa o valor a ser removido
+  virtual void remove(const T &value) = 0;
 };
 
 #endif // DATA_STRUCTURE_HASHINTERFACE_H

@@ -7,211 +7,174 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <memory>
+#include <stdexcept>
+#include <utility>
 
 #include "data-structure/heap/interface/HeapInterface.h"
 
 /**
  * @class AbstractHeap
- * @brief Uma classe abstrata para implementar estruturas de dados heap.
+ * @brief Uma classe abstrata para implementar estruturas de dados heap
+ * binárias armazenadas em array.
  *
- * Esta classe fornece uma interface comum e variáveis de membro para estruturas
- * de dados heap. Não deve ser instanciado diretamente, mas subclassificado para
- * implementar um tipo específico de heap.
+ * Os elementos ficam em _data[0 .. _size - 1] com a raiz em _data[0]; os filhos
+ * de i estão em 2i + 1 e 2i + 2. O array é gerenciado por std::unique_ptr<T[]>
+ * (RAII), logo é liberado uma única vez com `delete[]`. A cópia é profunda e a
+ * movimentação transfere a posse. As classes derivadas só precisam definir a
+ * relação de ordem, passada aos métodos protegidos siftUp/siftDown.
  *
  * @tparam T O tipo de dados a serem armazenados no heap.
  */
 template <class T> class AbstractHeap : public HeapInterface<T> {
 protected:
-  T *_data;
-  T *_top;
+  /// Armazenamento dos elementos
+  std::unique_ptr<T[]> _data;
+
+  /// Quantidade de elementos atualmente no heap
+  std::size_t _size = 0;
+
+  /// Quantidade máxima de elementos
   std::size_t _capacity;
 
   /**
-   * @class AbstractHeap
-   * @brief Uma classe base para implementar estruturas de dados heap.
-   *
-   * Esta classe fornece uma interface comum e variáveis de membro para
-   * estruturas de dados heap. Não deve ser instanciado diretamente, mas
-   * subclassificado para implementar um tipo específico de heap.
-   *
-   * @tparam T O tipo de dados a serem armazenados no heap.
+   * @brief Construtor que aloca o armazenamento do heap.
+   * @param capacity o número máximo de elementos do heap
    */
   explicit AbstractHeap(const std::size_t &capacity)
-      : _capacity(capacity), _top(nullptr) {
-    _data = new T[capacity];
+      : _data(new T[capacity]), _capacity(capacity) {}
+
+  /// Construtor de cópia profunda: copia apenas os elementos válidos
+  AbstractHeap(const AbstractHeap &other)
+      : _data(new T[other._capacity]), _size(other._size),
+        _capacity(other._capacity) {
+    std::copy(other._data.get(), other._data.get() + other._size, _data.get());
   }
 
-  /**
-   * @brief Destruidor para a classe AbstractHeap.
-   *
-   * Este destruidor libera a memória alocada para o membro _data da classe
-   * AbstractHeap.
-   */
-  ~AbstractHeap() { delete _data; }
+  /// Construtor de movimentação: a origem fica vazia e sem capacidade
+  AbstractHeap(AbstractHeap &&other) noexcept
+      : _data(std::move(other._data)), _size(other._size),
+        _capacity(other._capacity) {
+    other._size = 0;
+    other._capacity = 0;
+  }
 
-  /**
-   * @brief Construtor de cópia para a classe AbstractHeap.
-   *
-   * Este construtor de cópia cria uma nova instância da classe AbstractHeap,
-   * copiando o conteúdo do array _data do objeto original.
-   *
-   * @param other Referência constante para o objeto a ser copiado.
-   */
-  AbstractHeap(const AbstractHeap &other);
-
-public:
-  /**
-   * @brief Retorna o índice do nó pai do índice fornecido.
-   *
-   * O nó pai de um nó no índice `i` em um heap binário está no índice
-   * `(i-1)/2`. Esta função calcula e retorna o índice do nó pai do índice
-   * fornecido.
-   *
-   * @param index O índice do nó cujo índice pai deve ser encontrado.
-   * @return O índice do nó pai do índice fornecido.
-   */
-  size_t parentOf(const size_t &index) override;
-
-  /**
-   * Obtenha o índice filho correto de um determinado índice.
-   *
-   * Esta função calcula e retorna o índice do filho direito do elemento no
-   * índice fornecido na estrutura de dados MinHeap. O índice filho certo é
-   * calculado multiplicando o índice por 2 e adicionando 1.
-   *
-   * @param index O índice do elemento cujo índice filho direito deve ser
-   * calculado.
-   * @return O índice do filho direito do elemento no índice fornecido.
-   */
-  size_t rightChildOf(const size_t &index) override;
-
-  /**
-   * @fn size_t MinHeap::leftChildOf(const size_t &index) const
-   * @brief Retorna o índice do filho esquerdo de um nó específico no heap
-   * mínimo binário.
-   * @param index O índice do nó pai.
-   * @return O índice do filho esquerdo do nó pai.
-   *
-   * Este método calcula e retorna o índice do filho esquerdo de um nó
-   * específico no heap mínimo binário. O índice do nó pai é fornecido como
-   * parâmetro. O índice do filho esquerdo é calculado multiplicando o índice do
-   * nó pai por 2 e adicionando 2 ao resultado.
-   * @note Este método é usado para acessar o filho esquerdo de um nó específico
-   * no heap mínimo binário.
-   */
-  size_t leftChildOf(const size_t &index) override;
-
-  /**
-   * @brief Retorna o valor da raiz do heap.
-   *
-   * Esta função retorna o valor da raiz do heap, que é o valor mínimo do heap.
-   * A raiz é o primeiro elemento do array.
-   *
-   * @tparam T O tipo de elementos armazenados no heap.
-   * @return O valor da raiz.
-   */
-  T peekRoot() const override;
-
-  /**
-   * @brief Verifica se o MinHeap está cheio.
-   *
-   * O MinHeap é considerado cheio quando o ponteiro `_top` é igual a
-   * o ponteiro `_data` incrementado pela `_capacity`.
-   *
-   * @return `true` se o MinHeap estiver cheio, `false` caso contrário.
-   */
-  [[nodiscard]] bool isFull() const override;
-
-  /**
-   * @brief Retorna se o heap está vazio.
-   *
-   * Esta função membro verifica se o heap está vazio. Um heap é considerado
-   * vazio se seu ponteiro superior for nullptr.
-   *
-   * @return true se o heap estiver vazio, false caso contrário.
-   */
-  [[nodiscard]] bool isEmpty() const override;
-
-  /**
-   * @brief Retorna a capacidade do MinHeap.
-   *
-   * Esta função retorna a capacidade do objeto MinHeap.
-   * A capacidade representa o número máximo de elementos que o MinHeap pode
-   * conter.
-   *
-   * @returns A capacidade do MinHeap.
-   */
-  [[nodiscard]] size_t getCapacity() const override;
-
-  /**
-   * @fn size_t MinHeap::getSize() const
-   * @brief Obtenha o tamanho do heap.
-   *
-   * Esta função retorna o número atual de elementos no heap.
-   *
-   * @return O tamanho da pilha.
-   */
-  [[nodiscard]] size_t getSize() const override;
-
-  /**
-   * @brief Retorna uma referência ao elemento no índice especificado no
-   *MinHeap.
-   * @param index O índice do elemento a ser acessado.
-   * @return Uma referência ao elemento no índice especificado.
-   * @throws std::out_of_range Se o índice estiver fora do intervalo.
-   *
-   * Este operador permite acesso a elementos no MinHeap usando a notação de
-   *colchetes. O índice deve ser menor que o tamanho do MinHeap. Se o índice
-   *estiver fora do intervalo, uma exceção std::out_of_range será lançada.
-   *
-   * Exemplo de uso:
-   *\código{.cpp}
-   * MinHeap<int> pilha;
-   * heap.inserir(5);
-   * heap.inserir(3);
-   * heap.inserir(10);
-   * valor interno = pilha[1]; // o valor agora é 3
-   * \endcode
-   *
-   * @see MinHeap::insert()
-   * @see MinHeap::getSize()
-   */
-  T &operator[](std::size_t index) const override;
-
-  /**
-   * @brief Sobrecarga do operador de igualdade.
-   *
-   * Compara dois objetos AbstractHeap para igualdade. Dois heaps são iguais se
-   * têm a mesma capacidade e os mesmos elementos no mesmo A.
-   *
-   * @param other O outro objeto AbstractHeap a ser comparado.
-   * @return true se os heaps forem iguais, false caso contrário.
-   */
-  bool operator==(const AbstractHeap &other) const;
-
-  /**
-   * @brief Operador de atribuição para a classe AbstractHeap.
-   *
-   * Este operador de atribuição permite a cópia de um heap para outro. Se
-   * ambos os objetos tiverem a mesma capacidade, os dados serão copiados.
-   * Caso contrário, a memória anterior será liberada e uma nova memória
-   * será alocada de acordo com a capacidade do outro heap.
-   *
-   * @param other Referência constante para o objeto a ser copiado.
-   * @return Referência para a instância atual após a cópia.
-   */
+  /// Atribuição por cópia (copy-and-swap), segura contra auto-atribuição
   AbstractHeap &operator=(const AbstractHeap &other) {
     if (this != &other) {
-      delete[] _data; // Libera a memória anterior
-
+      // aloca e copia antes de alterar o objeto: se falhar, nada muda
+      std::unique_ptr<T[]> data(new T[other._capacity]);
+      std::copy(other._data.get(), other._data.get() + other._size, data.get());
+      _data = std::move(data);
+      _size = other._size;
       _capacity = other._capacity;
-      _data = new T[_capacity]; // Aloca nova memória
-      std::copy(other._data, other._data + _capacity, _data); // Copia os dados
-
-      _top = &_data[other._top - other._data]; // Ajusta o ponteiro _top
     }
-    return *this; // Retorna a instância atual
+    return *this;
   }
+
+  /// Atribuição por movimentação: troca o conteúdo com a origem (que passa a
+  /// guardar o antigo conteúdo deste objeto e será destruída em seguida)
+  AbstractHeap &operator=(AbstractHeap &&other) noexcept {
+    std::swap(_data, other._data);
+    std::swap(_size, other._size);
+    std::swap(_capacity, other._capacity);
+    return *this;
+  }
+
+  /// Insere o valor na próxima posição livre e o faz subir até que a relação
+  /// de ordem seja respeitada.
+  /// @param value valor a inserir
+  /// @param before predicado before(a, b): true se a deve ficar acima de b
+  /// @throw std::runtime_error se o heap estiver cheio
+  template <class Before> void pushSorted(const T &value, Before before) {
+    if (_size == _capacity) {
+      throw std::runtime_error("The heap is full");
+    }
+
+    std::size_t hole = _size++;
+    while (hole > 0 and before(value, _data[parentOf(hole)])) {
+      _data[hole] = _data[parentOf(hole)];
+      hole = parentOf(hole);
+    }
+    _data[hole] = value;
+  }
+
+  /// Remove e retorna a raiz, movendo o último elemento para o topo e
+  /// fazendo-o descer até restabelecer a relação de ordem.
+  /// @param before predicado before(a, b): true se a deve ficar acima de b
+  /// @throw std::out_of_range se o heap estiver vazio
+  template <class Before> T popSorted(Before before) {
+    if (_size == 0) {
+      throw std::out_of_range("Heap is empty, cannot remove root.");
+    }
+
+    T root = _data[0];
+    _size--;
+
+    if (_size > 0) {
+      _data[0] = _data[_size];
+
+      std::size_t current = 0;
+      while (true) {
+        std::size_t best = current;
+        std::size_t left = leftChildOf(current);
+        std::size_t right = rightChildOf(current);
+
+        if (left < _size and before(_data[left], _data[best])) {
+          best = left;
+        }
+        if (right < _size and before(_data[right], _data[best])) {
+          best = right;
+        }
+        if (best == current) {
+          break;
+        }
+
+        std::swap(_data[current], _data[best]);
+        current = best;
+      }
+    }
+
+    return root;
+  }
+
+public:
+  /// Índice do pai de index (a raiz é pai de si mesma)
+  [[nodiscard]] std::size_t parentOf(const std::size_t &index) const override;
+
+  /// Índice do filho direito de index (2 * index + 2)
+  [[nodiscard]] std::size_t
+  rightChildOf(const std::size_t &index) const override;
+
+  /// Índice do filho esquerdo de index (2 * index + 1)
+  [[nodiscard]] std::size_t
+  leftChildOf(const std::size_t &index) const override;
+
+  /// Retorna a raiz sem removê-la
+  /// @throw std::out_of_range se o heap estiver vazio
+  [[nodiscard]] T peekRoot() const override;
+
+  /// Verifica se o heap atingiu a capacidade máxima
+  [[nodiscard]] bool isFull() const override;
+
+  /// Verifica se o heap está vazio
+  [[nodiscard]] bool isEmpty() const override;
+
+  /// Retorna a capacidade máxima do heap
+  [[nodiscard]] std::size_t getCapacity() const override;
+
+  /// Retorna o número de elementos no heap
+  [[nodiscard]] std::size_t getSize() const override;
+
+  /// Acessa o elemento na posição index do array do heap
+  /// @throw std::out_of_range se index >= getSize()
+  [[nodiscard]] T &operator[](std::size_t index) const override;
+
+  /// Compara dois heaps: mesma capacidade, mesmo tamanho e mesmos elementos na
+  /// mesma ordem
+  bool operator==(const AbstractHeap &other) const;
 };
+
+#include "data-structure/heap/AbstractHeap.cpp"
 
 #endif // DATA_STRUCTURE_ABSTRACTHEAP_H

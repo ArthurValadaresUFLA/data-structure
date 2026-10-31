@@ -117,7 +117,6 @@ public:
    */
   [[nodiscard]] int childCount() const override;
 
-private:
   /**
    * @brief Get the parent node of the current node.
    *
@@ -137,5 +136,7 @@ private:
    */
   void setParent(DoublyLinkedBinaryTreeNodeInterface<T> *parent) override;
 };
+
+#include "data-structure/tree/node/DoublyLinkedBinaryTreeNode.cpp"
 
 #endif // DATA_STRUCTURE_DOUBLYLINKEDBINARYTREENODE_H

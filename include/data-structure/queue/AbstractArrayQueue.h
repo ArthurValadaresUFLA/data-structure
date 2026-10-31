@@ -7,79 +7,80 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <memory>
+#include <utility>
 
 /**
- * @brief Classe base abstrata para uma fila baseada em array.
+ * @class AbstractArrayQueue
+ * @brief Armazenamento circular de uma fila em array.
  *
- * Esta classe fornece funcionalidade básica para uma fila baseada em array.
- * É uma classe abstrata e não pode ser instanciada sozinha.
- * As subclasses devem implementar funcionalidades adicionais conforme
- * necessário.
+ * Os elementos ocupam _array[(_head + i) % _capacity], com 0 <= i < _size. O
+ * array é gerenciado por std::unique_ptr<T[]> (RAII), portanto é liberado
+ * exatamente uma vez com `delete[]`. A cópia é profunda e a movimentação
+ * transfere a posse.
  *
- * @tparam T O tipo de elementos armazenados na fila.
+ * @tparam T O tipo de dados armazenados na fila
  */
 template <class T> class AbstractArrayQueue {
 protected:
-  T *array = nullptr;
-  std::size_t _capacity;
-  T *_begin = nullptr;
-  T *_end = nullptr;
+  /// Armazenamento circular dos elementos
+  std::unique_ptr<T[]> _array;
 
-  /**
-   * @brief Constroi um novo objeto AbstractArrayQueue.
-   *
-   * Este construtor inicializa o objeto AbstractArrayQueue com a capacidade
-   * inicial fornecida. Aloca memória para o array usado para armazenar os
-   * elementos da fila.
-   *
-   * @tparam T O tipo de elementos armazenados na fila.
-   * @param inicialCapacity A capacidade inicial da fila.
-   */
+  /// Capacidade máxima da fila
+  std::size_t _capacity = 0;
+
+  /// Índice do primeiro elemento da fila
+  std::size_t _head = 0;
+
+  /// Quantidade de elementos na fila
+  std::size_t _size = 0;
+
+  /// Constrói o armazenamento
+  /// @param initialCapacity número máximo de elementos da fila
   explicit AbstractArrayQueue(std::size_t initialCapacity)
-      : _capacity(initialCapacity) {
-    array = new T[initialCapacity];
-  }
+      : _array(new T[initialCapacity]), _capacity(initialCapacity) {}
 
-  /**
-   * @brief Construtor de cópia para AbstractArrayQueue.
-   *
-   * Este construtor cria uma nova instância de AbstractArrayQueue, copiando os
-   * dados de outra instância fornecida.
-   *
-   * @param other A instância de AbstractArrayQueue a ser copiada.
-   */
+  /// Construtor de cópia profunda; o conteúdo é reorganizado a partir do
+  /// índice zero
   AbstractArrayQueue(const AbstractArrayQueue &other)
-      : _capacity(other._capacity) {
-    array = new T[other._capacity];
-    std::copy(other.array, other.array + other._capacity, array);
-    _begin = array + (other._begin - other.array);
-    _end = array + (other._end - other.array);
+      : _array(new T[other._capacity]), _capacity(other._capacity), _head(0),
+        _size(other._size) {
+    for (std::size_t i = 0; i < other._size; i++) {
+      _array[i] = other._array[(other._head + i) % other._capacity];
+    }
   }
 
-  /**
-   * @brief Operador de atribuição para AbstractArrayQueue.
-   *
-   * Este operador permite a atribuição de uma instância de AbstractArrayQueue
-   * para outra.
-   *
-   * @param other A instância de AbstractArrayQueue a ser atribuída.
-   * @return Referência para a instância atual após a atribuição.
-   */
+  /// Construtor de movimentação: a origem fica vazia e sem capacidade
+  AbstractArrayQueue(AbstractArrayQueue &&other) noexcept
+      : _array(std::move(other._array)), _capacity(other._capacity),
+        _head(other._head), _size(other._size) {
+    other._capacity = 0;
+    other._head = 0;
+    other._size = 0;
+  }
+
+  /// Atribuição por cópia (copy-and-swap), segura contra auto-atribuição
   AbstractArrayQueue &operator=(const AbstractArrayQueue &other) {
-    if (this == &other) {
-      return *this; // Evita auto-atribuição
-    }
-
-    delete[] array; // Libera a memória existente
-
-    _capacity = other._capacity;
-    array = new T[other._capacity];
-    std::copy(other.array, other.array + other._capacity, array);
-    _begin = array + (other._begin - other.array);
-    _end = array + (other._end - other.array);
-
+    AbstractArrayQueue copy(other);
+    swapWith(copy);
     return *this;
   }
+
+  /// Atribuição por movimentação: a origem fica vazia
+  AbstractArrayQueue &operator=(AbstractArrayQueue &&other) noexcept {
+    AbstractArrayQueue moved(std::move(other));
+    swapWith(moved);
+    return *this;
+  }
+
+  void swapWith(AbstractArrayQueue &other) noexcept {
+    std::swap(_array, other._array);
+    std::swap(_capacity, other._capacity);
+    std::swap(_head, other._head);
+    std::swap(_size, other._size);
+  }
+
+  ~AbstractArrayQueue() = default;
 };
 
 #endif // DATA_STRUCTURE_ABSTRACTARRAYQUEUE_H

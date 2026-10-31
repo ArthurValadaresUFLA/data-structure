@@ -5,7 +5,9 @@
 #ifndef DATA_STRUCTURE_ABSTRACTLINKEDQUEUE_H
 #define DATA_STRUCTURE_ABSTRACTLINKEDQUEUE_H
 
-#include "data-structure/node/interface/DoublyLinkedNodeInterface.h"
+#include <cstddef>
+
+#include "data-structure/node/interface/SinglyLinkedNodeInterface.h"
 
 /**
  * @class AbstractLinkedQueue
@@ -13,25 +15,31 @@
  * fila vinculada
  * @tparam T O tipo de dados armazenados na fila
  *
- * Esta classe fornece uma implementação básica de uma fila vinculada usando nós
- * duplamente vinculados. É uma classe abstrata que se destina a ser herdado por
- * outras classes que implementam estruturas de dados de fila específicas.
+ * A fila é uma estrutura simplesmente encadeada: cada nó aponta para o nó que
+ * está logo atrás dele na fila. A inserção ocorre no fim (_end) e a remoção no
+ * início (_begin), ambas em O(1).
  *
- * @see DoubleLinkedNodeInterface
+ * @see SinglyLinkedNodeInterface
  */
 template <class T> class AbstractLinkedQueue {
 protected:
-  DoublyLinkedNodeInterface<T> *_begin = nullptr;
-  DoublyLinkedNodeInterface<T> *_end = nullptr;
+  /// Primeiro nó da fila (próximo a sair)
+  SinglyLinkedNodeInterface<T> *_begin = nullptr;
+
+  /// Último nó da fila (último a entrar)
+  SinglyLinkedNodeInterface<T> *_end = nullptr;
+
+  /// Quantidade de elementos
+  std::size_t _size = 0;
 
   /**
    * @brief Constrói um objeto AbstractLinkedQueue com determinados nós iniciais
    * e finais.
-   * @param start O nó inicial da fila
+   * @param begin O nó inicial da fila
    * @param end O nó final da fila
    */
-  AbstractLinkedQueue(DoublyLinkedNodeInterface<T> *begin,
-                      DoublyLinkedNodeInterface<T> *end)
+  AbstractLinkedQueue(SinglyLinkedNodeInterface<T> *begin,
+                      SinglyLinkedNodeInterface<T> *end)
       : _begin(begin), _end(end) {}
 };
 

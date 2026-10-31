@@ -18,6 +18,9 @@
  */
 template <class T> class BinarySearchTreeInterface {
 public:
+  /// Destrutor virtual, permite destruir a árvore por meio da interface
+  virtual ~BinarySearchTreeInterface() = default;
+
   /**
    * @brief Insere um valor na árvore de pesquisa binária.
    *
@@ -59,7 +62,7 @@ public:
    * @return Um ponteiro para o nó que contém o valor ou nullptr se o valor não
    * for encontrado na árvore.
    */
-  virtual SinglyLinkedBinaryTreeNodeInterface<T> *
+  virtual const SinglyLinkedBinaryTreeNodeInterface<T> *
   search(const T &value) const = 0;
 };
 

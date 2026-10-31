@@ -28,11 +28,11 @@ private:
   /// Atributo usado para representar o próximo nó
   ///  do tópico. A princípio o
   ///  _valor é nulo.
-  DoublyLinkedNode<T> *_next = nullptr;
+  DoublyLinkedNodeInterface<T> *_next = nullptr;
   /// Atributo usado para representar um nó anterior
   ///  do tópico. A princípio o
   ///  _valor é nulo.
-  DoublyLinkedNode<T> *_previous = nullptr;
+  DoublyLinkedNodeInterface<T> *_previous = nullptr;
 
 public:
   /// Construtor público usado para inicializar todos os atributos da classe
@@ -55,7 +55,7 @@ public:
   /// um construtor que pode ser chamado com apenas um argumento
   /// @param data o valor a ser armazenado no nó
   explicit DoublyLinkedNode(T data)
-      : _next(nullptr), _previous(nullptr), AbstractNode<T>(data) {}
+      : AbstractNode<T>(data), _next(nullptr), _previous(nullptr) {}
 
   /// Método Get usado para acessar o próximo atributo, que indica o próximo nó
   /// da cadeia. O método é constante, implementa o que está declarado na
@@ -74,6 +74,10 @@ public:
   /// @return o _value armazenado na cadeia
   T getData() const override;
 
+  /// Método usado para obter, por referência, o dado armazenado no nó
+  /// @returns referência para o dado
+  T &getDataRef() override;
+
   /// método set usado para definir o _value do atributo anterior, baseado no
   /// ponteiro passado como argumento
   /// @param anterior ao nó anterior da cadeia
@@ -89,5 +93,7 @@ public:
   std::tuple<DoublyLinkedNodeInterface<T> *, DoublyLinkedNodeInterface<T> *>
   getBoth() const;
 };
+
+#include "data-structure/node/DoublyLinkedNode.cpp"
 
 #endif // DATA_STRUCTURE_DOUBLYLINKEDNODE_H

@@ -1,113 +1,153 @@
-//
-// Created by arthur on 06/08/24.
-//
-
 #include "data-structure/tree/binary_search_tree/DoublyLinkedBinarySearchTree.h"
 
-#include "tuple"
-
-#include "data-structure/stack/LinkedStack.h"
-#include "data-structure/tree/node/DoublyLinkedBinaryTreeNode.h"
+#include <utility>
+#include <vector>
 
 template <class T>
-DoublyLinkedBinaryTreeNodeInterface<T> *
-DoublyLinkedBinarySearchTree<T>::treeMinimum(
-    const DoublyLinkedBinaryTreeNodeInterface<T> &node) {
-  SinglyLinkedBinaryTreeNodeInterface<T> *parent = nullptr;
-  auto current = node;
-  while (current.getLeft() != nullptr) {
-    parent = nullptr;
-    current = current.getLeft();
+void DoublyLinkedBinarySearchTree<T>::destroy(Node *root) noexcept {
+  std::vector<Node *> pending;
+  if (root != nullptr) {
+    pending.push_back(root);
   }
-  return std::tuple(parent, current);
-}
 
-template <class T>
-DoublyLinkedBinaryTreeNodeInterface<T> *
-DoublyLinkedBinarySearchTree<T>::_search(const T &value) const {
-  SinglyLinkedBinaryTreeNodeInterface<T> *parent = nullptr;
-  auto current = this->_root;
-  while (current != nullptr and value != current->getValue()) {
-    parent = current;
-    if (value < current->getValue()) {
-      current = current->getLeft();
-    } else {
-      current = current->getRight();
+  while (not pending.empty()) {
+    Node *current = pending.back();
+    pending.pop_back();
+
+    if (current->getLeft() != nullptr) {
+      pending.push_back(current->getLeft());
     }
+    if (current->getRight() != nullptr) {
+      pending.push_back(current->getRight());
+    }
+    delete current;
   }
-  return std::make_tuple(parent, current);
 }
 
 template <class T>
-void DoublyLinkedBinarySearchTree<T>::transplant(
-    DoublyLinkedBinaryTreeNodeInterface<T> *rootOn,
-    DoublyLinkedBinaryTreeNodeInterface<T> *subtree) {
-  if (rootOn->getParent() == nullptr) {
-    this->_root = rootOn;
-  } else if (rootOn == rootOn->getParent()->getLeft()) {
-    rootOn->getParent()->setLeft(subtree);
-  } else {
-    rootOn->getParent()->setRight(subtree);
+DoublyLinkedBinaryTreeNodeInterface<T> *
+DoublyLinkedBinarySearchTree<T>::clone(const Node *source) {
+  if (source == nullptr) {
+    return nullptr;
   }
-  if (subtree != nullptr) {
-    subtree->setParent() = rootOn->getParent();
+
+  Node *root = new DoublyLinkedBinaryTreeNode<T>(source->getValue());
+  try {
+    std::vector<std::pair<const Node *, Node *>> pending{{source, root}};
+
+    while (not pending.empty()) {
+      auto [from, to] = pending.back();
+      pending.pop_back();
+
+      if (from->getLeft() != nullptr) {
+        Node *left =
+            new DoublyLinkedBinaryTreeNode<T>(from->getLeft()->getValue());
+        to->setLeft(left);
+        left->setParent(to);
+        pending.emplace_back(from->getLeft(), left);
+      }
+      if (from->getRight() != nullptr) {
+        Node *right =
+            new DoublyLinkedBinaryTreeNode<T>(from->getRight()->getValue());
+        to->setRight(right);
+        right->setParent(to);
+        pending.emplace_back(from->getRight(), right);
+      }
+    }
+  } catch (...) {
+    destroy(root); // tudo o que já foi ligado à raiz é liberado
+    throw;
   }
+
+  return root;
+}
+
+template <class T>
+DoublyLinkedBinarySearchTree<T>::DoublyLinkedBinarySearchTree(
+    const DoublyLinkedBinarySearchTree &other)
+    : AbstractBinarySearchTree<T, DoublyLinkedBinaryTreeNodeInterface<T>>(
+          clone(other._root)) {}
+
+template <class T>
+DoublyLinkedBinarySearchTree<T>::DoublyLinkedBinarySearchTree(
+    DoublyLinkedBinarySearchTree &&other) noexcept
+    : AbstractBinarySearchTree<T, DoublyLinkedBinaryTreeNodeInterface<T>>(
+          nullptr) {
+  swap(other);
+}
+
+template <class T>
+DoublyLinkedBinarySearchTree<T> &DoublyLinkedBinarySearchTree<T>::operator=(
+    DoublyLinkedBinarySearchTree other) noexcept {
+  swap(other);
+  return *this;
+}
+
+template <class T>
+void DoublyLinkedBinarySearchTree<T>::swap(
+    DoublyLinkedBinarySearchTree &other) noexcept {
+  std::swap(this->_root, other._root);
 }
 
 template <class T>
 DoublyLinkedBinarySearchTree<T>::~DoublyLinkedBinarySearchTree() {
-  auto stack = LinkedStack<DoublyLinkedBinaryTreeNodeInterface<T> *>();
+  destroy(this->_root);
+}
 
-  stack.stackUp(this->_root);
-  DoublyLinkedBinaryTreeNodeInterface<T> *parent = nullptr;
-  DoublyLinkedBinaryTreeNodeInterface<T> *current;
-  while (not stack.empty()) {
-    current = stack.unstack();
-    auto left = current->getLeft();
-    auto right = current->getRight();
-    if (left != nullptr) {
-      stack.stackUp(left);
+template <class T>
+std::tuple<DoublyLinkedBinaryTreeNodeInterface<T> *,
+           DoublyLinkedBinaryTreeNodeInterface<T> *>
+DoublyLinkedBinarySearchTree<T>::_search(const T &value) const {
+  Node *parent = nullptr;
+  Node *current = this->_root;
+
+  while (current != nullptr) {
+    T stored = current->getValue();
+    if (value < stored) {
       parent = current;
-    } else if (right != nullptr) {
-      stack.stackUp(right);
+      current = current->getLeft();
+    } else if (stored < value) {
       parent = current;
+      current = current->getRight();
     } else {
-      if (parent->getRight() == current) {
-        parent->setRight(nullptr);
-      }
-
-      if (parent->getLeft() == current) {
-        parent->setLeft(nullptr);
-      }
-
-      delete current;
+      break;
     }
+  }
+
+  return std::make_tuple(parent, current);
+}
+
+template <class T>
+void DoublyLinkedBinarySearchTree<T>::replaceChild(Node *parent, Node *oldChild,
+                                                   Node *newChild) {
+  if (parent == nullptr) {
+    this->_root = newChild;
+  } else if (parent->getLeft() == oldChild) {
+    parent->setLeft(newChild);
+  } else {
+    parent->setRight(newChild);
+  }
+  if (newChild != nullptr) {
+    newChild->setParent(parent);
   }
 }
 
 template <class T>
 void DoublyLinkedBinarySearchTree<T>::insert(const T &value) {
-  DoublyLinkedBinaryTreeNodeInterface<T> *node =
-      new DoublyLinkedBinaryTreeNode(value);
+  Node *node = new DoublyLinkedBinaryTreeNode<T>(value);
 
-  DoublyLinkedBinaryTreeNodeInterface<T> *parent = nullptr;
-  auto current = this->_root;
-
-  if (current == nullptr) {
-    this->_root = node;
-    return;
-  }
-
+  Node *parent = nullptr;
+  Node *current = this->_root;
   while (current != nullptr) {
     parent = current;
-    if (value < current->getValue()) {
-      current = current->getLeft();
-    } else {
-      current = current->getRight();
-    }
+    current =
+        value < current->getValue() ? current->getLeft() : current->getRight();
   }
 
-  if (value < parent->getValue()) {
+  node->setParent(parent);
+  if (parent == nullptr) {
+    this->_root = node;
+  } else if (value < parent->getValue()) {
     parent->setLeft(node);
   } else {
     parent->setRight(node);
@@ -117,25 +157,41 @@ void DoublyLinkedBinarySearchTree<T>::insert(const T &value) {
 template <class T>
 void DoublyLinkedBinarySearchTree<T>::remove(const T &value) {
   auto [parent, node] = _search(value);
-  if (node->getLeft() == nullptr) {
-    transplant(node, parent, node->getRight());
-  } else if (node->getRight() == nullptr) {
-    transplant(node, parent, node->getLeft());
-  } else {
-    auto [p, y] = treeMinimum(node->getRight());
-    if (p != node) {
-      transplant(y, y->getRight());
-      y->setRight(node->getRight());
-    }
-    transplant(node, parent, y);
-    y->setLeft(node->getLeft());
-    y->getLeft()->setParent(y);
+  if (node == nullptr) {
+    return;
   }
+
+  if (node->getLeft() == nullptr) {
+    replaceChild(parent, node, node->getRight());
+  } else if (node->getRight() == nullptr) {
+    replaceChild(parent, node, node->getLeft());
+  } else {
+    // dois filhos: o sucessor (mínimo da subárvore direita) ocupa o lugar
+    Node *successorParent = node;
+    Node *successor = node->getRight();
+    while (successor->getLeft() != nullptr) {
+      successorParent = successor;
+      successor = successor->getLeft();
+    }
+
+    if (successorParent != node) {
+      successorParent->setLeft(successor->getRight());
+      if (successor->getRight() != nullptr) {
+        successor->getRight()->setParent(successorParent);
+      }
+      successor->setRight(node->getRight());
+      node->getRight()->setParent(successor);
+    }
+    successor->setLeft(node->getLeft());
+    node->getLeft()->setParent(successor);
+    replaceChild(parent, node, successor);
+  }
+
+  delete node;
 }
 
 template <class T>
 const DoublyLinkedBinaryTreeNodeInterface<T> *
 DoublyLinkedBinarySearchTree<T>::search(const T &value) const {
-  const auto result = _search(value);
-  return result;
+  return std::get<1>(_search(value));
 }

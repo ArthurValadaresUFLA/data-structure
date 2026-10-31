@@ -5,6 +5,8 @@
 #ifndef DATA_STRUCTURE_ABSTRACTLINKEDLIST_H
 #define DATA_STRUCTURE_ABSTRACTLINKEDLIST_H
 
+#include <cstddef>
+
 #include "data-structure/node/interface/SinglyLinkedNodeInterface.h"
 
 /// @brief Classe abstrata para uma estrutura de dados de lista vinculada
@@ -19,6 +21,7 @@ template <class T> class AbstractSinglyLinkedList {
 protected:
   SinglyLinkedNodeInterface<T> *_begin = nullptr;
   SinglyLinkedNodeInterface<T> *_end = nullptr;
+  std::size_t _size = 0;
 
   /// Construtor que inicializa atributos referentes a uma lista unida
   /// individualmente

@@ -25,6 +25,13 @@ class ArrayStack : AbstractArrayStack<T>, public StackInterface<T> {
 public:
   explicit ArrayStack(std::size_t capacity) : AbstractArrayStack<T>(capacity) {}
 
+  /// Verifica se a pilha atingiu a capacidade máxima
+  /// @return True se a pilha estiver cheia, false caso contrário.
+  [[nodiscard]] bool isFull() const;
+
+  /// Retorna a capacidade máxima da pilha
+  [[nodiscard]] std::size_t getCapacity() const;
+
   /**
    * @brief Coloca um elemento no topo da pilha.
    *
@@ -86,12 +93,13 @@ public:
    *
    * @brief Verifica se a pilha está vazia.
    *
-   * Esta função verifica se a pilha está vazia comparando o ponteiro _top
-   * para nullptr.
+   * Esta função verifica se a pilha está vazia (nenhum elemento empilhado).
    *
    * @return True se a pilha estiver vazia, false caso contrário.
    */
   [[nodiscard]] bool empty() const override;
 };
+
+#include "data-structure/stack/ArrayStack.cpp"
 
 #endif // DATA_STRUCTURE_ARRAYSTACK_H

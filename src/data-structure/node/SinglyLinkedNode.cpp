@@ -17,3 +17,5 @@ void SinglyLinkedNode<T>::setNext(SinglyLinkedNodeInterface<T> *next) {
 template <class T> T SinglyLinkedNode<T>::getData() const {
   return this->_data;
 }
+
+template <class T> T &SinglyLinkedNode<T>::getDataRef() { return this->_data; }

@@ -9,7 +9,7 @@
 
 /// @brief Interface para um nó com encadeamento simples
 ///
-/// Interface usada para representar todos os metoso que um nó encadeado deve
+/// Interface usada para representar todos os métodos que um nó encadeado deve
 /// implementar, isto é, todo nó deve implementar o método get e set para o
 /// equivalente ao atributo next
 /// @tparam T o tipo de dado armazenado dentro do nó

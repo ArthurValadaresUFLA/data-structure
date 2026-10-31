@@ -7,49 +7,46 @@
 #include <stdexcept>
 
 template <class T>
-AbstractHeap<T>::AbstractHeap(const AbstractHeap &other)
-    : _capacity(other._capacity), _top(nullptr) {
-  _data = new T[_capacity];
-  if (other._top != nullptr) {
-    std::copy(other._data, other._data + _capacity, _data);
-    _top = _data + (other._top - other._data);
-  }
+std::size_t AbstractHeap<T>::parentOf(const std::size_t &index) const {
+  return index == 0 ? 0 : (index - 1) / 2;
 }
 
-template <class T> size_t AbstractHeap<T>::parentOf(const size_t &index) {
-  return (index - 1) / 2;
-}
-
-template <class T> size_t AbstractHeap<T>::rightChildOf(const size_t &index) {
-  return 2 * index + 1;
-}
-
-template <class T> size_t AbstractHeap<T>::leftChildOf(const size_t &index) {
+template <class T>
+std::size_t AbstractHeap<T>::rightChildOf(const std::size_t &index) const {
   return 2 * index + 2;
 }
 
+template <class T>
+std::size_t AbstractHeap<T>::leftChildOf(const std::size_t &index) const {
+  return 2 * index + 1;
+}
+
 template <class T> T AbstractHeap<T>::peekRoot() const {
+  if (this->_size == 0) {
+    throw std::out_of_range("Heap is empty, cannot peek root.");
+  }
+
   return this->_data[0];
 }
 
 template <class T> bool AbstractHeap<T>::isFull() const {
-  return this->_top == this->_data + this->_capacity;
+  return this->_size == this->_capacity;
 }
 
 template <class T> bool AbstractHeap<T>::isEmpty() const {
-  return this->_top == nullptr;
+  return this->_size == 0;
 }
 
-template <class T> size_t AbstractHeap<T>::getCapacity() const {
+template <class T> std::size_t AbstractHeap<T>::getCapacity() const {
   return this->_capacity;
 }
 
-template <class T> size_t AbstractHeap<T>::getSize() const {
-  return this->_top - this->_data;
+template <class T> std::size_t AbstractHeap<T>::getSize() const {
+  return this->_size;
 }
 
 template <class T> T &AbstractHeap<T>::operator[](std::size_t index) const {
-  if (index > this->getSize()) {
+  if (index >= this->_size) {
     throw std::out_of_range("Index out of range");
   }
 
@@ -58,16 +55,16 @@ template <class T> T &AbstractHeap<T>::operator[](std::size_t index) const {
 
 template <class T>
 bool AbstractHeap<T>::operator==(const AbstractHeap &other) const {
-  if (this == &other) { // Verifica se os ponteiros são iguais
+  if (this == &other) {
     return true;
   }
 
-  if (_capacity != other._capacity) { // Verifica se têm a mesma capacidade
+  if (_capacity != other._capacity or _size != other._size) {
     return false;
   }
 
-  for (std::size_t i = 0; i < _capacity; ++i) { // Compara os elementos
-    if (_data[i] != other._data[i]) {
+  for (std::size_t i = 0; i < _size; ++i) {
+    if (not(_data[i] == other._data[i])) {
       return false;
     }
   }

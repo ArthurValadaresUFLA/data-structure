@@ -31,3 +31,7 @@ SinglyLinkedBinaryTreeNodeInterface<T> *
 SinglyLinkedBinaryTreeNode<T>::getRight() const {
   return this->_right;
 }
+
+template <class T> int SinglyLinkedBinaryTreeNode<T>::childCount() const {
+  return (this->_left != nullptr ? 1 : 0) + (this->_right != nullptr ? 1 : 0);
+}

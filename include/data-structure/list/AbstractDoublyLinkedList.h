@@ -5,6 +5,8 @@
 #ifndef DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDLIST_H
 #define DATA_STRUCTURE_ABSTRACTDOUBLYLINKEDLIST_H
 
+#include <cstddef>
+
 #include "data-structure/node/interface/DoublyLinkedNodeInterface.h"
 
 /// @brief Classe abstrata para uma estrutura de dados de lista duplamente
@@ -19,6 +21,7 @@ template <class T> class AbstractDoublyLinkedList {
 protected:
   DoublyLinkedNodeInterface<T> *_begin = nullptr;
   DoublyLinkedNodeInterface<T> *_end = nullptr;
+  std::size_t _size = 0;
 
   /// Construtor que inicializa atributos referentes a uma lista duplamente
   /// vinculada

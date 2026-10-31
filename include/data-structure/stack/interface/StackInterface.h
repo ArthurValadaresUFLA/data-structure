@@ -19,6 +19,9 @@
  */
 template <class T> class StackInterface {
 public:
+  /// Destrutor virtual, permite destruir a pilha por meio da interface
+  virtual ~StackInterface() = default;
+
   /**
    * @brief Adiciona um elemento ao topo da pilha.
    *

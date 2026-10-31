@@ -5,60 +5,50 @@
 #ifndef DATA_STRUCTURE_MAXHEAP_H
 #define DATA_STRUCTURE_MAXHEAP_H
 
+#include <cstddef>
+
 #include "data-structure/heap/AbstractHeap.h"
 #include "data-structure/heap/interface/HeapInterface.h"
 
 /**
  * @brief A classe MaxHeap representa uma estrutura de dados de heap máximo
- * binário e implementa o HeapInterface. É uma classe genérica que pode
- * armazenar elementos de qualquer tipo T.
+ * binário e implementa o HeapInterface. A raiz é sempre o maior elemento. A
+ * ordem é determinada exclusivamente pelo operador `>` de T.
+ *
+ * O heap possui capacidade fixa; inserir em um heap cheio lança
+ * std::runtime_error e remover/espiar um heap vazio lança std::out_of_range.
+ * Cópia é profunda e movimentação transfere a posse do armazenamento.
+ *
+ * @tparam T O tipo de elementos armazenados (precisa ser construível por
+ * padrão, copiável e comparável com `>`).
  */
-template <class T> class MaxHeap : AbstractHeap<T>, public HeapInterface<T> {
+template <class T> class MaxHeap : public AbstractHeap<T> {
 public:
-  explicit MaxHeap(const size_t &capacity);
+  /// Cria um heap vazio
+  /// @param capacity o número máximo de elementos
+  explicit MaxHeap(const std::size_t &capacity) : AbstractHeap<T>(capacity) {}
 
   /**
-   * @brief Um método de fábrica estático para criar um objeto MaxHeap a partir
-   * de um array.
+   * @brief Método de fábrica que cria um MaxHeap a partir de um array.
    *
-   * Este método pega um array de elementos do tipo T e cria um objeto MaxHeap a
-   * partir dele. O tamanho do array N é especificado como parâmetro do modelo.
-   * O método assume que a matriz é do tamanho N, caso contrário, poderá ocorrer
-   * um comportamento indefinido.
+   * Os elementos são inseridos um a um; o heap resultante tem capacidade igual
+   * a n.
    *
-   * @tparam N O tamanho da matriz.
-   * @param array A matriz de entrada de elementos do tipo T.
-   * @return Um objeto MaxHeap criado a partir do array de entrada.
+   * @param array ponteiro para o primeiro elemento (n elementos válidos)
+   * @param n quantidade de elementos do array
+   * @return o heap construído
    */
-  template <std::size_t N>
-  [[nodiscard]] static MaxHeap<T> from(const T array[N]);
+  [[nodiscard]] static MaxHeap<T> from(const T *array, std::size_t n);
 
-  /**
-   * @brief Remove o elemento raiz do MaxHeap.
-   *
-   * Esta função remove e retorna o elemento raiz do MaxHeap, que é o elemento
-   * com o valor mais alto. Se MaxHeap estiver vazio, uma exceção do tipo
-   * std::out_of_range será lançada.
-   *
-   * @return O elemento raiz removido do MaxHeap.
-   * @throws std::out_of_range se MaxHeap estiver vazio.
-   */
-  T removeRoot() const override;
+  /// Remove e retorna a raiz do heap
+  /// @throw std::out_of_range se o heap estiver vazio
+  T removeRoot() override;
 
-  /**
-   * @brief Insere um valor no MaxHeap.
-   *
-   * Esta função insere um valor no MaxHeap. Ele mantém a propriedade heap
-   * comparando o valor com seu pai e trocando-os, se necessário, até
-   * o valor está na posição correta.
-   *
-   * @param value O valor a ser inserido no MaxHeap.
-   *
-   * @tparam T O tipo de elementos no MaxHeap.
-   *
-   * @relacionado MaxHeap
-   */
+  /// Insere um valor no heap
+  /// @throw std::runtime_error se o heap estiver cheio
   void insert(const T &value) override;
 };
+
+#include "data-structure/heap/MaxHeap.cpp"
 
 #endif // DATA_STRUCTURE_MAXHEAP_H

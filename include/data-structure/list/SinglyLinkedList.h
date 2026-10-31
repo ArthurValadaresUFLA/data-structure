@@ -5,110 +5,87 @@
 #ifndef DATA_STRUCTURE_SINGLYLINKEDLIST_H
 #define DATA_STRUCTURE_SINGLYLINKEDLIST_H
 
+#include <cstddef>
+#include <functional>
+
 #include "data-structure/list/AbstractSinglyLinkedList.h"
 #include "data-structure/list/interface/ListInterface.h"
 
+/// @brief Lista simplesmente encadeada.
+///
+/// A lista é a dona dos nós que armazena: todos eles são alocados dinamicamente
+/// e liberados pelo destrutor, pelas operações de remoção e pela atribuição.
+/// A classe segue a regra dos cinco: cópia profunda (os elementos são copiados
+/// para novos nós) e movimentação (a lista de origem fica vazia).
+/// @tparam T tipo dos elementos armazenados
 template <class T>
-class SinglyLinkedList : AbstractSinglyLinkedList<T>, ListInterface<T> {
-private:
-  SinglyLinkedList(SinglyLinkedNodeInterface<T> *begin,
-                   SinglyLinkedNodeInterface<T> *end)
-      : AbstractSinglyLinkedList<T>(begin, end) {}
-
+class SinglyLinkedList : AbstractSinglyLinkedList<T>, public ListInterface<T> {
 public:
-  /// Construtor público da classe que inicializa todos os atributos
+  /// Construtor público da classe que cria uma lista vazia
   SinglyLinkedList() : AbstractSinglyLinkedList<T>(nullptr, nullptr) {}
 
-  ~SinglyLinkedList();
+  /// Construtor de cópia: copia, em ordem, todos os elementos de other
+  SinglyLinkedList(const SinglyLinkedList &other);
 
-  /// Método responsável por sobrecarregar o operador []
-  /// de modo a receber um índice e retornar uma referência
-  /// constante para o valor contido no respectivo endereço
-  /// de memória. Se o índice passado exceder o número de
-  /// elementos levanta uma exceção
-  T operator[](std::size_t index) const override;
+  /// Construtor de movimentação: assume os nós de other, que fica vazia
+  SinglyLinkedList(SinglyLinkedList &&other) noexcept;
 
-  /// Método responsável por retornar o tamanho da lista
-  /// O tamanho da lista é calculado a cada vez que acessado,
-  /// de modo que se itere sobre os nós contituintes
-  size_t find(const T &data) const override;
+  /// Atribuição por cópia/movimentação (copy-and-swap)
+  SinglyLinkedList &operator=(SinglyLinkedList other) noexcept;
 
-  /// Método responsável por retornar a posição do dado informado
-  /// Este método itera ao longo da lista de modo a não exceder o
-  /// número de elementos e, a medida com que o faz, incrementa o
-  /// índice do elemento, se o elemento não for achado retorna o
-  /// final da lista.
-  /// @param data valor a ser buscado
-  [[nodiscard]] size_t size() const override;
+  /// Destrutor: libera todos os nós
+  ~SinglyLinkedList() override;
 
-  /// Método responsável por iterar sobre os nós contituintes
-  /// e verificar se o valor contido em cada um deles é o valor
-  /// procurado. Pior cenário O(n).
-  /// @param data valor a ser verificado se está dentro da lista
-  bool contains(const T &data) const override;
+  /// Troca o conteúdo desta lista com o de other, em O(1)
+  void swap(SinglyLinkedList &other) noexcept;
 
-  /// Método responsável por adiciona um dado ao início da lista encadeada
-  /// @param data passado como argumento é encapsulado em um nó duplamente
-  /// encadeado, em seguida o elemento subsequente é definido como sendo aquele
-  /// que, anteriormente, era o início da lista. O início da lista é atualizado
-  /// para apontar para o novo nó. Se conferires a implementação de
-  /// [DoublyLinkedNode] verás que o valor padrão para ambos os ponteiros, isto
-  /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
-  /// [nullptr]
-  /// @param data o valor a ser inserido no início
+  /// Acessa o elemento na posição informada, por referência.
+  /// @throw std::out_of_range se index >= size()
+  T &operator[](std::size_t index) const override;
+
+  /// Retorna a posição da primeira ocorrência de data, ou size() se data não
+  /// estiver na lista. Pior caso O(n).
+  [[nodiscard]] std::size_t find(const T &data) const override;
+
+  /// Retorna o número de elementos da lista, em O(1)
+  [[nodiscard]] std::size_t size() const override;
+
+  /// Verifica, em O(n), se o valor está contido na lista
+  [[nodiscard]] bool contains(const T &data) const override;
+
+  /// Adiciona um dado ao início da lista, em O(1)
   void push(const T &data) override;
 
-  /// Método responsável por adicionar um dado ao final de uma lista encadeada
-  /// @param data passado como argumento é encapsulado em um nó duplamente
-  /// encadeado, em seguida o elemento precedente é definifo como sendo aquee
-  /// que, anteriormente, era o fim da lista. O fim da lista é atualizado para
-  /// apontar para o novo nó. Se conferires a implementação de
-  /// [DoublyLinkedNode] verás que o valor padrão para ambos os ponteiros, isto
-  /// é, previous e next é, a princípio e se nenhum outro valor for fornecido,
-  /// [nullptr]
-  /// @param data o valor a ser inserido no final
+  /// Adiciona um dado ao final da lista, em O(1)
   void pushBack(const T &data) override;
 
-  /// Método responsável por inserir um elemento na respectiva posição passada
-  /// como argumento. Se a posição passada no argumento não estiver no intervalo
-  /// (0,n+1], onde n representa o tamanho da lista, a posição de inserção será
-  /// admitida como sendo o limite inferior ou superior, dependendo de qual
-  /// limite do intervalo fora excedido, isto é, por exemplo, ao definir index
-  /// como sendo n+2, na pŕatica seria equivalente a inserir em n+1. <br> <br>
-  /// O método itera sobre os elementos presentes na lista duplamente encadeada
-  /// de modo a não exceder o final ou o índice passado como argumento. Um novo
-  /// nó duplamente encadeado é alocado dinâmicamente. O nó no respectivo índice
-  /// é deslocado para a direita, o nó anterior passa a apontar para o novo nó
-  /// como sendo o subsequente e o subsequente, referencia o novo nó como sendo
-  /// o anterior a ele.
-  /// @param index índice no qual o valor deve ser inserido
-  /// @param data o valor a ser inserido
-  void insertAt(std::size_t index, const T &data) override;
+  /// Insere um elemento de modo que ele passe a ocupar a posição index. Se
+  /// index >= size(), o elemento é inserido ao final da lista.
+  void insertAt(std::size_t index, T data) override;
 
-  /// Método responsável por remover o nó no início da lista
-  /// Uma variável temporária é criada para armazenar o endereço
-  /// de memória que antes residia em _begin, _begin passa a apontar
-  /// para o nó subsequente e o valor contido no nó removido é retornado
+  /// Remove o nó do início da lista, libera-o e retorna o valor
+  /// @throw std::runtime_error se a lista estiver vazia
   T removeOnBegin() override;
 
-  /// Método responsável por remover o nó no fim da lista
-  /// Uma variável temporária é criada para armazenar o endereço
-  /// de memória que antes residia em _end, _end passa a apontar
-  /// para o nó subsequente e o valor contido no nó removido é retornado
+  /// Remove o nó do fim da lista, libera-o e retorna o valor. Como a lista é
+  /// simplesmente encadeada, é necessário percorrê-la: O(n).
+  /// @throw std::runtime_error se a lista estiver vazia
   T removeAtEnd() override;
 
-  /// Método responsável por remover um nó na posição especificada
-  /// Itera ao longo da lista de modo que não exceda o fim ou que
-  /// o índice de iteração não exceda a posição informada. Se a
-  /// posição for maior que o número de elementos ou menos que 0,
-  /// lança uma exceção.
-  /// @param position indicando a posição do valor a ser removido
-  T removeAt(const std::size_t &position) override;
+  /// Remove o nó na posição informada, libera-o e retorna o valor
+  /// @throw std::out_of_range se position >= size()
+  T removeAt(std::size_t position) override;
 
-  /// Função responsável por remover um elemento mediante um predicado
-  /// @param predicate predicado que recebe como argumento o índice e o valor
-  /// armazenado dentro da posição.
+  /// Verifica se a lista está vazia
   [[nodiscard]] bool isEmpty() const override;
+
+  /// Remove todos os elementos para os quais o predicado retornar true. O
+  /// predicado recebe a posição do elemento na lista original (sem considerar
+  /// as remoções já feitas) e o seu valor.
+  void removeWhere(
+      std::function<bool(std::size_t index, T value)> predicate) override;
 };
+
+#include "data-structure/list/SinglyLinkedList.cpp"
 
 #endif // DATA_STRUCTURE_SINGLYLINKEDLIST_H

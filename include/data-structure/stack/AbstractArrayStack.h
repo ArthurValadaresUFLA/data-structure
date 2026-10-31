@@ -7,67 +7,70 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <memory>
+#include <utility>
 
-/**
- * @class AbstractArrayStack
- *
- * @brief Classe base abstrata para uma pilha de tamanho fixo implementada
- * usando um array.
- *
- * Esta classe fornece um modelo para implementar uma pilha de tamanho fixo
- * usando um array. Fornece a estrutura básica e a funcionalidade necessária
- * para uma pilha, mas não fornece a implementação para as operações reais da
- * pilha, como push() e pop(). As subclasses podem herdar desta classe e
- * implementar essas operações de acordo.
- *
- * @tparam T O tipo de elementos armazenados na pilha.
- */
+/// @brief Classe abstrata que concentra o armazenamento de uma pilha em array.
+///
+/// O array é gerenciado por um std::unique_ptr<T[]> (RAII): não há `delete`
+/// manual, a memória é liberada exatamente uma vez e `delete[]` é usado
+/// automaticamente. A cópia é profunda e a movimentação transfere a posse.
+/// @tparam T O tipo de elementos armazenados na pilha.
 template <class T> class AbstractArrayStack {
 protected:
-  T *_array = nullptr;
-  T *_top = nullptr;
+  /// Array que armazena os elementos; o elemento do topo está em
+  /// _array[_size - 1]
+  std::unique_ptr<T[]> _array;
 
-  std::size_t _capacity{};
+  /// Quantidade de elementos atualmente empilhados
+  std::size_t _size = 0;
 
-  /**
-   * @brief Constrói um objeto AbstractArrayStack com a capacidade fornecida.
-   *
-   * Este construtor inicializa um objeto AbstractArrayStack com a capacidade
-   * especificada. Aloca memória para o array usando a capacidade fornecida.
-   *
-   * @param capacidade A capacidade da pilha.
-   */
-  explicit AbstractArrayStack(std::size_t capacity) : _capacity(capacity) {
-    this->_array = new T[capacity];
+  /// Quantidade máxima de elementos que a pilha comporta
+  std::size_t _capacity = 0;
+
+  /// Construtor que aloca o armazenamento
+  /// @param capacity capacidade máxima da pilha
+  explicit AbstractArrayStack(std::size_t capacity)
+      : _array(new T[capacity]), _capacity(capacity) {}
+
+  /// Construtor de cópia profunda: copia apenas os elementos válidos
+  AbstractArrayStack(const AbstractArrayStack &source)
+      : _array(new T[source._capacity]), _size(source._size),
+        _capacity(source._capacity) {
+    std::copy(source._array.get(), source._array.get() + source._size,
+              this->_array.get());
   }
 
-  ~AbstractArrayStack() { delete[] this->_array; }
-
-  /**
-   * Contructor de cópia
-   *
-   * Cria uma nova instância de AbstractArrayStack como uma cópia de uma
-   * instância existente de AbstractArrayStack.
-   *
-   * @param source A instância a ser copiada.
-   */
-  AbstractArrayStack(const AbstractArrayStack &source) {
-    this->_capacity = source._capacity;
-    this->_array = new T[source._capacity];
-    std::copy(source._array, source._array + source._capacity, this->_array);
-    this->_top = this->_array + (source._top - source._array);
+  /// Construtor de movimentação: a origem fica vazia e sem capacidade
+  AbstractArrayStack(AbstractArrayStack &&source) noexcept
+      : _array(std::move(source._array)), _size(source._size),
+        _capacity(source._capacity) {
+    source._size = 0;
+    source._capacity = 0;
   }
 
+  /// Atribuição por cópia (copy-and-swap): é segura contra auto-atribuição e
+  /// mantém o objeto intacto se a alocação falhar
   AbstractArrayStack &operator=(const AbstractArrayStack &source) {
-    if (this != &source) {
-      delete[] this->_array;
-      this->_capacity = source._capacity;
-      this->_array = new T[source._capacity];
-      std::copy(source._array, source._array + source._capacity, this->_array);
-      this->_top = this->_array + (source._top - source._array);
-    }
+    AbstractArrayStack copy(source);
+    swapWith(copy);
     return *this;
   }
+
+  /// Atribuição por movimentação: a origem fica vazia
+  AbstractArrayStack &operator=(AbstractArrayStack &&source) noexcept {
+    AbstractArrayStack moved(std::move(source));
+    swapWith(moved);
+    return *this;
+  }
+
+  void swapWith(AbstractArrayStack &other) noexcept {
+    std::swap(this->_array, other._array);
+    std::swap(this->_size, other._size);
+    std::swap(this->_capacity, other._capacity);
+  }
+
+  ~AbstractArrayStack() = default;
 };
 
 #endif // DATA_STRUCTURE_ABSTRACTARRAYSTACK_H

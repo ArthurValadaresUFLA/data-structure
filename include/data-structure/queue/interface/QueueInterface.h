@@ -19,6 +19,10 @@
  * @tparam T O tipo de elementos a serem armazenados na fila
  */
 template <class T> class QueueInterface {
+public:
+  /// Destrutor virtual, permite destruir a fila por meio da interface
+  virtual ~QueueInterface() = default;
+
   /**
    * @brief Adiciona um elemento à fila.
    *

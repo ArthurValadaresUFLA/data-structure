@@ -7,6 +7,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <stdexcept>
 #include <utility>
 
 /// @brief Classe abstrata de todas as tabelas hash
@@ -32,7 +33,7 @@ protected:
 
   /// Função hash da tabela. A função
   /// anônima deve ser passada dentro
-  /// do contrutor. Recebe o valor no índice e
+  /// do construtor. Recebe o valor no índice e
   /// a capacidade da tabela hash.
   /// É declarado protegido a fim de
   /// que somente os herdeiros da
@@ -40,15 +41,33 @@ protected:
   /// o seu valor
   std::function<std::size_t(T value, std::size_t capacity)> _hashFunction;
 
+  AbstractHashTable()
+      : _capacity(0), _hashFunction([](T, std::size_t) { return 0; }) {}
+
   /// Construtor protegido a fim de manter
   /// a consistência da classe no que tange
-  /// ao seu carater abstrato. Recebe a capacidade
+  /// ao seu caráter abstrato. Recebe a capacidade
   /// que deve ser alocada para a tabela hash e uma
   /// função anônima que representa a função hash
   AbstractHashTable(
       std::size_t capacity,
       std::function<std::size_t(T value, std::size_t capacity)> hashFunction)
-      : _capacity(capacity), _hashFunction(std::move(hashFunction)) {}
+      : _capacity(capacity), _hashFunction(std::move(hashFunction)) {
+    if (not _hashFunction) {
+      throw std::invalid_argument("The hash function must be callable");
+    }
+  }
+
+  /// Calcula o índice da tabela ao qual o valor pertence. O resultado da
+  /// função hash é reduzido módulo a capacidade, garantindo um índice válido.
+  /// @param value valor cujo índice deve ser calculado
+  /// @throw std::logic_error se a tabela tiver capacidade zero
+  [[nodiscard]] std::size_t indexOf(const T &value) const {
+    if (_capacity == 0) {
+      throw std::logic_error("The hash table has no capacity");
+    }
+    return _hashFunction(value, _capacity) % _capacity;
+  }
 };
 
 #endif // DATA_STRUCTURE_ABSTRACTHASHTABLE_H

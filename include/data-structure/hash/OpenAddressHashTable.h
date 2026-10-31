@@ -5,126 +5,68 @@
 #ifndef DATA_STRUCTURE_OPENADDRESSHASHTABLE_H
 #define DATA_STRUCTURE_OPENADDRESSHASHTABLE_H
 
+#include <cstddef>
+#include <functional>
+#include <optional>
+#include <vector>
+
 #include "data-structure/hash/AbstractHashTable.h"
 #include "data-structure/hash/interface/HashTableInterface.h"
 
 /**
- * @class OpenAddressHashTable
- * @brief Uma implementação de tabela hash usando endereçamento aberto.
+ * @brief Tabela hash com endereçamento aberto e sondagem linear.
  *
- * Esta classe implementa a estrutura de dados OpenAddressHashTable, que é um
- * tipo de tabela hash que usa endereçamento aberto para resolver colisões. Ele
- * armazena elementos do tipo T e suporta operações básicas como adicionar
- * elementos e verificar se um elemento está presente na tabela.
+ * A busca começa na posição dada pela função hash e avança circularmente até
+ * achar o valor ou uma posição nunca ocupada. Remover marca a posição como
+ * "removida" (lápide), preservando as cadeias de sondagem. A tabela se comporta
+ * como um conjunto e possui capacidade fixa. O armazenamento é um std::vector,
+ * portanto cópia, movimentação e destruição são seguras (regra do zero).
  *
- * @tparam T O tipo de elementos armazenados na tabela hash.
- *
- * @extends AbstractHashTable<T>
- * @implements HashTableInterface<T>
- *
- * @see AbstractHashTable
- * @see HashTableInterface
+ * @tparam T O tipo de dado armazenado (comparável com `==`).
  */
 template <class T>
-class OpenAddressHashTable : AbstractHashTable<T>,
+class OpenAddressHashTable : public AbstractHashTable<T>,
                              public HashTableInterface<T> {
 private:
-  T *_table = nullptr;
+  struct Slot {
+    std::optional<T> value;
+    bool removed = false; // lápide: já esteve ocupada
+  };
+
+  std::vector<Slot> _table;
+  std::size_t _size = 0;
+
+  /// Posição do valor na tabela, ou _capacity se ele não estiver presente
+  [[nodiscard]] std::size_t locate(const T &value) const;
 
 public:
+  /// Cria uma tabela sem capacidade
+  OpenAddressHashTable() : AbstractHashTable<T>() {}
+
+  /**
+   * @brief Cria uma tabela com a capacidade e a função hash informadas.
+   * @param capacity número de posições da tabela
+   * @param hashFunction função que recebe o valor e a capacidade e retorna um
+   * índice; o resultado é reduzido módulo a capacidade
+   */
   OpenAddressHashTable(
       std::size_t capacity,
       std::function<std::size_t(T value, std::size_t capacity)> hashFunction);
 
-  /**
-   * @brief Constrói um novo objeto OpenAddressHashTable copiando outro objeto
-   * OpenAddressHashTable.
-   *
-   * Este construtor cria um novo objeto OpenAddressHashTable e o inicializa
-   * copiando o conteúdo de outro objeto OpenAddressHashTable. A capacidade e a
-   * função hash são passadas do outro objeto para o novo objeto. A memória é
-   * alocada para a tabela do novo objeto e os elementos são copiados da tabela
-   * do outro objeto para a tabela do novo objeto.
-   *
-   * @param other O objeto OpenAddressHashTable a ser copiado.
-   */
-  OpenAddressHashTable(const OpenAddressHashTable &other)
-      : AbstractHashTable<T>(other._capacity, other._hashFunction) {
-    _table = new T[other._capacity];
-    for (std::size_t i = 0; i < other._capacity; ++i) {
-      _table[i] = other._table[i];
-    }
-  }
-
-  /**
-   * @brief Adiciona um valor ao OpenAddressHashTable.
-   *
-   * Esta função adiciona o valor especificado ao OpenAddressHashTable. Ele usa
-   * a função hash fornecida para calcular o índice onde o valor deve ser
-   * colocado. Se o índice já estiver ocupado, ele sondará linearmente até que
-   * um slot vazio seja encontrado.
-   *
-   * @tparam T O tipo de elementos armazenados na tabela hash.
-   * @param value O valor a ser adicionado.
-   *
-   * @see OpenAddressHashTable
-   */
+  /// Adiciona o valor, caso ainda não esteja presente
+  /// @throw std::runtime_error se o valor for novo e a tabela estiver cheia
   void add(const T &value) override;
 
-  /**
-   * @brief Verifica se OpenAddressHashTable contém um valor específico.
-   *
-   * Esta função verifica se OpenAddressHashTable contém o valor especificado.
-   * Ele usa uma estratégia de sondagem linear para resolver colisões durante a
-   * pesquisa. A função retorna verdadeiro se o valor for encontrado e falso
-   * caso contrário.
-   *
-   * @tparam T O tipo de elementos armazenados no OpenAddressHashTable.
-   * @param value O valor a ser pesquisado no OpenAddressHashTable.
-   * @return true se o valor for encontrado, false caso contrário.
-   *
-   * @see OpenAddressHashTable
-   */
-  bool contains(const T &value) const override;
+  /// Verifica se o valor está contido na tabela
+  [[nodiscard]] bool contains(const T &value) const override;
 
-  /**
-   * @brief Verifica se o OpenAddressHashTable está cheio.
-   *
-   * @return True se OpenAddressHashTable estiver cheio, caso contrário, false.
-   *
-   * @see OpenAddressHashTable
-   */
+  /// Verifica se todas as posições da tabela estão ocupadas
   [[nodiscard]] bool isFull() const;
 
-  /**
-   * @brief Sobrecarga do operador de atribuição para OpenAddressHashTable.
-   *
-   * O operador de atribuição permite atribuir o conteúdo de um objeto
-   * OpenAddressHashTable para outro objeto OpenAddressHashTable. Se o objeto
-   * atribuído contém dados, esses dados são liberados antes da nova atribuição.
-   * A capacidade e a função hash são copiadas do objeto de origem, e os
-   * elementos da tabela de origem são transferidos para a nova tabela.
-   *
-   * @param other O objeto OpenAddressHashTable a ser atribuído.
-   * @return Uma referência para o objeto OpenAddressHashTable atribuído.
-   */
-  OpenAddressHashTable &operator=(const OpenAddressHashTable &other) {
-    if (this != &other) {
-      // Libera a memória alocada anteriormente
-      delete[] _table;
-
-      // Copia a capacidade e a função hash
-      this->_capacity = other._capacity;
-      this->_hashFunction = other._hashFunction;
-
-      // Aloca nova memória e copia os elementos da tabela de origem
-      _table = new T[other._capacity];
-      for (std::size_t i = 0; i < other._capacity; ++i) {
-        _table[i] = other._table[i];
-      }
-    }
-    return *this;
-  }
+  /// Remove o valor da tabela, se estiver presente
+  void remove(const T &value) override;
 };
+
+#include "data-structure/hash/OpenAddressHashTable.cpp"
 
 #endif // DATA_STRUCTURE_OPENADDRESSHASHTABLE_H

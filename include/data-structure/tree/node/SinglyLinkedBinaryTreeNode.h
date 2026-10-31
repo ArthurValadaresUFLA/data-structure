@@ -93,6 +93,11 @@ public:
    * @param value O novo valor a ser armazenado no nó.
    */
   void setValue(T value) override;
+
+  /// Retorna o número de filhos (0, 1 ou 2) do nó
+  [[nodiscard]] int childCount() const override;
 };
+
+#include "data-structure/tree/node/SinglyLinkedBinaryTreeNode.cpp"
 
 #endif // DATA_STRUCTURE_SINGLYLINKEDBINARYTREENODE_H

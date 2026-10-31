@@ -1,29 +1,27 @@
 //
-// Created by arthur on 29/07/24.
+// Created by arthur on 06/08/24.
 //
 
 #ifndef DATA_STRUCTURE_ABSTRACTBINARYSEARCHTREE_H
 #define DATA_STRUCTURE_ABSTRACTBINARYSEARCHTREE_H
 
+#include "data-structure/tree/node/interface/DoublyLinkedBinaryTreeNodeInterface.h"
 #include "data-structure/tree/node/interface/SinglyLinkedBinaryTreeNodeInterface.h"
 
-/**
- * @class AbstractBinarySearchTree
- * @brief Representa uma árvore de pesquisa binária abstrata.
- *
- * A classe AbstractBinarySearchTree fornece uma implementação básica de uma
- * árvore de pesquisa binária. Inclui uma variável de membro protegida _root que
- * aponta para o nó raiz da árvore.
- *
- * @tparam T O tipo de valor armazenado na árvore.
- */
-template <class T> class AbstractBinarySearchTree {
+/// @brief Classe abstrata que guarda a raiz de uma árvore binária de busca.
+///
+/// A árvore é dona de todos os nós alcançáveis a partir da raiz.
+/// @tparam T tipo dos valores armazenados
+/// @tparam Node interface dos nós usados pela árvore
+template <class T, class Node = SinglyLinkedBinaryTreeNodeInterface<T>>
+class AbstractBinarySearchTree {
 protected:
-  SinglyLinkedBinaryTreeNodeInterface<T> *_root = nullptr;
+  /// Raiz da árvore (nullptr se estiver vazia)
+  Node *_root = nullptr;
 
-  explicit AbstractBinarySearchTree(
-      SinglyLinkedBinaryTreeNodeInterface<T> *root)
-      : _root(root) {}
+  /// Construtor protegido
+  /// @param root raiz inicial
+  explicit AbstractBinarySearchTree(Node *root) : _root(root) {}
 };
 
 #endif // DATA_STRUCTURE_ABSTRACTBINARYSEARCHTREE_H

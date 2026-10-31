@@ -6,43 +6,42 @@
 
 #include <stdexcept>
 
-template <class T> size_t ArrayStack<T>::size() const {
-  if (this->_top == nullptr) {
-    return 0;
-  }
-
-  return this->_top - this->_array;
+template <class T> std::size_t ArrayStack<T>::size() const {
+  return this->_size;
 }
 
 template <class T> T ArrayStack<T>::peek() const {
-  if (this->_top != nullptr) {
-    return *(this->_top);
+  if (this->_size == 0) {
+    throw std::runtime_error("The array stack is empty");
   }
 
-  throw std::runtime_error("The array stack is empty");
+  return this->_array[this->_size - 1];
 }
 
 template <class T> T ArrayStack<T>::unstack() {
-  if (this->_top != nullptr) {
-    T data = *(this->_top);
-    this->_top--;
-    return data;
+  if (this->_size == 0) {
+    throw std::runtime_error("The array stack is empty");
   }
-  throw std::runtime_error("The array stack is empty");
+
+  return this->_array[--this->_size];
 }
 
 template <class T> void ArrayStack<T>::stackUp(T data) {
-  if (this->_top != nullptr and this->_top < this->_array + this->_capacity) {
-    this->_top++;
-    *(this->_top) = data;
-  } else if (this->_top == nullptr) {
-    this->_top = this->_array;
-    *(this->_top) = data;
-  } else {
+  if (this->_size == this->_capacity) {
     throw std::runtime_error("The stack array is full");
   }
+
+  this->_array[this->_size++] = std::move(data);
 }
 
 template <class T> bool ArrayStack<T>::empty() const {
-  return this->_top == nullptr;
+  return this->_size == 0;
+}
+
+template <class T> bool ArrayStack<T>::isFull() const {
+  return this->_size == this->_capacity;
+}
+
+template <class T> std::size_t ArrayStack<T>::getCapacity() const {
+  return this->_capacity;
 }

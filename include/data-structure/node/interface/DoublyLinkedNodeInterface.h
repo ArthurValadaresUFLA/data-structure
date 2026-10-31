@@ -22,7 +22,7 @@ public:
   /// @param next representa o próximo nó do encadeamento
   virtual void setNext(DoublyLinkedNodeInterface<T> *next) = 0;
 
-  /// Método de acesso para o nó antescessor no encadeamento, puramente abstrato
+  /// Método de acesso para o nó antecessor no encadeamento, puramente abstrato
   /// @return nó anterior no encadeamento
   virtual DoublyLinkedNodeInterface<T> *getPrevious() const = 0;
 

@@ -26,13 +26,14 @@ private:
   /// Atributo usado para representar o próximo nó
   /// do tópico. A princípio o
   /// valor é nulo.
-  T *_next = nullptr;
+  SinglyLinkedNodeInterface<T> *_next = nullptr;
 
 public:
   /// Construtor público usado para inicializar todos os atributos da classe
   /// @param data o valor dos dados a serem interrompidos no nó
   /// @param próximo ao próximo nó duplamente vinculado da cadeia
-  SinglyLinkedNode(T data, T *next) : AbstractNode<T>(data), _next(next) {}
+  SinglyLinkedNode(T data, SinglyLinkedNodeInterface<T> *next)
+      : AbstractNode<T>(data), _next(next) {}
 
   /// Construtor público usado para inicializar o atributo contido no nó.
   /// O método deve ser declarado com a palavra-chave explícita porque é
@@ -55,6 +56,12 @@ public:
   /// dele
   /// @return o valor armazenado no nó
   T getData() const override;
+
+  /// Método usado para obter, por referência, o dado armazenado no nó
+  /// @returns referência para o dado
+  T &getDataRef() override;
 };
+
+#include "data-structure/node/SinglyLinkedNode.cpp"
 
 #endif // DATA_STRUCTURE_SINGLYLINKEDNODE_H

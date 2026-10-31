@@ -5,56 +5,50 @@
 #include "data-structure/queue/ArrayQueue.h"
 
 #include <stdexcept>
-
-template <class T> ArrayQueue<T>::~ArrayQueue() { delete[] this->array; }
+#include <utility>
 
 template <class T> void ArrayQueue<T>::queue(T data) {
-  if (this->_begin == nullptr and this->_end == nullptr) {
-    this->array[0] = data;
-    this->_begin = &(this->array)[0];
-    this->_end = &(this->array)[0];
-  } else if (this->_end - this->_begin < this->_capacity and
-             this->_end - this->array < this->_capacitys) {
-    this->_end++;
-    *(this->_end) = data;
-  } else if (this->_end - this->_begin < this->_capacity and
-             this->_end - this->array == this->_capacity) {
-    this->_end = (this->_end + 1 - this->array) % this->_capacity + this->array;
-    *(this->_end) = data;
-  } else {
-    throw std::runtime_error("The _array queue is full");
+  if (this->_size == this->_capacity) {
+    throw std::runtime_error("The array queue is full");
   }
+
+  std::size_t tail = (this->_head + this->_size) % this->_capacity;
+  this->_array[tail] = std::move(data);
+  this->_size++;
 }
 
 template <class T> T ArrayQueue<T>::dequeue() {
-  if (this->_begin == this->_end and this->_begin != nullptr) {
-    T data = *(this->_begin);
-
-    this->_begin = nullptr;
-    this->_end = nullptr;
-
-    return data;
-  } else if (this->_begin == this->_end and this->_begin == nullptr) {
+  if (this->_size == 0) {
     throw std::runtime_error("The queue is empty");
-  } else {
-    T data = *(this->_begin);
-    this->_begin =
-        (this->_begin + 1 - this->array) % this->_capacity + this->array;
-    return data;
   }
+
+  T data = this->_array[this->_head];
+  this->_head = (this->_head + 1) % this->_capacity;
+  this->_size--;
+
+  return data;
 }
 
-template <class T> size_t ArrayQueue<T>::size() const {
-  if (this->_end > this->_begin) {
-    return this->_end - this->_begin;
-  }
-
-  return (this->_end - this->array) +
-         (this->array + this->_capacity - this->_begin);
+template <class T> std::size_t ArrayQueue<T>::size() const {
+  return this->_size;
 }
 
 template <class T> bool ArrayQueue<T>::isEmpty() const {
-  return this->_end == nullptr and this->_begin == nullptr;
+  return this->_size == 0;
 }
 
-template <class T> T ArrayQueue<T>::peek() const { return *(this->_begin); }
+template <class T> T ArrayQueue<T>::peek() const {
+  if (this->_size == 0) {
+    throw std::runtime_error("The queue is empty");
+  }
+
+  return this->_array[this->_head];
+}
+
+template <class T> bool ArrayQueue<T>::isFull() const {
+  return this->_size == this->_capacity;
+}
+
+template <class T> std::size_t ArrayQueue<T>::getCapacity() const {
+  return this->_capacity;
+}

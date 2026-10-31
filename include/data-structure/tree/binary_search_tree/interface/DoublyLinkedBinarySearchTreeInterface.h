@@ -22,6 +22,9 @@
  */
 template <class T> class DoublyLinkedBinarySearchTreeInterface {
 public:
+  /// Destrutor virtual, permite destruir a árvore por meio da interface
+  virtual ~DoublyLinkedBinarySearchTreeInterface() = default;
+
   /**
    * @brief Insere um valor na árvore de pesquisa binária.
    *
@@ -55,7 +58,7 @@ public:
    * @return Um ponteiro para o nó com o valor fornecido ou nullptr se não for
    * encontrado.
    */
-  virtual DoublyLinkedBinaryTreeNodeInterface<T> *
+  virtual const DoublyLinkedBinaryTreeNodeInterface<T> *
   search(const T &value) const = 0;
 };
 

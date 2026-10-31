@@ -17,6 +17,9 @@
  */
 template <class T> class HeapInterface {
 public:
+  /// Destrutor virtual, permite destruir o heap por meio da interface
+  virtual ~HeapInterface() = default;
+
   /**
    * Recupera o índice do nó pai do índice especificado no heap.
    *
@@ -29,7 +32,8 @@ public:
    * @note O atributo `[[nodiscard]]` indica que o valor de retorno não deve ser
    * ignorado.
    */
-  [[nodiscard]] virtual std::size_t parentOf(const std::size_t &index) = 0;
+  [[nodiscard]] virtual std::size_t
+  parentOf(const std::size_t &index) const = 0;
 
   /**
    * @brief Retorna o índice do filho direito do índice fornecido.
@@ -41,7 +45,8 @@ public:
    * @param index O índice do nó pai.
    * @return O índice do filho direito do nó pai.
    */
-  [[nodiscard]] virtual std::size_t rightChildOf(const size_t &index) = 0;
+  [[nodiscard]] virtual std::size_t
+  rightChildOf(const std::size_t &index) const = 0;
 
   /**
    * @brief Retorna o índice do nó filho esquerdo do índice especificado no
@@ -60,7 +65,8 @@ public:
    * @note O atributo `[[nodiscard]]` indica que o valor de retorno não deve ser
    * ignorado.
    */
-  [[nodiscard]] virtual std::size_t leftChildOf(const std::size_t &index) = 0;
+  [[nodiscard]] virtual std::size_t
+  leftChildOf(const std::size_t &index) const = 0;
 
   /**
    * @brief Retorna o valor do elemento raiz no heap.
@@ -89,7 +95,7 @@ public:
    *
    * @return O valor do elemento raiz removido.
    */
-  [[nodiscard]] virtual T removeRoot() const = 0;
+  virtual T removeRoot() = 0;
 
   /**
    * Esta é uma função virtual que insere um valor no heap.

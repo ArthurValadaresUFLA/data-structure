@@ -16,6 +16,10 @@
  */
 template <class T> class TreeNodeInterface {
 public:
+  /// Destrutor virtual: nós são destruídos por meio de ponteiros para a
+  /// interface. Um nó não é dono dos filhos; a árvore é quem os libera.
+  virtual ~TreeNodeInterface() = default;
+
   /**
    * @brief Obtenha o valor armazenado no nó da árvore.
    *

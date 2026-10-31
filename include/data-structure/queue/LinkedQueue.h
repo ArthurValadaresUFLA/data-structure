@@ -5,93 +5,61 @@
 #ifndef DATA_STRUCTURE_LINKEDQUEUE_H
 #define DATA_STRUCTURE_LINKEDQUEUE_H
 
-#include "data-structure/node/DoublyLinkedNode.h"
+#include <cstddef>
+
+#include "data-structure/node/SinglyLinkedNode.h"
 #include "data-structure/queue/AbstractLinkedQueue.h"
 #include "data-structure/queue/interface/QueueInterface.h"
 
 /**
  * @class LinkedQueue
- * @brief Uma classe que representa uma implementação de fila vinculada
+ * @brief Fila encadeada de capacidade ilimitada.
+ *
+ * A fila é dona dos nós, alocados dinamicamente a cada enfileiramento e
+ * liberados a cada desenfileiramento e no destrutor. Todas as operações são
+ * O(1). A cópia é profunda; a movimentação transfere a posse dos nós.
+ *
  * @tparam T O tipo de dados armazenados na fila
- *
- * Esta classe fornece uma implementação básica de uma fila vinculada usando nós
- * duplamente vinculados. É uma classe abstrata destinado a ser herdado por
- * outras classes que implementam estruturas de dados de fila específicas.
- *
- * @see AbstractLinkedQueue, QueueInterface, DoublyLinkedNodeInterface,
- * AbstractNode
  */
 template <class T>
-class LinkedQueue : AbstractLinkedQueue<T>, QueueInterface<T> {
-private:
-  /**
-   * @class LinkedQueue
-   * @brief Uma classe que representa uma implementação de uma fila vinculada
-   * @tparam T O tipo de dados armazenados na fila
-   *
-   * Esta classe fornece uma implementação básica de uma fila vinculada usando
-   * nós duplamente vinculados. É uma classe abstrata destinado a ser herdado
-   * por outras classes que implementam estruturas de dados de fila específicas.
-   *
-   * @see AbstractLinkedQueue, QueueInterface, DoublyLinkedNodeInterface,
-   * AbstractNode
-   */
-  LinkedQueue(DoublyLinkedNode<T> *begin, DoublyLinkedNode<T> *end)
-      : AbstractLinkedQueue<T>(begin, end) {}
-
+class LinkedQueue : AbstractLinkedQueue<T>, public QueueInterface<T> {
 public:
-private:
-  /**
-   * @brief Adiciona um elemento ao final da fila
-   *
-   * Esta função adiciona um elemento ao final da fila.
-   * Se a fila estiver vazia, o elemento se torna o
-   * início e fim da fila. Caso contrário, o elemento
-   * é inserido após o final atual da fila.
-   *
-   * @param data O elemento a ser adicionado à fila
-   * @tparam T O tipo de dados a serem armazenados na fila
-   *
-   * @see dequeue(), size(), isEmpty(), peek()
-   */
+  /// Cria uma fila vazia
+  LinkedQueue() : AbstractLinkedQueue<T>(nullptr, nullptr) {}
+
+  /// Construtor de cópia profunda
+  LinkedQueue(const LinkedQueue &other);
+
+  /// Construtor de movimentação: a fila de origem fica vazia
+  LinkedQueue(LinkedQueue &&other) noexcept;
+
+  /// Atribuição por cópia ou movimentação (copy-and-swap)
+  LinkedQueue &operator=(LinkedQueue other) noexcept;
+
+  /// Destrutor: libera todos os nós
+  ~LinkedQueue() override;
+
+  /// Troca o conteúdo com outra fila, em O(1)
+  void swap(LinkedQueue &other) noexcept;
+
+  /// Adiciona um elemento ao final da fila
   void queue(T data) override;
 
-  /**
-   * @brief Remove e retorna o elemento no início da fila.
-   *
-   * Esta função remove e retorna o elemento no início da fila. Se a fila
-   * estiver vazia, nullptr será retornado.
-   *
-   * @tparam T O tipo de dados armazenados na fila.
-   * @return O elemento no início da fila ou nullptr se a fila estiver vazia.
-   */
+  /// Remove e retorna o elemento do início da fila
+  /// @throw std::runtime_error se a fila estiver vazia
   T dequeue() override;
 
-  /**
-   * @brief Obtenha o tamanho do LinkedQueue.
-   *
-   * Esta função retorna o número de elementos no LinkedQueue.
-   *
-   * @return O tamanho do LinkedQueue como um valor size_t.
-   */
-  [[nodiscard]] size_t size() const override;
+  /// Retorna o número de elementos na fila
+  [[nodiscard]] std::size_t size() const override;
 
-  /**
-   * @brief Verifica se a fila vinculada está vazia.
-   *
-   * @return true se a fila vinculada estiver vazia; caso contrário, false.
-   */
+  /// Verifica se a fila está vazia
   [[nodiscard]] bool isEmpty() const override;
 
-  /**
-   * Retorna o elemento no início da fila sem removê-lo.
-   *
-   * @tparam T O tipo de dados armazenados na fila.
-   * @return O elemento no início da fila.
-   *
-   * @see LinkedQueue::dequeue(), LinkedQueue::isEmpty()
-   */
+  /// Retorna o elemento do início da fila (o próximo a sair) sem removê-lo
+  /// @throw std::runtime_error se a fila estiver vazia
   T peek() const override;
 };
+
+#include "data-structure/queue/LinkedQueue.cpp"
 
 #endif // DATA_STRUCTURE_LINKEDQUEUE_H

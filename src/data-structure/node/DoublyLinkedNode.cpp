@@ -18,6 +18,8 @@ template <class T> T DoublyLinkedNode<T>::getData() const {
   return this->_data;
 }
 
+template <class T> T &DoublyLinkedNode<T>::getDataRef() { return this->_data; }
+
 template <class T>
 void DoublyLinkedNode<T>::setPrevious(DoublyLinkedNodeInterface<T> *previous) {
   this->_previous = previous;
