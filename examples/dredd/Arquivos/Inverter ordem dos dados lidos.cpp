@@ -2,7 +2,11 @@
 # Arquivo - Inverter ordem dos dados lidos
 
 
-Leia um vetor de números inteiros de um arquivo texto "entrada.txt". O número de elementos no arquivo não será informado, mas sabe-se que o arquivo contém no máximo 100 números. Seu trabalho é escrever um arquivo "saida.txt", com os dados do arquivo lido, mas escritos em ordem inversa. Ou seja, o primeiro valor lido deverá ser o último escrito, e vice-versa.
+Leia um vetor de números inteiros de um arquivo texto "entrada.txt". O número de
+elementos no arquivo não será informado, mas sabe-se que o arquivo contém no
+máximo 100 números. Seu trabalho é escrever um arquivo "saida.txt", com os dados
+do arquivo lido, mas escritos em ordem inversa. Ou seja, o primeiro valor lido
+deverá ser o último escrito, e vice-versa.
 
 ### Entradas
 
@@ -13,8 +17,8 @@ Leia um vetor de números inteiros de um arquivo texto "entrada.txt". O número 
 ### Saídas
 
 ```
-1. Arquivo texto saida.txt contendo até 100 números inteiros, com os dados escritos em ordem inversa ao de 
-leitura  do arquivo entrada.txt.
+1. Arquivo texto saida.txt contendo até 100 números inteiros, com os dados
+escritos em ordem inversa ao de leitura  do arquivo entrada.txt.
 ```
 
 ### Exemplo de Entrada (entrada.txt)
@@ -42,28 +46,28 @@ leitura  do arquivo entrada.txt.
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-void escreveSaidaRecursiva(int *arr, int indexArr, std::ifstream &arqEntrada, std::ofstream &arqSaida){
+void escreveSaidaRecursiva(int *arr, int indexArr, std::ifstream &arqEntrada,
+                           std::ofstream &arqSaida) {
 
-    if(arqEntrada >> arr[indexArr]){
-        escreveSaidaRecursiva(arr, indexArr + 1, arqEntrada, arqSaida);
-        arqSaida << arr[indexArr] << " ";
-    }
-
+  if (arqEntrada >> arr[indexArr]) {
+    escreveSaidaRecursiva(arr, indexArr + 1, arqEntrada, arqSaida);
+    arqSaida << arr[indexArr] << " ";
+  }
 }
 
-int main(){
+int main() {
 
-    std::ifstream arqEntrada("entrada.txt");
-    std::ofstream arqSaida("saida.txt");
+  std::ifstream arqEntrada("entrada.txt");
+  std::ofstream arqSaida("saida.txt");
 
-    int *arr = new int[100];
+  int *arr = new int[100];
 
-    escreveSaidaRecursiva(arr, 0, arqEntrada, arqSaida);
+  escreveSaidaRecursiva(arr, 0, arqEntrada, arqSaida);
 
-    delete[] arr;
+  delete[] arr;
 
-    return 0;
+  return 0;
 }

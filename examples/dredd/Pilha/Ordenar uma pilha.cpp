@@ -1,8 +1,11 @@
 /*
-# Ordenar uma pilha 
+# Ordenar uma pilha
 
 
-Implemente um estrutura de dados do tipo pilha com as operações de empilhar e desempilhar. Adicione um método que, utilizando uma pilha auxiliar, faça a ordenação crescente da pilha original, com o menor elemento no topo da pilha. Nenhuma outra estrutura pode ser utilizada além da pilha auxiliar.
+Implemente um estrutura de dados do tipo pilha com as operações de empilhar e
+desempilhar. Adicione um método que, utilizando uma pilha auxiliar, faça a
+ordenação crescente da pilha original, com o menor elemento no topo da pilha.
+Nenhuma outra estrutura pode ser utilizada além da pilha auxiliar.
 
 ### Entradas
 
@@ -45,144 +48,60 @@ Implemente um estrutura de dados do tipo pilha com as operações de empilhar e 
 */
 
 #include <iostream>
-#include <stdexcept>
+
+#include "data-structure/stack/LinkedStack.h"
+#include "data-structure/stack/interface/StackInterface.h"
 
 typedef int Dado;
 
-class Noh{
-    
-    //permite o acesso da stack aos atributos privados do noh
-    friend class PilhaEncadeada;
+// Ordena a pilha de modo que o menor elemento fique no topo, usando apenas as
+// operações da interface e uma pilha auxiliar.
+void ordenarPilha(StackInterface<Dado> &pilha) {
 
-    public:
-        Noh(const Dado &d) : dado(d), proximo(nullptr) {}
-    
-    // noh armazena um dado e um ponteiro para o proximo elemento
-    private:
-        Dado dado;
-        Noh* proximo;
-};
+  LinkedStack<Dado> auxiliar;
+  StackInterface<Dado> &pilhaAux = auxiliar;
+  Dado dadoAux;
 
-class PilhaEncadeada{
+  while (!pilha.empty()) {
 
-    public:
-        PilhaEncadeada();
-        ~PilhaEncadeada();
-        Dado desempilhar();
-        void empilhar(const Dado &d);
-        Dado espiarTopo();
-        bool vazia();
-        void limparTudo();
-        unsigned int getTamanho();
-        void ordenarPilha();
+    dadoAux = pilha.unstack();
 
-    // stack armazena ponteiro para o topo e o tamanho da mesma
-    private:
-        Noh* topo;
-        unsigned int tamanho;
-};
+    while (!pilhaAux.empty() && dadoAux > pilhaAux.peek())
+      pilha.stackUp(pilhaAux.unstack());
 
-PilhaEncadeada::PilhaEncadeada(){
-    tamanho = 0;
-    topo = nullptr;
+    pilhaAux.stackUp(dadoAux);
+  }
+
+  // devolve os dados já ordenados para a pilha original. Como transferir de
+  // uma pilha para outra inverte a ordem, usamos uma segunda pilha auxiliar
+  // para inverter duas vezes e manter o menor elemento no topo.
+  LinkedStack<Dado> invertida;
+  StackInterface<Dado> &pilhaInvertida = invertida;
+
+  while (!pilhaAux.empty())
+    pilhaInvertida.stackUp(pilhaAux.unstack());
+
+  while (!pilhaInvertida.empty())
+    pilha.stackUp(pilhaInvertida.unstack());
 }
 
-PilhaEncadeada::~PilhaEncadeada(){
-    limparTudo();
-}
+int main() {
 
-void PilhaEncadeada::limparTudo(){
-    
-    // apaga todos nós alocados dinamicamente
-    while(!vazia())
-        desempilhar();
-}
+  LinkedStack<Dado> implementacao;
+  StackInterface<Dado> &pilha = implementacao;
 
-void PilhaEncadeada::empilhar(const Dado &d){
+  int n, num;
+  std::cin >> n;
 
-    // cria novo nó, que passa a ser o topo da stack
+  for (int i{0}; i < n; i++) {
+    std::cin >> num;
+    pilha.stackUp(num);
+  }
 
-    Noh* novo = new Noh(d);
-    novo->proximo = topo;
-    topo = novo;
-    
-    tamanho++;
-}
+  ordenarPilha(pilha);
 
-Dado PilhaEncadeada::desempilhar(){
+  for (int i{0}; i < n; i++)
+    std::cout << pilha.unstack() << " ";
 
-    if(vazia())
-        throw std::runtime_error("Erro: stack vazia!");
-
-    // remove o elemento do topo da stack, e o novo topo passa a ser o proximo
-
-    Noh *aux = topo;
-    Dado temp = topo->dado;
-
-    topo = topo->proximo;
-    delete aux;
-
-    tamanho--;
-
-    return temp;
-
-}
-
-Dado PilhaEncadeada::espiarTopo(){
-    if(vazia())
-        throw std::runtime_error("Erro: stack vazia!");
-
-    return topo->dado;
-}
-
-bool PilhaEncadeada::vazia(){
-    return !bool(topo);
-}
-
-unsigned int PilhaEncadeada::getTamanho(){
-    return tamanho;
-}
-
-void PilhaEncadeada::ordenarPilha(){
-
-    PilhaEncadeada pilhaAux;
-    Dado dadoAux;
-
-    while(!this->vazia()){
-
-        dadoAux = this->desempilhar();
-
-        while(!pilhaAux.vazia() && dadoAux > pilhaAux.espiarTopo())
-            this->empilhar(pilhaAux.desempilhar());
-
-        pilhaAux.empilhar(dadoAux);
-
-    }
-
-    this->topo = pilhaAux.topo;
-    this->tamanho = pilhaAux.tamanho;
-
-    pilhaAux.topo = nullptr;
-    pilhaAux.tamanho = 0;
-
-}
-
-int main(){
-
-    PilhaEncadeada pilha;
-    
-    int n, num;
-    std::cin >> n;
-
-    for(int i{0}; i<n; i++){
-        std::cin >> num;
-        pilha.empilhar(num);
-    }
-
-    pilha.ordenarPilha();
-
-    for(int i{0}; i<n; i++)
-        std::cout << pilha.desempilhar() << " "; 
-
-    return 0;
+  return 0;
 }

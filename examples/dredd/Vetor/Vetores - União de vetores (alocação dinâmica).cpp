@@ -2,9 +2,15 @@
 # Vetores - União de vetores (alocação dinâmica)
 
 
-Na matemática a união de dois conjuntos A e B é representada por A ∪ B e é formada por todos os elementos pertencentes a A ou B. Por exemplo, seja A = {1, 2, 3} e B = {4, 5}, então a união destes dois conjuntos será A ∪ B = {1, 2, 3, 4, 5}, porém caso um elemento esteja em ambos os conjuntos ele não irá aparecer duas vezes no conjunto união, por exemplo, seja A = {1, 2, 3} e B = {1, 2, 4}, assim a união será A ∪ B = {1, 2, 3, 4}.
+Na matemática a união de dois conjuntos A e B é representada por A ∪ B e é
+formada por todos os elementos pertencentes a A ou B. Por exemplo, seja A = {1,
+2, 3} e B = {4, 5}, então a união destes dois conjuntos será A ∪ B = {1, 2, 3,
+4, 5}, porém caso um elemento esteja em ambos os conjuntos ele não irá aparecer
+duas vezes no conjunto união, por exemplo, seja A = {1, 2, 3} e B = {1, 2, 4},
+assim a união será A ∪ B = {1, 2, 3, 4}.
 
-Utilizando os conceitos de conjunto faça um programa que leia dois vetores A e B e determine a união. O tamanho de cada vetor será informado pelo usuário.
+Utilizando os conceitos de conjunto faça um programa que leia dois vetores A e B
+e determine a união. O tamanho de cada vetor será informado pelo usuário.
 
 **Obs.:** Considere que não existirão vetores vazios.
 
@@ -41,77 +47,72 @@ Utilizando os conceitos de conjunto faça um programa que leia dois vetores A e 
 ```
 */
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 void leituraArr(int *arr, int tamArr);
 
 void printaUniao(int *arrA, int tamA, int *arrB, int tamB);
 
-int main(){
+int main() {
 
-    int tamA, tamB, *arrA, *arrB;
-    
-    std::cin >> tamA;
-    arrA = new int[tamA];
-    leituraArr(arrA, tamA);
+  int tamA, tamB, *arrA, *arrB;
 
-    std::cin >> tamB;
-    arrB = new int[tamB];
-    leituraArr(arrB, tamB);
+  std::cin >> tamA;
+  arrA = new int[tamA];
+  leituraArr(arrA, tamA);
 
-    printaUniao(arrA, tamA, arrB, tamB);
+  std::cin >> tamB;
+  arrB = new int[tamB];
+  leituraArr(arrB, tamB);
 
-    delete[] arrA;
-    delete[] arrB;
+  printaUniao(arrA, tamA, arrB, tamB);
 
+  delete[] arrA;
+  delete[] arrB;
 }
 
-void leituraArr(int *arr, int tamArr){
+void leituraArr(int *arr, int tamArr) {
 
-    for(int i{0}; i<tamArr; i++)
-        std::cin >> arr[i];
-    
+  for (int i{0}; i < tamArr; i++)
+    std::cin >> arr[i];
 }
 
-void printaUniao(int *arrA, int tamA, int *arrB, int tamB){
+void printaUniao(int *arrA, int tamA, int *arrB, int tamB) {
 
+  int arrUniao[tamA + tamB];
+  std::memcpy(arrUniao, arrA, sizeof(int) * tamA);
 
-    int arrUniao[tamA + tamB];
-    std::memcpy(arrUniao, arrA, sizeof(int) * tamA);
+  int indexUniao{tamA};
+  int j;
 
-    int indexUniao{tamA};
-    int j;
+  for (int i{0}; i < tamB; i++) {
 
-    for(int i{0}; i<tamB; i++){
-
-        j = 0;
-        while(j < tamA && arrB[i] != arrA[j]){
-            j++;
-        }
-
-        if(j == tamA)
-            arrUniao[indexUniao++] = arrB[i];
-
+    j = 0;
+    while (j < tamA && arrB[i] != arrA[j]) {
+      j++;
     }
 
-    int indexMenor, ultimoMenor{-9999};
-    
-    for(int i{0}; i<indexUniao; i++){
-        
-        indexMenor = -1;
+    if (j == tamA)
+      arrUniao[indexUniao++] = arrB[i];
+  }
 
-        for(int j{0}; j<indexUniao; j++){
+  int indexMenor, ultimoMenor{-9999};
 
-            if(arrUniao[j] > ultimoMenor && ( indexMenor == -1 || arrUniao[j] < arrUniao[indexMenor]))
-                indexMenor = j;
+  for (int i{0}; i < indexUniao; i++) {
 
-        }
+    indexMenor = -1;
 
-        ultimoMenor = arrUniao[indexMenor]; 
-        std::cout << arrUniao[indexMenor] << " ";
+    for (int j{0}; j < indexUniao; j++) {
 
+      if (arrUniao[j] > ultimoMenor &&
+          (indexMenor == -1 || arrUniao[j] < arrUniao[indexMenor]))
+        indexMenor = j;
     }
+
+    ultimoMenor = arrUniao[indexMenor];
+    std::cout << arrUniao[indexMenor] << " ";
+  }
 }
 
 // void printaUniao(int *arrA, int tamA, int *arrB, int tamB){
@@ -128,7 +129,6 @@ void printaUniao(int *arrA, int tamA, int *arrB, int tamB){
 //             std::cout << arrA[indexA++] << " ";
 //         else
 //             std::cout << arrB[indexB++] << " ";
-        
 
 //     }
 

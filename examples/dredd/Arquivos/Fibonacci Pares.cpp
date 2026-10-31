@@ -2,7 +2,10 @@
 # Arquivos - Fibonacci Pares
 
 
-Faça um programa que receba do usuário um número N e escreva em arquivo todos os números pares que fazem parte da sequência de Fibonacci, mas que sejam menores ou iguais aseu N-ésimo termo. O nome do arquivo de saída deve ser recebido do usuário.
+Faça um programa que receba do usuário um número N e escreva em arquivo todos os
+números pares que fazem parte da sequência de Fibonacci, mas que sejam menores
+ou iguais aseu N-ésimo termo. O nome do arquivo de saída deve ser recebido do
+usuário.
 
 Considere que a sequência de Fibonacci é definida como:
 
@@ -10,7 +13,8 @@ Considere que a sequência de Fibonacci é definida como:
 * F(1) = 1;
 * F(n) = F(n-1) + F(n-2) , n > 2;
 
-**Obs.:** Considere que o zero é o primeiro termo da sequência, assim, se usuário digitar N, o programa deve gerar N-1 valores da sequência.
+**Obs.:** Considere que o zero é o primeiro termo da sequência, assim, se
+usuário digitar N, o programa deve gerar N-1 valores da sequência.
 
 **Obs.:** Lembre-se que " 0 2 8 34 " é diferente de " 02834 ".
 
@@ -43,7 +47,7 @@ fib-pares.txt
 ### Exemplo de Entrada
 
 ```
-ricci.txt    
+ricci.txt
 40
 ```
 
@@ -54,30 +58,29 @@ ricci.txt
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-int calculaFib(int n){
+int calculaFib(int n) {
 
-    if(n <= 1)
-        return n;
-    return calculaFib(n-1) + calculaFib(n-2); 
-
+  if (n <= 1)
+    return n;
+  return calculaFib(n - 1) + calculaFib(n - 2);
 }
 
-int main(){
+int main() {
 
-    std::string nomeArq;
-    int n, fib;
-    std::cin >> nomeArq >> n;
+  std::string nomeArq;
+  int n, fib;
+  std::cin >> nomeArq >> n;
 
-    std::ofstream arq(nomeArq);
+  std::ofstream arq(nomeArq);
 
-    for(int i{0}; i<n; i++){
-        fib = calculaFib(i);
-        if(!(fib % 2))
-            arq << fib << " ";
-    }
+  for (int i{0}; i < n; i++) {
+    fib = calculaFib(i);
+    if (!(fib % 2))
+      arq << fib << " ";
+  }
 
-    return 0;
+  return 0;
 }

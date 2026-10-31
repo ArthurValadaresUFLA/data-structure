@@ -1,13 +1,14 @@
 /*
-# Pilha com armazenamento de dados em arranjos 
+# Pilha com armazenamento de dados em arranjos
 
 
-Implemente uma pilha, utilizando armazenamento dos dados em arranjos (vetores). Segue esboço da implementação:
+Implemente uma pilha, utilizando armazenamento dos dados em arranjos (vetores).
+Segue esboço da implementação:
 
 ```
 typedef int Dado; // para facilitar a troca de int para outro tipo
- 
-// pilha implementada em arranjo 
+
+// pilha implementada em arranjo
 class pilhav {
     private:
         int capacidade;
@@ -20,12 +21,16 @@ class pilhav {
         void empilha(Dado valor);
         Dado desempilha();
         Dado espia(); // acessa elemento do topo, mas não retira
-        void depura(); // imprime os dados do vetor da pilha sem removê-los (desempilhar)
-        void info();  // imprime informações da pilha (tamanho e  posição do topo)
+        void depura(); // imprime os dados do vetor da pilha sem removê-los
+(desempilhar) void info();  // imprime informações da pilha (tamanho e  posição
+do topo)
 };
 ```
 
-Não é necessário tratar problemas do tipo retirada de elemento de pilha vazia ou empilhamento em pilha cheia. A aplicação principal deverá criar uma pilha com capacidade para 20 elementos e realizar as seguintes operações na ordem apresentada:
+Não é necessário tratar problemas do tipo retirada de elemento de pilha vazia ou
+empilhamento em pilha cheia. A aplicação principal deverá criar uma pilha com
+capacidade para 20 elementos e realizar as seguintes operações na ordem
+apresentada:
 
 1. Empilhar cinco elementos
 1. Desempilhar três elementos (imprimindo-os)
@@ -72,91 +77,64 @@ Não é necessário tratar problemas do tipo retirada de elemento de pilha vazia
 
 #include <iostream>
 
+#include "data-structure/stack/ArrayStack.h"
+#include "data-structure/stack/interface/StackInterface.h"
+
 typedef int Dado; // para facilitar a troca de int para outro tipo
- 
-// stack implementada em arranjo
-class pilhav {
-    private:
-        int capacidade;
-        Dado *dados;
-        int tamanho;
-        int posTopo;
-    public:
-        pilhav(int cap = 100);
-        ~pilhav();
-        void empilha(const Dado &valor);
-        Dado desempilha();
-        Dado espia(); // acessa elemento do topo, mas não retira
-        void depura(); // imprime os dados do vetor da stack sem removê-los (desempilhar)
-        void info();  // imprime informações da stack (tamanho e  posição do topo)
-};
 
-pilhav::pilhav(int cap){
+// Imprime os dados da pilha, do fundo para o topo, sem removê-los
+// definitivamente: a interface só permite acessar o topo, então os elementos
+// são transferidos para uma pilha auxiliar e depois devolvidos.
+void depura(StackInterface<Dado> &pilha, std::size_t capacidade) {
 
-    tamanho = 0;
-    posTopo = -1;
-    capacidade = cap;
+  ArrayStack<Dado> auxiliar(capacidade);
+  StackInterface<Dado> &pilhaAux = auxiliar;
 
-    dados = new Dado[cap];
+  while (!pilha.empty())
+    pilhaAux.stackUp(pilha.unstack());
 
+  // o fundo da pilha original agora está no topo da auxiliar
+  while (!pilhaAux.empty()) {
+    Dado d = pilhaAux.unstack();
+    std::cout << d << " ";
+    pilha.stackUp(d);
+  }
+  std::cout << "\n";
 }
 
-pilhav::~pilhav(){
-    delete[] dados;
+// Imprime o tamanho e a posição do topo (-1 se a pilha estiver vazia)
+void info(const StackInterface<Dado> &pilha) {
+  std::cout << pilha.size() << " " << long(pilha.size()) - 1 << "\n";
 }
 
-void pilhav::empilha(const Dado &valor){
+int main() {
 
-    dados[++posTopo] = valor;
-    tamanho++;
-}
+  const std::size_t capacidade{20};
+  ArrayStack<Dado> implementacao(capacidade);
+  StackInterface<Dado> &pilhaArr = implementacao;
+  Dado d;
 
-Dado pilhav::desempilha(){
-    tamanho--;
-    return dados[posTopo--];
-}
+  for (int i{0}; i < 5; i++) {
+    std::cin >> d;
+    pilhaArr.stackUp(d);
+  }
+  for (int i{0}; i < 3; i++) {
+    std::cout << pilhaArr.unstack() << " ";
+  }
+  std::cout << "\n";
 
-Dado pilhav::espia(){
-    return dados[posTopo];
-}
+  for (int i{0}; i < 4; i++) {
+    std::cin >> d;
+    pilhaArr.stackUp(d);
+  }
+  for (int i{0}; i < 3; i++) {
+    std::cout << pilhaArr.unstack() << " ";
+  }
+  std::cout << "\n";
 
-void pilhav::depura(){
-    for(int i{0}; i<tamanho; i++){
-        std::cout << dados[i] << " ";
-    }
-    std::cout << "\n";
-}
+  std::cout << pilhaArr.peek() << "\n";
+  depura(pilhaArr, capacidade);
+  info(pilhaArr);
 
-void pilhav::info(){
-    std::cout << tamanho << " " << posTopo << "\n";
-}
-
-int main(){
-
-    pilhav pilhaArr(20);
-    Dado d;
-
-    for(int i{0}; i<5; i++){
-        std::cin >> d;
-        pilhaArr.empilha(d);
-    }
-    for(int i{0}; i<3; i++){
-        std::cout << pilhaArr.desempilha() << " ";
-    }
-    std::cout << "\n";
-
-    for(int i{0}; i<4; i++){
-        std::cin >> d;
-        pilhaArr.empilha(d);
-    }
-    for(int i{0}; i<3; i++){
-        std::cout << pilhaArr.desempilha() << " ";
-    }
-    std::cout << "\n";
-
-    std::cout << pilhaArr.espia() << "\n";
-    pilhaArr.depura();
-    pilhaArr.info();
-
-    return 0;
+  return 0;
 }

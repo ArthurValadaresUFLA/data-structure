@@ -2,9 +2,22 @@
 # Vetores - Diferença - A invenção de Lex Luthor
 
 
-Luthor irá mais uma vez tentar algo contra o Super-Homem. Dessa vez, ele irá tentar o plano XTPO-3000-PlusAzul. Para isso, ele fez uma lista com os materiais necessários e verificou que alguns itens estavam em falta. Ele tem uma relação em computador dos itens que precisa para a invenção e uma lista dos itens que tem em posse na sua fábrica (alguns dos quais não serão necessários no plano, inclusive). Assim, ele precisa verificar quais itens da primeira lista não constam na segunda lista para poder ir buscá-los em seu estoque no subsolo.
+Luthor irá mais uma vez tentar algo contra o Super-Homem. Dessa vez, ele irá
+tentar o plano XTPO-3000-PlusAzul. Para isso, ele fez uma lista com os materiais
+necessários e verificou que alguns itens estavam em falta. Ele tem uma relação
+em computador dos itens que precisa para a invenção e uma lista dos itens que
+tem em posse na sua fábrica (alguns dos quais não serão necessários no plano,
+inclusive). Assim, ele precisa verificar quais itens da primeira lista não
+constam na segunda lista para poder ir buscá-los em seu estoque no subsolo.
 
-Para ajudá-lo, você irá implementar um algoritmo que recebe duas listas de materiais (dois vetores de strings) e imprime todos os itens que constam na primeira lista mas não constam na segunda lista. Os vetores devem ser implementados utilizando alocação dinâmica. A impressão deverá ser feita seguindo a ordem da primeira lista. Considere que os itens das listas não possuem espaço, cada lista contém o número de materiais no topo e que nenhuma lista possui itens repetidos na própria lista. Caso todos os itens da primeira lista estejam presentes na segunda, imprima NADA (todo em maiúsculo).
+Para ajudá-lo, você irá implementar um algoritmo que recebe duas listas de
+materiais (dois vetores de strings) e imprime todos os itens que constam na
+primeira lista mas não constam na segunda lista. Os vetores devem ser
+implementados utilizando alocação dinâmica. A impressão deverá ser feita
+seguindo a ordem da primeira lista. Considere que os itens das listas não
+possuem espaço, cada lista contém o número de materiais no topo e que nenhuma
+lista possui itens repetidos na própria lista. Caso todos os itens da primeira
+lista estejam presentes na segunda, imprima NADA (todo em maiúsculo).
 
 ### Entradas
 
@@ -76,42 +89,40 @@ NADA
 
 void leituraLista(int &tamLista, std::string *&lista);
 
-int main(){
+int main() {
 
-    int tamA, tamB;
-    std::string *listaA, *listaB;
+  int tamA, tamB;
+  std::string *listaA, *listaB;
 
-    leituraLista(tamA, listaA);
-    leituraLista(tamB, listaB);
+  leituraLista(tamA, listaA);
+  leituraLista(tamB, listaB);
 
-    int j;
-    bool comprouTudo{true};
+  int j;
+  bool comprouTudo{true};
 
-    for(int i{0}; i<tamA; i++){
-        
-        j = 0;
-        while(j < tamB && listaA[i] != listaB[j])
-            j++;
-        
-        if(j == tamB){
-            std::cout << listaA[i] << "\n";
-            comprouTudo = false;
-        }
+  for (int i{0}; i < tamA; i++) {
 
+    j = 0;
+    while (j < tamB && listaA[i] != listaB[j])
+      j++;
+
+    if (j == tamB) {
+      std::cout << listaA[i] << "\n";
+      comprouTudo = false;
     }
+  }
 
-    if(comprouTudo)
-        std::cout << "NADA\n";
+  if (comprouTudo)
+    std::cout << "NADA\n";
 
-    return 0;
+  return 0;
 }
 
-void leituraLista(int &tamLista, std::string *&lista){
+void leituraLista(int &tamLista, std::string *&lista) {
 
-    std::cin >> tamLista;
-    lista = new std::string[tamLista];
+  std::cin >> tamLista;
+  lista = new std::string[tamLista];
 
-    for(int i{0}; i<tamLista; i++)
-        std::cin >> lista[i];
-
+  for (int i{0}; i < tamLista; i++)
+    std::cin >> lista[i];
 }

@@ -2,9 +2,11 @@
 # Arquivos - Remover repetições
 
 
-Faça um programa que lê vários números inteiros de um arquivo texto e escreve os mesmos números, na mesma ordem, sem as repetições em outro arquivo.
+Faça um programa que lê vários números inteiros de um arquivo texto e escreve os
+mesmos números, na mesma ordem, sem as repetições em outro arquivo.
 
-O programa deverá ler do arquivo "entrada.txt" e escrever o resultado no arquivo "saida.txt"
+O programa deverá ler do arquivo "entrada.txt" e escrever o resultado no arquivo
+"saida.txt"
 
 ### Entradas
 
@@ -33,33 +35,33 @@ O programa deverá ler do arquivo "entrada.txt" e escrever o resultado no arquiv
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-int main(){
+int main() {
 
-    std::ifstream arqEntrada("entrada.txt");
-    std::ofstream arqSaida("saida.txt");
+  std::ifstream arqEntrada("entrada.txt");
+  std::ofstream arqSaida("saida.txt");
 
-    int quantidadeNum, num, j, indexArr{0};
-    arqEntrada >> quantidadeNum;
+  int quantidadeNum, num, j, indexArr{0};
+  arqEntrada >> quantidadeNum;
 
-    int *arr = new int[quantidadeNum];
+  int *arr = new int[quantidadeNum];
 
-    for(int i{0}; i<quantidadeNum; i++){
-        arqEntrada >> num;
-        j = 0;
-        while(j < indexArr && arr[j] != num)
-            j++;
-        
-        if(j == indexArr)
-            arr[indexArr++] = num;
-    }
+  for (int i{0}; i < quantidadeNum; i++) {
+    arqEntrada >> num;
+    j = 0;
+    while (j < indexArr && arr[j] != num)
+      j++;
 
-    for(int i{0}; i<indexArr;i ++)
-        arqSaida << arr[i] << " ";
+    if (j == indexArr)
+      arr[indexArr++] = num;
+  }
 
-    delete[] arr;
+  for (int i{0}; i < indexArr; i++)
+    arqSaida << arr[i] << " ";
 
-    return 0;
+  delete[] arr;
+
+  return 0;
 }

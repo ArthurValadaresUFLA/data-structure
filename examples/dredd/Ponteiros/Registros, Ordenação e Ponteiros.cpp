@@ -2,19 +2,24 @@
 # Ponteiros - Registros, Ordenação e Ponteiros
 
 
-Crie um registro para representar alunos, contendo nome, média na disciplina e número de faltas. Faça um programa que leia as informações de N alunos em um vetor alocado dinamicamente. Imprima os nomes dos alunos na ordem decrescente das médias dos alunos.
+Crie um registro para representar alunos, contendo nome, média na disciplina e
+número de faltas. Faça um programa que leia as informações de N alunos em um
+vetor alocado dinamicamente. Imprima os nomes dos alunos na ordem decrescente
+das médias dos alunos.
 
 ### Entradas
 
 ```
 1. Número inteiro N.
-2. Sequência de N informações de alunos, na ordem: nome do aluno, média e número de faltas.
+2. Sequência de N informações de alunos, na ordem: nome do aluno, média e número
+de faltas.
 ```
 
 ### Saídas
 
 ```
-1. Sequência de N nomes. Os nomes devem ser apresentados em ordem decrescente das médias dos alunos.
+1. Sequência de N nomes. Os nomes devem ser apresentados em ordem decrescente
+das médias dos alunos.
 ```
 
 ### Exemplo de Entrada
@@ -35,49 +40,49 @@ Ana
 ```
 */
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
-struct Aluno{
-    char nome[100];
-    float mediaNota;
-    int numFaltas;
+struct Aluno {
+  char nome[100];
+  float mediaNota;
+  int numFaltas;
 };
 
-bool operator<(const Aluno &alunoA, const Aluno &alunoB){
-    return alunoA.mediaNota < alunoB.mediaNota;
+bool operator<(const Aluno &alunoA, const Aluno &alunoB) {
+  return alunoA.mediaNota < alunoB.mediaNota;
 }
 
-int main(){
+int main() {
 
-    int n, numAlunos{0};
-    std::cin >> n;
+  int n, numAlunos{0};
+  std::cin >> n;
 
-    Aluno *alunos = new Aluno[n];
-    Aluno aluno;
+  Aluno *alunos = new Aluno[n];
+  Aluno aluno;
 
-    int j;
+  int j;
 
-    for(int i{0}; i<n; i++){
-        std::cin >> aluno.nome >> aluno.mediaNota >> aluno.numFaltas;
+  for (int i{0}; i < n; i++) {
+    std::cin >> aluno.nome >> aluno.mediaNota >> aluno.numFaltas;
 
-        j = 0;
-        while(j < numAlunos && aluno < alunos[j]){
-            j++;
-        }
-
-        if(j != numAlunos)
-            std::memcpy((alunos + j + 1), alunos + j, sizeof(Aluno) * (numAlunos - j));
-        
-
-        alunos[j] = aluno;
-        numAlunos++;
+    j = 0;
+    while (j < numAlunos && aluno < alunos[j]) {
+      j++;
     }
 
-    for(int i{0}; i<numAlunos; i++)
-        std::cout << alunos[i].nome << "\n";
+    if (j != numAlunos)
+      std::memcpy((alunos + j + 1), alunos + j,
+                  sizeof(Aluno) * (numAlunos - j));
 
-    delete[] alunos;
+    alunos[j] = aluno;
+    numAlunos++;
+  }
 
-    return 0;
+  for (int i{0}; i < numAlunos; i++)
+    std::cout << alunos[i].nome << "\n";
+
+  delete[] alunos;
+
+  return 0;
 }

@@ -2,11 +2,17 @@
 # Ponteiros - Provas de Uma Escola
 
 
-Um escola deseja automatizar o processo de cálculo de notas da seguinte maneira. Um registro para representar um aluno deve ser criado com o número de matrícula e notas de 2 provas.
+Um escola deseja automatizar o processo de cálculo de notas da seguinte maneira.
+Um registro para representar um aluno deve ser criado com o número de matrícula
+e notas de 2 provas.
 
-Uma matriz nxn será alocada dinamicamente e cada posição contará com um ponteiro para o tipo aluno. Os dados de todos os alunos (nxn) devem ser cadastrados, e para cada aluno será criada uma estrutura com alocação dinâmica e o respectivo ponteiro da matriz será atualizado para apontar para essa estrutura.
+Uma matriz nxn será alocada dinamicamente e cada posição contará com um ponteiro
+para o tipo aluno. Os dados de todos os alunos (nxn) devem ser cadastrados, e
+para cada aluno será criada uma estrutura com alocação dinâmica e o respectivo
+ponteiro da matriz será atualizado para apontar para essa estrutura.
 
-Após isso, a matriz terá cada coluna ordenada pela nota final do aluno (crescente), que é calculada pela média simples das duas notas.
+Após isso, a matriz terá cada coluna ordenada pela nota final do aluno
+(crescente), que é calculada pela média simples das duas notas.
 
 ### Entradas
 
@@ -39,9 +45,9 @@ Após isso, a matriz terá cada coluna ordenada pela nota final do aluno (cresce
 
 #include <iostream>
 
-struct Aluno{
-    int matricula, notaA, notaB;
-    float media;
+struct Aluno {
+  int matricula, notaA, notaB;
+  float media;
 };
 
 // bool operator<(const Aluno &alunoA, const Aluno &alunoB){
@@ -51,74 +57,70 @@ struct Aluno{
 //     return mediaA < mediaB;
 // }
 
-bool operator<(const Aluno &alunoA, const Aluno &alunoB){
-    
-    return alunoA.media < alunoB.media;
+bool operator<(const Aluno &alunoA, const Aluno &alunoB) {
+
+  return alunoA.media < alunoB.media;
 }
 
-void selectionSort(Aluno ***matrizAlunos, int tamMatriz, int indexColuna){
+void selectionSort(Aluno ***matrizAlunos, int tamMatriz, int indexColuna) {
 
-    int indexMenor;
-    Aluno *aux;
+  int indexMenor;
+  Aluno *aux;
 
-    for(int i{0}; i<(tamMatriz - 1); i++){
+  for (int i{0}; i < (tamMatriz - 1); i++) {
 
-        indexMenor = i;
-        for(int j{indexMenor + 1}; j<tamMatriz; j++){
+    indexMenor = i;
+    for (int j{indexMenor + 1}; j < tamMatriz; j++) {
 
-            if((*matrizAlunos[j][indexColuna]) < (*matrizAlunos[indexMenor][indexColuna])){
-                indexMenor = j;
-            }
-
-        }
-
-        if(indexMenor != i){
-            aux = matrizAlunos[i][indexColuna];
-            matrizAlunos[i][indexColuna] = matrizAlunos[indexMenor][indexColuna];
-            matrizAlunos[indexMenor][indexColuna] = aux;
-        }
-
-
+      if ((*matrizAlunos[j][indexColuna]) <
+          (*matrizAlunos[indexMenor][indexColuna])) {
+        indexMenor = j;
+      }
     }
 
-
+    if (indexMenor != i) {
+      aux = matrizAlunos[i][indexColuna];
+      matrizAlunos[i][indexColuna] = matrizAlunos[indexMenor][indexColuna];
+      matrizAlunos[indexMenor][indexColuna] = aux;
+    }
+  }
 }
 
-int main(){
+int main() {
 
-    int n;
-    std::cin >> n;
+  int n;
+  std::cin >> n;
 
-    Aluno ***matrizAlunos = new Aluno**[n];
-    for(int i{0}; i<n; i++)
-        matrizAlunos[i] = new Aluno*[n];
+  Aluno ***matrizAlunos = new Aluno **[n];
+  for (int i{0}; i < n; i++)
+    matrizAlunos[i] = new Aluno *[n];
 
-    for(int i{0}; i<n; i++){
-        for(int j{0}; j<n; j++){
+  for (int i{0}; i < n; i++) {
+    for (int j{0}; j < n; j++) {
 
-            matrizAlunos[i][j] = new Aluno;
-            std::cin >> matrizAlunos[i][j]->matricula >> matrizAlunos[i][j]->notaA >> matrizAlunos[i][j]->notaB;
-            matrizAlunos[i][j]->media = (matrizAlunos[i][j]->notaA + matrizAlunos[i][j]->notaB)/2.0;
-        }
+      matrizAlunos[i][j] = new Aluno;
+      std::cin >> matrizAlunos[i][j]->matricula >> matrizAlunos[i][j]->notaA >>
+          matrizAlunos[i][j]->notaB;
+      matrizAlunos[i][j]->media =
+          (matrizAlunos[i][j]->notaA + matrizAlunos[i][j]->notaB) / 2.0;
+    }
+  }
+
+  for (int i{0}; i < n; i++)
+    selectionSort(matrizAlunos, n, i);
+
+  for (int i{0}; i < n; i++) {
+    for (int j{0}; j < n; j++) {
+
+      std::cout << matrizAlunos[i][j]->matricula << " ";
     }
 
-    for(int i{0}; i<n; i++)
-        selectionSort(matrizAlunos, n, i);
+    std::cout << "\n";
+  }
 
+  for (int i{0}; i < n; i++)
+    delete[] matrizAlunos[i];
+  delete[] matrizAlunos;
 
-    for(int i{0}; i<n; i++){
-        for(int j{0}; j<n; j++){
-
-            std::cout << matrizAlunos[i][j]->matricula << " ";
-        }
-
-        std::cout << "\n";
-    }
-
-
-    for(int i{0}; i<n; i++)
-        delete[] matrizAlunos[i];
-    delete[] matrizAlunos;
-
-    return 0;
+  return 0;
 }

@@ -2,7 +2,9 @@
 # Arquivos - Caracteres não brancos
 
 
-Faça um programa que abra um arquivo texto chamado "Meu_Arquivo.txt" e conte o número de caracteres não brancos nele. Escreva o resultado da contagem na saída padrão.
+Faça um programa que abra um arquivo texto chamado "Meu_Arquivo.txt" e conte o
+número de caracteres não brancos nele. Escreva o resultado da contagem na saída
+padrão.
 
 ### Entradas
 
@@ -29,22 +31,22 @@ Vou aproveitar os exercicios do dredd para estudar muito e tirar 100 em IALG!!
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-int main(){
+int main() {
 
-    const std::string nomeArq{"Meu_Arquivo.txt"};
-    std::ifstream arq(nomeArq);
+  const std::string nomeArq{"Meu_Arquivo.txt"};
+  std::ifstream arq(nomeArq);
 
-    char c;
-    int contador{0};
+  char c;
+  int contador{0};
 
-    while(arq >> c)
-        if(c != 32)
-            contador++;
+  while (arq >> c)
+    if (c != 32)
+      contador++;
 
-    std::cout << contador << "\n";
+  std::cout << contador << "\n";
 
-    return 0;
+  return 0;
 }

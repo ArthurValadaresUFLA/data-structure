@@ -2,9 +2,18 @@
 # Ponteiros - Diferença de tempo nos 100m rasos
 
 
-Houve uma pane no sistema de contagem de tempo das Olimpíadas, e Comitê Olímpico Internacional (COI), pediu para você fazer um programa que, dado o tempo de cada atleta em uma prova da corrida de 100m rasos, calcule a diferença de tempo de todos os competidores para o primeiro colocado.
+Houve uma pane no sistema de contagem de tempo das Olimpíadas, e Comitê Olímpico
+Internacional (COI), pediu para você fazer um programa que, dado o tempo de cada
+atleta em uma prova da corrida de 100m rasos, calcule a diferença de tempo de
+todos os competidores para o primeiro colocado.
 
-Seu programa deverá usar um registro para guardar o tempo (ponto flutuante) dos oito atletas da prova e os dados passados pelo usuário devem ser guardados em um registro alocado dinamicamente. Seu programa deverá então encontrar o primeiro colocado, e calcular a diferença de tempo dos demais atletas para o tempo dele (essas diferenças de tempo também devem ser guardadas em memória alocada dinamicamente). Ao exibir as diferenças de tempo, no caso do atleta que ganhou a prova (cuja diferença seria zero), escreva o tempo dele na prova.
+Seu programa deverá usar um registro para guardar o tempo (ponto flutuante) dos
+oito atletas da prova e os dados passados pelo usuário devem ser guardados em um
+registro alocado dinamicamente. Seu programa deverá então encontrar o primeiro
+colocado, e calcular a diferença de tempo dos demais atletas para o tempo dele
+(essas diferenças de tempo também devem ser guardadas em memória alocada
+dinamicamente). Ao exibir as diferenças de tempo, no caso do atleta que ganhou a
+prova (cuja diferença seria zero), escreva o tempo dele na prova.
 
 ### Entradas
 
@@ -15,8 +24,9 @@ Seu programa deverá usar um registro para guardar o tempo (ponto flutuante) dos
 ### Saídas
 
 ```
-1. A diferença de tempo do primeiro colocado para cada um dos demais oito atletas (na ordem em  que os
-dados foram recebidos). Obs: no lugar do primeiro colocado deve ser exibido o tempo  dele na prova.
+1. A diferença de tempo do primeiro colocado para cada um dos demais oito
+atletas (na ordem em  que os dados foram recebidos). Obs: no lugar do primeiro
+colocado deve ser exibido o tempo  dele na prova.
 ```
 
 ### Exemplo de Entrada
@@ -48,30 +58,30 @@ dados foram recebidos). Obs: no lugar do primeiro colocado deve ser exibido o te
 
 #include <iostream>
 
-int main(){
+int main() {
 
-    const int numCompetidores{8};
-    float *arrTempos{new float[numCompetidores]}, *arrDiferencas{new float [numCompetidores]};
+  const int numCompetidores{8};
+  float *arrTempos{new float[numCompetidores]},
+      *arrDiferencas{new float[numCompetidores]};
 
-    int indexMenor{0};
+  int indexMenor{0};
 
-    for(int i{0}; i<numCompetidores; i++){
+  for (int i{0}; i < numCompetidores; i++) {
 
-        std::cin >> arrTempos[i];
-        if(arrTempos[i] < arrTempos[indexMenor])
-            indexMenor = i;
-    }
+    std::cin >> arrTempos[i];
+    if (arrTempos[i] < arrTempos[indexMenor])
+      indexMenor = i;
+  }
 
-    for(int i{0}; i<numCompetidores; i++){
-        arrDiferencas[i] = arrTempos[i] - arrTempos[indexMenor];
+  for (int i{0}; i < numCompetidores; i++) {
+    arrDiferencas[i] = arrTempos[i] - arrTempos[indexMenor];
 
-        std::cout << (i != indexMenor ? arrDiferencas[i] : arrTempos[i]);
-        std::cout << "\n";
-    }
-    
+    std::cout << (i != indexMenor ? arrDiferencas[i] : arrTempos[i]);
+    std::cout << "\n";
+  }
 
-    delete[] arrTempos;
-    delete[] arrDiferencas;
+  delete[] arrTempos;
+  delete[] arrDiferencas;
 
-    return 0;
+  return 0;
 }

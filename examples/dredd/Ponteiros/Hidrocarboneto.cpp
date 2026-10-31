@@ -2,7 +2,14 @@
 # Ponteiros - Hidrocarboneto
 
 
-Um hidrocarboneto é um composto químico formado por átomos de carbono e hidrogênio. Faça um programa que crie um registro chamado Hidrocarboneto contendo os campos inteiros C e H usados para guardar a quantidade de carbonos e hidrogênios, respectivamente, de um hidrocarboneto. No subprograma principal aloque dinamicamente um registro Hidrocarboneto e peça ao usuário as quantidades de carbono e hidrogênio do mesmo. Sabendo que massa molecular do carbono é 12 e do hidrogênio é 1, seu programa deverá calcular e exibir a massa molecular do composto.
+Um hidrocarboneto é um composto químico formado por átomos de carbono e
+hidrogênio. Faça um programa que crie um registro chamado Hidrocarboneto
+contendo os campos inteiros C e H usados para guardar a quantidade de carbonos e
+hidrogênios, respectivamente, de um hidrocarboneto. No subprograma principal
+aloque dinamicamente um registro Hidrocarboneto e peça ao usuário as quantidades
+de carbono e hidrogênio do mesmo. Sabendo que massa molecular do carbono é 12 e
+do hidrogênio é 1, seu programa deverá calcular e exibir a massa molecular do
+composto.
 
 ### Entradas
 
@@ -32,18 +39,18 @@ Um hidrocarboneto é um composto químico formado por átomos de carbono e hidro
 
 #include <iostream>
 
-struct Hidrocarboneto{
-    int C, H;
+struct Hidrocarboneto {
+  int C, H;
 };
 
-int main(){
+int main() {
 
-    Hidrocarboneto *hidCarb = new Hidrocarboneto;
+  Hidrocarboneto *hidCarb = new Hidrocarboneto;
 
-    std::cin >> hidCarb->C >> hidCarb->H;
-    std::cout << (hidCarb->C * 12 + hidCarb->H) << "\n";
+  std::cin >> hidCarb->C >> hidCarb->H;
+  std::cout << (hidCarb->C * 12 + hidCarb->H) << "\n";
 
-    delete hidCarb;
+  delete hidCarb;
 
-    return 0;
+  return 0;
 }

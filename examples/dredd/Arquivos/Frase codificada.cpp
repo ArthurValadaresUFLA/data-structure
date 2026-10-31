@@ -2,7 +2,13 @@
 # Arquivos - Frase codificada
 
 
-Dado um arquivo texto chamado palavras.txt que possua várias palavras (no máximo 50), uma em cada linha, suponha que exista um arquivo texto numeros.txt com uma sequência de números inteiros positivos onde cada número representa a posição da palavra no arquivo palavras.txt (1 representa a primeira palavra, 2 a segunda, etc.). Faça um programa que leia os dois arquivos e gere um arquivo texto de saída frase.txt formado pela substituição dos números do arquivo numeros.txt pelas palavras do arquivo palavras.txt.
+Dado um arquivo texto chamado palavras.txt que possua várias palavras (no máximo
+50), uma em cada linha, suponha que exista um arquivo texto numeros.txt com uma
+sequência de números inteiros positivos onde cada número representa a posição da
+palavra no arquivo palavras.txt (1 representa a primeira palavra, 2 a segunda,
+etc.). Faça um programa que leia os dois arquivos e gere um arquivo texto de
+saída frase.txt formado pela substituição dos números do arquivo numeros.txt
+pelas palavras do arquivo palavras.txt.
 
 ### Entradas
 
@@ -14,8 +20,8 @@ Dado um arquivo texto chamado palavras.txt que possua várias palavras (no máxi
 ### Saídas
 
 ```
-1. Arquivo texto denominado frase.txt com a substituição dos números do arquivo numeros.txt pelas palavras
-do arquivo palavras.txt.
+1. Arquivo texto denominado frase.txt com a substituição dos números do arquivo
+numeros.txt pelas palavras do arquivo palavras.txt.
 ```
 
 ### Exemplo de Entrada (palavras.txt)
@@ -61,24 +67,24 @@ eu vou pra maracangalha eu vou
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-int main(){
+int main() {
 
-    std::ifstream arqPalavras("palavras.txt"), arqNumeros("numeros.txt");
-    std::ofstream arqSaida("frase.txt");
-    std::string *palavras = new std::string[50];
+  std::ifstream arqPalavras("palavras.txt"), arqNumeros("numeros.txt");
+  std::ofstream arqSaida("frase.txt");
+  std::string *palavras = new std::string[50];
 
-    int i{0}, indexPalavra;
+  int i{0}, indexPalavra;
 
-    while(arqPalavras >> palavras[i])
-        i++;
-    
-    while(arqNumeros >> indexPalavra)
-        arqSaida << palavras[indexPalavra - 1] << " ";
+  while (arqPalavras >> palavras[i])
+    i++;
 
-    delete[] palavras;
+  while (arqNumeros >> indexPalavra)
+    arqSaida << palavras[indexPalavra - 1] << " ";
 
-    return 0;
+  delete[] palavras;
+
+  return 0;
 }

@@ -2,12 +2,15 @@
 # Arquivos Tipados - Menor do vetor (recursão, ponteiro)
 
 
-Faça um programa que leia de um arquivo tipado cujo nome é "menor.bin" um vetor, alocado dinamicamente, de 10 números reais e determina, de forma recursiva, o menor elemento. O arquivo não tem cabeçalho.
+Faça um programa que leia de um arquivo tipado cujo nome é "menor.bin" um vetor,
+alocado dinamicamente, de 10 números reais e determina, de forma recursiva, o
+menor elemento. O arquivo não tem cabeçalho.
 
 Podemos usar a seguinte ideia:
 
 * O menor elemento de um vetor de uma única posição é o seu único elemento.
-* O menor elemento de um vetor de mais de uma posição é o menor entre o primeiro elemento e o menor do restante do vetor.
+* O menor elemento de um vetor de mais de uma posição é o menor entre o primeiro
+elemento e o menor do restante do vetor.
 
 ### Entradas
 
@@ -30,29 +33,27 @@ Podemos usar a seguinte ideia:
 ```
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-float procuraMenor(float *arr, int numElementos){
+float procuraMenor(float *arr, int numElementos) {
 
-    if(numElementos == 1)
-        return (*arr);
+  if (numElementos == 1)
+    return (*arr);
 
-    float menorRestante = procuraMenor(arr + 1, numElementos - 1);
-    return (arr[0] < menorRestante) ? arr[0] : menorRestante;
-
+  float menorRestante = procuraMenor(arr + 1, numElementos - 1);
+  return (arr[0] < menorRestante) ? arr[0] : menorRestante;
 }
 
-int main(){
+int main() {
 
-    const int numElementos{10};
-    std::ifstream arqDat("menor.bin");
+  const int numElementos{10};
+  std::ifstream arqDat("menor.bin");
 
-    float *arr = new float[numElementos];
-    arqDat.read((char *) arr, sizeof(float) * numElementos);
+  float *arr = new float[numElementos];
+  arqDat.read((char *)arr, sizeof(float) * numElementos);
 
-    std::cout << procuraMenor(arr, numElementos) << "\n";
+  std::cout << procuraMenor(arr, numElementos) << "\n";
 
-    return 0;
-
+  return 0;
 }

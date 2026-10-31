@@ -2,15 +2,21 @@
 # Ponteiros - Batalha Naval 1 (matriz, subprogramas, arquivo, alocação)
 
 
-Leia de um arquivo de nome "BatalhaNaval.txt", duas matrizes de tamanho NxN a serem alocadas dinamicamente, sendo que primeira matriz representa a localização dos navios no tabuleiro e a segunda matriz representa a posição de onde os tiros atingiram na primeira matriz.
+Leia de um arquivo de nome "BatalhaNaval.txt", duas matrizes de tamanho NxN a
+serem alocadas dinamicamente, sendo que primeira matriz representa a localização
+dos navios no tabuleiro e a segunda matriz representa a posição de onde os tiros
+atingiram na primeira matriz.
 
 Na primeira matriz, k representa uma parte do k-ésimo navio, 0 partes no mar.
 
-Na segunda matriz, 1 representa a posição do tiro (correspondente a posição na primeira matriz), 0 posição sem tiro.
+Na segunda matriz, 1 representa a posição do tiro (correspondente a posição na
+primeira matriz), 0 posição sem tiro.
 
-Os navios sempre terão tamanho maior que uma posição da matriz, e estarão sempre totalmente na vertical ou horizontal.
+Os navios sempre terão tamanho maior que uma posição da matriz, e estarão sempre
+totalmente na vertical ou horizontal.
 
-O programa deverá retornar o número total de navios completamente afundados pelos tiros. 
+O programa deverá retornar o número total de navios completamente afundados
+pelos tiros.
 
 **OBS:** Sub-rotinas devem ser utilizadas.
 
@@ -51,112 +57,103 @@ O programa deverá retornar o número total de navios completamente afundados pe
 ```
 */
 
-#include <iostream>
-#include <fstream>
 #include <cstring>
+#include <fstream>
+#include <iostream>
 
-void alocadorMatriz(int **&matriz, int tamMatriz){
+void alocadorMatriz(int **&matriz, int tamMatriz) {
 
-    matriz = new int*[tamMatriz];
-    for(int i{0}; i<tamMatriz; i++)
-        matriz[i] = new int[tamMatriz];
-    
+  matriz = new int *[tamMatriz];
+  for (int i{0}; i < tamMatriz; i++)
+    matriz[i] = new int[tamMatriz];
 }
 
-void destrutorMatriz(int **matriz, int tamMatriz){
+void destrutorMatriz(int **matriz, int tamMatriz) {
 
-    for(int i{0}; i<tamMatriz; i++)
-        delete[] matriz[i];
-    delete[] matriz;
-
+  for (int i{0}; i < tamMatriz; i++)
+    delete[] matriz[i];
+  delete[] matriz;
 }
 
-void lerMatriz(int **matriz, int tamMatriz, std::ifstream &arq){
+void lerMatriz(int **matriz, int tamMatriz, std::ifstream &arq) {
 
-    for(int i{0}; i<tamMatriz; i++){
-        for(int j{0}; j<tamMatriz; j++){
-            arq >> matriz[i][j];
-        }
+  for (int i{0}; i < tamMatriz; i++) {
+    for (int j{0}; j < tamMatriz; j++) {
+      arq >> matriz[i][j];
     }
-
+  }
 }
 
-int contabilizaNavios(int **matriz, int tamMatriz){
+int contabilizaNavios(int **matriz, int tamMatriz) {
 
-    int capacidade{10}, numNavios{0};
-    int *idNavios{new int[capacidade]};
+  int capacidade{10}, numNavios{0};
+  int *idNavios{new int[capacidade]};
 
-    int k;
+  int k;
 
-    for(int i{0}; i<tamMatriz; i++){
-        for(int j{0}; j<tamMatriz; j++){
+  for (int i{0}; i < tamMatriz; i++) {
+    for (int j{0}; j < tamMatriz; j++) {
 
-            if(matriz[i][j]){
+      if (matriz[i][j]) {
 
-                k = 0;
-                while(k<numNavios && idNavios[k] != matriz[i][j]){
-                    k++;
-                }
-
-                if(k == numNavios){
-
-                    if(numNavios == capacidade){
-                        capacidade += 10;
-                        int *aux = new int[capacidade];
-                        std::memcpy(aux, idNavios, sizeof(int) * numNavios);
-                        delete[] idNavios;
-                        idNavios = aux;
-                    }
-
-                    idNavios[numNavios++] = matriz[i][j];
-
-                }
-
-            }
-
+        k = 0;
+        while (k < numNavios && idNavios[k] != matriz[i][j]) {
+          k++;
         }
-    }
 
-    return numNavios;
+        if (k == numNavios) {
 
-}
+          if (numNavios == capacidade) {
+            capacidade += 10;
+            int *aux = new int[capacidade];
+            std::memcpy(aux, idNavios, sizeof(int) * numNavios);
+            delete[] idNavios;
+            idNavios = aux;
+          }
 
-void realizaDisparos(int **matrizNavios, int **matrizDisparos, int tamMatriz){
-
-    for(int i{0}; i<tamMatriz; i++){
-        for(int j{0}; j<tamMatriz; j++){
-
-            if(matrizDisparos[i][j]){
-                matrizNavios[i][j] = 0;
-            }
-
+          idNavios[numNavios++] = matriz[i][j];
         }
+      }
     }
+  }
 
+  return numNavios;
 }
 
-int main(){
+void realizaDisparos(int **matrizNavios, int **matrizDisparos, int tamMatriz) {
 
-    std::ifstream arq("BatalhaNaval.txt");
-    int tamMatriz;
-    int **matrizNavios, **matrizDisparos;
+  for (int i{0}; i < tamMatriz; i++) {
+    for (int j{0}; j < tamMatriz; j++) {
 
-    arq >> tamMatriz;
+      if (matrizDisparos[i][j]) {
+        matrizNavios[i][j] = 0;
+      }
+    }
+  }
+}
 
-    alocadorMatriz(matrizNavios, tamMatriz);
-    lerMatriz(matrizNavios, tamMatriz, arq);
+int main() {
 
-    alocadorMatriz(matrizDisparos, tamMatriz);
-    lerMatriz(matrizDisparos, tamMatriz, arq);
+  std::ifstream arq("BatalhaNaval.txt");
+  int tamMatriz;
+  int **matrizNavios, **matrizDisparos;
 
-    int naviosInicias{contabilizaNavios(matrizNavios, tamMatriz)};
-    realizaDisparos(matrizNavios, matrizDisparos, tamMatriz);
-    int naviosFinais{contabilizaNavios(matrizNavios, tamMatriz)};
+  arq >> tamMatriz;
 
-    std::cout << (naviosInicias - naviosFinais) << "\n";
+  alocadorMatriz(matrizNavios, tamMatriz);
+  lerMatriz(matrizNavios, tamMatriz, arq);
 
-    destrutorMatriz(matrizNavios, tamMatriz);
-    destrutorMatriz(matrizDisparos, tamMatriz);
+  alocadorMatriz(matrizDisparos, tamMatriz);
+  lerMatriz(matrizDisparos, tamMatriz, arq);
 
-    return 0;
+  int naviosInicias{contabilizaNavios(matrizNavios, tamMatriz)};
+  realizaDisparos(matrizNavios, matrizDisparos, tamMatriz);
+  int naviosFinais{contabilizaNavios(matrizNavios, tamMatriz)};
+
+  std::cout << (naviosInicias - naviosFinais) << "\n";
+
+  destrutorMatriz(matrizNavios, tamMatriz);
+  destrutorMatriz(matrizDisparos, tamMatriz);
+
+  return 0;
 }

@@ -2,7 +2,11 @@
 # Matrizes - Minimax
 
 
-Na teoria de sistemas define-se como elemento minimax de uma matriz o menor elemento da linha onde se encontra o maior elemento da matriz. Escreva um programa que receba uma matriz quadrada de inteiros, 10x10, e retorne seu elemento minimax, seguido de sua posição. Em caso de números iguais considere o que aparece primeiro.
+Na teoria de sistemas define-se como elemento minimax de uma matriz o menor
+elemento da linha onde se encontra o maior elemento da matriz. Escreva um
+programa que receba uma matriz quadrada de inteiros, 10x10, e retorne seu
+elemento minimax, seguido de sua posição. Em caso de números iguais considere o
+que aparece primeiro.
 
 ### Entradas
 
@@ -43,35 +47,33 @@ Na teoria de sistemas define-se como elemento minimax de uma matriz o menor elem
 
 #include <iostream>
 
-int main(){
+int main() {
 
-    const int tamMatriz{10};
-    int matriz[tamMatriz][tamMatriz];
+  const int tamMatriz{10};
+  int matriz[tamMatriz][tamMatriz];
 
-    int linhaMaior{0}, colunaMaior{0};
+  int linhaMaior{0}, colunaMaior{0};
 
-    for(int i{0}; i<tamMatriz; i++){
-        for(int j{0}; j<tamMatriz; j++){
+  for (int i{0}; i < tamMatriz; i++) {
+    for (int j{0}; j < tamMatriz; j++) {
 
-            std::cin >> matriz[i][j];
-            if(matriz[i][j] > matriz[linhaMaior][colunaMaior]){
-                linhaMaior = i;
-                colunaMaior = j;
-            }
-
-        }
+      std::cin >> matriz[i][j];
+      if (matriz[i][j] > matriz[linhaMaior][colunaMaior]) {
+        linhaMaior = i;
+        colunaMaior = j;
+      }
     }
+  }
 
-    int colunaMenor{0};
+  int colunaMenor{0};
 
-    for(int i{0}; i<tamMatriz; i++){
-        if(matriz[linhaMaior][i] < matriz[linhaMaior][colunaMenor])
-            colunaMenor = i;
-    }
-    
-    std::cout << matriz[linhaMaior][colunaMenor] << "\n";
-    std::cout << linhaMaior << " " << colunaMenor << "\n";
+  for (int i{0}; i < tamMatriz; i++) {
+    if (matriz[linhaMaior][i] < matriz[linhaMaior][colunaMenor])
+      colunaMenor = i;
+  }
 
+  std::cout << matriz[linhaMaior][colunaMenor] << "\n";
+  std::cout << linhaMaior << " " << colunaMenor << "\n";
 
-    return 0;
+  return 0;
 }

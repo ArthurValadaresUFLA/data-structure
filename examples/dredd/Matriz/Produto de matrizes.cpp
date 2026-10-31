@@ -2,7 +2,10 @@
 # Matrizes - Produto de matrizes
 
 
-Crie um programa que preencha uma primeira matriz de ordem 4 x 5 e uma segunda matriz 5 x 2. O programa deverá, também, calcular e mostrar a matriz resultante do produto matricial das duas matrizes anteriores, armazenando-o em uma terceira matriz de ordem 4 x 2.
+Crie um programa que preencha uma primeira matriz de ordem 4 x 5 e uma segunda
+matriz 5 x 2. O programa deverá, também, calcular e mostrar a matriz resultante
+do produto matricial das duas matrizes anteriores, armazenando-o em uma terceira
+matriz de ordem 4 x 2.
 
 ### Entradas
 
@@ -45,38 +48,37 @@ Crie um programa que preencha uma primeira matriz de ordem 4 x 5 e uma segunda m
 
 #include <iostream>
 
-int main(){
+int main() {
 
-    int matrizA[4][5], matrizB[5][2], matrizC[4][2];
+  int matrizA[4][5], matrizB[5][2], matrizC[4][2];
 
-    for(int i{0}; i<4; i++)
-        for(int j{0}; j<5; j++)
-            std::cin >> matrizA[i][j];
+  for (int i{0}; i < 4; i++)
+    for (int j{0}; j < 5; j++)
+      std::cin >> matrizA[i][j];
 
-    for(int i{0}; i<5; i++)
-        for(int j{0}; j<2; j++)
-            std::cin >> matrizB[i][j];
+  for (int i{0}; i < 5; i++)
+    for (int j{0}; j < 2; j++)
+      std::cin >> matrizB[i][j];
 
-    int soma;
+  int soma;
 
-    for(int i{0}; i<4; i++){
-        for(int j{0}; j<2; j++){
+  for (int i{0}; i < 4; i++) {
+    for (int j{0}; j < 2; j++) {
 
-            soma = 0;
-            for(int k{0}; k<5; k++)
-                soma += matrizA[i][k] * matrizB[k][j];
-            
-            matrizC[i][j] = soma;
+      soma = 0;
+      for (int k{0}; k < 5; k++)
+        soma += matrizA[i][k] * matrizB[k][j];
 
-        }
+      matrizC[i][j] = soma;
     }
-    
-    for(int i{0}; i<4; i++){
-        for(int j{0}; j<2; j++){
-            std::cout << matrizC[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
+  }
 
-    return 0;
+  for (int i{0}; i < 4; i++) {
+    for (int j{0}; j < 2; j++) {
+      std::cout << matrizC[i][j] << " ";
+    }
+    std::cout << "\n";
+  }
+
+  return 0;
 }

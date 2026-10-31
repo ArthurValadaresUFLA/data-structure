@@ -2,9 +2,13 @@
 # Vetores - Preenchimento ordenado
 
 
-Faça um programa que receba oito números inteiros e os armazene de forma ordenada em um vetor. Ou seja, assim que lidos, os números já devem ser inseridos no vetor em uma posição que mantém a ordem crescente. Eles não podem ser inseridos no final do vetor para o vetor passar por uma ordenação.
+Faça um programa que receba oito números inteiros e os armazene de forma
+ordenada em um vetor. Ou seja, assim que lidos, os números já devem ser
+inseridos no vetor em uma posição que mantém a ordem crescente. Eles não podem
+ser inseridos no final do vetor para o vetor passar por uma ordenação.
 
-Cada vez que um número for colocado no vetor o programa deve exibir os números inseridos até então.
+Cada vez que um número for colocado no vetor o programa deve exibir os números
+inseridos até então.
 
 ### Entradas
 
@@ -15,7 +19,8 @@ Cada vez que um número for colocado no vetor o programa deve exibir os números
 ### Saídas
 
 ```
-1. Oito linhas contendo em cada uma a situação do vetor após a inserção de cada número lido.
+1. Oito linhas contendo em cada uma a situação do vetor após a inserção de cada
+número lido.
 ```
 
 ### Exemplo de Entrada
@@ -38,38 +43,36 @@ Cada vez que um número for colocado no vetor o programa deve exibir os números
 ```
 */
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
-int main(){
+int main() {
 
-    const int numElementos = 8;
+  const int numElementos = 8;
 
-    int arr[numElementos], num,  j;
+  int arr[numElementos], num, j;
 
-    std::cin >> arr[0];
-    std::cout << arr[0] << "\n";
-    
-    for(int i{1}; i<numElementos; i++){
+  std::cin >> arr[0];
+  std::cout << arr[0] << "\n";
 
-        std::cin >> num;
+  for (int i{1}; i < numElementos; i++) {
 
-        j = 0;
-        while(j <= i && arr[j] < num){
-            j++;
-        }
+    std::cin >> num;
 
-        if(j <= i)
-            std::memcpy(arr + j + 1, arr + j, sizeof(int) * (i - j + 1));
-        
-        arr[j] = num;
-
-
-        for(j = 0; j<=i; j++)
-            std::cout << arr[j] << " ";
-        std::cout << "\n";
-
+    j = 0;
+    while (j <= i && arr[j] < num) {
+      j++;
     }
 
-    return 0;
+    if (j <= i)
+      std::memcpy(arr + j + 1, arr + j, sizeof(int) * (i - j + 1));
+
+    arr[j] = num;
+
+    for (j = 0; j <= i; j++)
+      std::cout << arr[j] << " ";
+    std::cout << "\n";
+  }
+
+  return 0;
 }

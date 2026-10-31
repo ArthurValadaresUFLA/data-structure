@@ -2,9 +2,17 @@
 # Monte de cartas (v2)
 
 
-Giovani decidiu ordenar sua grande coleção de cartas de "Yu-Gi-Oh!". Para isso pediu sua ajuda e lhe informou que queria um monte ordenado em ordem crescente pelo poder das cartas, e não teria cartas repetidas. Como tinha muitas, ele decidiu ordenar dois montes em ordem crescente (podendo conter cartas repetidas). Sua missão agora é ajudar Giovani a unir os dois montes retirando suas cartas repetidas. Utilizando-se da estrutura da dado fila, faça um programa que lê duas filas já em ordem crescente e cria uma terceira fila com os valores das duas primeiras em ordem crescente sem que haja repetição de elementos.
+Giovani decidiu ordenar sua grande coleção de cartas de "Yu-Gi-Oh!". Para isso
+pediu sua ajuda e lhe informou que queria um monte ordenado em ordem crescente
+pelo poder das cartas, e não teria cartas repetidas. Como tinha muitas, ele
+decidiu ordenar dois montes em ordem crescente (podendo conter cartas
+repetidas). Sua missão agora é ajudar Giovani a unir os dois montes retirando
+suas cartas repetidas. Utilizando-se da estrutura da dado fila, faça um programa
+que lê duas filas já em ordem crescente e cria uma terceira fila com os valores
+das duas primeiras em ordem crescente sem que haja repetição de elementos.
 
-Não é permitido utilizar a STL ou similares para resolver o problema, bem como acessar os dados desrespeitando as propriedades da estrutura.
+Não é permitido utilizar a STL ou similares para resolver o problema, bem como
+acessar os dados desrespeitando as propriedades da estrutura.
 
 ### Entradas
 
@@ -38,165 +46,76 @@ Não é permitido utilizar a STL ou similares para resolver o problema, bem como
 */
 
 #include <iostream>
-#include <stdexcept>
+
+#include "data-structure/queue/LinkedQueue.h"
+#include "data-structure/queue/interface/QueueInterface.h"
 
 typedef int Dado;
 
-class Noh{
+void leituraFila(int tam, QueueInterface<Dado> &fila) {
 
-    //permitir acesso da queue aos atributos privados do Noh
-    friend class FilaEncadeada;
+  int num;
 
-    // noh armazena dado e ponteiro para o próximo
-    private:
-        Noh* proximo;
-        Dado dado;
-    public:
-        Noh(const Dado &d) : dado(d), proximo(nullptr) {}
-};
-
-class FilaEncadeada{
-    private:
-        Noh *inicio, *fim;
-        unsigned int tamanho;
-    public:
-        FilaEncadeada();
-        ~FilaEncadeada();
-        void enfileira(const Dado &d);
-        Dado desenfileira();
-        void limparTudo();
-        unsigned int getTamanho();
-        bool vazia();
-        Dado espiarInicio();
-};
-
-FilaEncadeada::FilaEncadeada(){
-    inicio = fim = nullptr;
-    tamanho = 0;
+  for (int i{0}; i < tam; i++) {
+    std::cin >> num;
+    fila.queue(num);
+  }
 }
 
-FilaEncadeada::~FilaEncadeada(){
-    limparTudo();
+// Intercala (merge) as filas A e B, já ordenadas, em C, descartando os dados
+// repetidos.
+void ordenaMonte(QueueInterface<Dado> &filaA, QueueInterface<Dado> &filaB,
+                 QueueInterface<Dado> &filaC) {
+
+  int ultimoEnfifeirado;
+  QueueInterface<Dado> *filaMenor;
+
+  while (!filaA.isEmpty() && !filaB.isEmpty()) {
+
+    filaMenor = (filaA.peek() <= filaB.peek()) ? &filaA : &filaB;
+
+    if (filaC.isEmpty() || filaMenor->peek() != ultimoEnfifeirado) {
+      ultimoEnfifeirado = filaMenor->dequeue();
+      filaC.queue(ultimoEnfifeirado);
+    } else
+      filaMenor->dequeue();
+  }
+
+  while (!filaA.isEmpty()) {
+
+    if (filaC.isEmpty() || filaA.peek() != ultimoEnfifeirado) {
+      ultimoEnfifeirado = filaA.dequeue();
+      filaC.queue(ultimoEnfifeirado);
+    } else
+      filaA.dequeue();
+  }
+
+  while (!filaB.isEmpty()) {
+
+    if (filaC.isEmpty() || filaB.peek() != ultimoEnfifeirado) {
+      ultimoEnfifeirado = filaB.dequeue();
+      filaC.queue(ultimoEnfifeirado);
+    } else
+      filaB.dequeue();
+  }
 }
 
-void FilaEncadeada::limparTudo(){
-    while(!vazia())
-        desenfileira();
-}
+int main() {
 
-void FilaEncadeada::enfileira(const Dado &d){
+  LinkedQueue<Dado> implA, implB, implC;
+  QueueInterface<Dado> &filaA = implA, &filaB = implB, &filaC = implC;
+  int tam;
 
-    Noh *novo = new Noh(d);
+  std::cin >> tam;
+  leituraFila(tam, filaA);
 
-    if(vazia())
-        inicio = novo;
-    else
-        fim->proximo = novo; // proximo do antigo fim é novo
-    
-    fim = novo; // fim passa a ser o novo elemento
+  std::cin >> tam;
+  leituraFila(tam, filaB);
 
-    tamanho++;
+  ordenaMonte(filaA, filaB, filaC);
 
-}
+  while (!filaC.isEmpty())
+    std::cout << filaC.dequeue() << " ";
 
-Dado FilaEncadeada::desenfileira(){
-
-    if(vazia())
-        throw std::runtime_error("Erro: Fila Vazia!");
-
-    Noh *aux = inicio;
-    Dado temp = inicio->dado;
-
-    inicio = inicio->proximo;
-    delete aux;
-    tamanho--;
-
-    if(vazia())
-        fim = nullptr;
-
-    return temp;
-
-}
-
-unsigned int FilaEncadeada::getTamanho(){
-    return tamanho;
-}
-
-bool FilaEncadeada::vazia(){
-    return !bool(inicio);
-}
-
-Dado FilaEncadeada::espiarInicio(){
-
-    if(vazia())
-        throw std::runtime_error("Erro: Fila Vazia!");
-
-    return inicio->dado;
-}
-
-void leituraFila(int tam, FilaEncadeada &fila){
-
-    int n;
-
-    for(int i{0}; i<tam; i++){
-        std::cin >> n;
-        fila.enfileira(n);
-    }    
-
-}
-
-void ordenaMonte(FilaEncadeada &filaA, FilaEncadeada &filaB, FilaEncadeada &filaC){
-
-    int numA, numB, ultimoEnfifeirado;
-    FilaEncadeada *filaMenor;
-
-    while(!filaA.vazia() && !filaB.vazia()){ 
-        
-        filaMenor = (filaA.espiarInicio() <= filaB.espiarInicio()) ? &filaA : &filaB;
-
-        if(!filaC.getTamanho() || filaMenor->espiarInicio() != ultimoEnfifeirado){
-            ultimoEnfifeirado = filaMenor->desenfileira();
-            filaC.enfileira(ultimoEnfifeirado);
-        }else
-            filaMenor->desenfileira();
-    }
-
-    while(!filaA.vazia()){ 
-        
-        if(!filaC.getTamanho() || filaA.espiarInicio() != ultimoEnfifeirado){
-            ultimoEnfifeirado = filaA.desenfileira();
-            filaC.enfileira(ultimoEnfifeirado);
-        }else
-            filaA.desenfileira();
-    }
-
-    while(!filaB.vazia()){ 
-        
-        if(!filaC.getTamanho() || filaB.espiarInicio() != ultimoEnfifeirado){
-            ultimoEnfifeirado = filaB.desenfileira();
-            filaC.enfileira(ultimoEnfifeirado);
-        }else
-            filaB.desenfileira();
-    }
-
-}
-
-int main(){
-
-    FilaEncadeada filaA, filaB, filaC;
-    int tam;
-
-    std::cin >> tam;
-    leituraFila(tam, filaA);
-
-    std::cin >> tam;
-    leituraFila(tam, filaB);
-
-    ordenaMonte(filaA, filaB, filaC);
-
-    while(!filaC.vazia())
-        std::cout << filaC.desenfileira() << " "; 
-
-
-    return 0;
+  return 0;
 }

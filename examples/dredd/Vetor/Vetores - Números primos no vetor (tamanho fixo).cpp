@@ -2,7 +2,10 @@
 # Vetores - Números primos no vetor (tamanho fixo)
 
 
-Faça um programa para receber nove números inteiros positivos, armazená-los em um vetor, calcular e exibir no dispositivo de saída padrão aqueles números que são primos e suas respectivas posições no vetor. Se nenhum número primo for fornecido, nenhuma mensagem precisará ser exibida.
+Faça um programa para receber nove números inteiros positivos, armazená-los em
+um vetor, calcular e exibir no dispositivo de saída padrão aqueles números que
+são primos e suas respectivas posições no vetor. Se nenhum número primo for
+fornecido, nenhuma mensagem precisará ser exibida.
 
 ### Entradas
 
@@ -13,9 +16,10 @@ Faça um programa para receber nove números inteiros positivos, armazená-los e
 ### Saídas
 
 ```
-1. Sequência de números primos e suas respectivas posições (índices no vetor). 
+1. Sequência de números primos e suas respectivas posições (índices no vetor).
 
-Obs.: Aqueles números que forem primos e suas respectivas posições deverão ser exibidos aos pares.
+Obs.: Aqueles números que forem primos e suas respectivas posições deverão ser
+exibidos aos pares.
 ```
 
 ### Exemplo de Entrada
@@ -38,29 +42,27 @@ Obs.: Aqueles números que forem primos e suas respectivas posições deverão s
 
 bool ehPrimo(int x);
 
-int main(){
+int main() {
 
-    const int numElementos{9};
-    int arr[numElementos];
+  const int numElementos{9};
+  int arr[numElementos];
 
-    for(int i{0}; i<numElementos; i++)
-        std::cin >> arr[i];
+  for (int i{0}; i < numElementos; i++)
+    std::cin >> arr[i];
 
-    for(int i{0}; i<numElementos; i++)
-        if(ehPrimo(arr[i]))
-            std::cout << arr[i] << "  " << i << "\n";
-
+  for (int i{0}; i < numElementos; i++)
+    if (ehPrimo(arr[i]))
+      std::cout << arr[i] << "  " << i << "\n";
 }
 
-bool ehPrimo(int x){
-    int i{2};
+bool ehPrimo(int x) {
+  int i{2};
 
-    while(i < x){
-        if(!(x % i))
-            return false;
-        i++;
-    }
+  while (i < x) {
+    if (!(x % i))
+      return false;
+    i++;
+  }
 
-    return true; 
-
+  return true;
 }

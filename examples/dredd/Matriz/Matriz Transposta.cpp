@@ -2,7 +2,9 @@
 # Matrizes - Matriz Transposta
 
 
-Faça um programa que transpõe uma matriz. Transpor uma matriz significa trocar as linhas pelas colunas da matriz. Escrever a matriz transposta é suficiente, não sendo necessário criar antes uma matriz transposta.
+Faça um programa que transpõe uma matriz. Transpor uma matriz significa trocar
+as linhas pelas colunas da matriz. Escrever a matriz transposta é suficiente,
+não sendo necessário criar antes uma matriz transposta.
 
 ### Entradas
 
@@ -30,33 +32,32 @@ Faça um programa que transpõe uma matriz. Transpor uma matriz significa trocar
 ### Exemplo de Saída
 
 ```
-1 6 4 
-2 7 5 
-3 8 6 
-4 9 7 
+1 6 4
+2 7 5
+3 8 6
+4 9 7
 5 0 8
 ```
 */
 
 #include <iostream>
 
-int main(){
+int main() {
 
-    int numLinhas, numColunas;
-    std::cin >> numLinhas >> numColunas;
+  int numLinhas, numColunas;
+  std::cin >> numLinhas >> numColunas;
 
-    int matriz[numLinhas][numColunas];
+  int matriz[numLinhas][numColunas];
 
-    for(int i{0}; i<numLinhas; i++)
-        for(int j{0}; j<numColunas; j++)
-            std::cin >> matriz[i][j];
-    
+  for (int i{0}; i < numLinhas; i++)
+    for (int j{0}; j < numColunas; j++)
+      std::cin >> matriz[i][j];
 
-    for(int j{0}; j<numColunas; j++){
-        for(int i{0}; i<numLinhas; i++)
-            std::cout << matriz[i][j] << " ";
-        std::cout << "\n";
-    }
+  for (int j{0}; j < numColunas; j++) {
+    for (int i{0}; i < numLinhas; i++)
+      std::cout << matriz[i][j] << " ";
+    std::cout << "\n";
+  }
 
-    return 0;
+  return 0;
 }

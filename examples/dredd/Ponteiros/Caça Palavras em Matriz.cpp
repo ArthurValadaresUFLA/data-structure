@@ -2,9 +2,17 @@
 # Ponteiros - Caça Palavras em Matriz
 
 
-Desenvolva um programa que receba uma matriz nxn (n fornecido pelo usuário) de caracteres (um caractere em cada posição da matriz). O usuário digitará m palavras (m informado na entrada). O programa deve procurar a ocorrência de cada palavra na matriz, imprimindo as coordenadas da primeira letra ou -1 -1 se a palavra não existir. A procura deve ser feita na horizontal (da esquerda para direita) e na vertical (de cima para baixo).
+Desenvolva um programa que receba uma matriz nxn (n fornecido pelo usuário) de
+caracteres (um caractere em cada posição da matriz). O usuário digitará m
+palavras (m informado na entrada). O programa deve procurar a ocorrência de cada
+palavra na matriz, imprimindo as coordenadas da primeira letra ou -1 -1 se a
+palavra não existir. A procura deve ser feita na horizontal (da esquerda para
+direita) e na vertical (de cima para baixo).
 
-**OBS:** Letras maiúsculas e minúsculas são diferenciadas. A matriz deve ser alocada dinamicamente. A função strlen() retorna o tamanho de uma string tipo C (vetor de caracteres) e o método length() ou size() pode ser usado para pegar o tamanho de uma string do C++.
+**OBS:** Letras maiúsculas e minúsculas são diferenciadas. A matriz deve ser
+alocada dinamicamente. A função strlen() retorna o tamanho de uma string tipo C
+(vetor de caracteres) e o método length() ou size() pode ser usado para pegar o
+tamanho de uma string do C++.
 
 ### Entradas
 
@@ -18,7 +26,8 @@ Desenvolva um programa que receba uma matriz nxn (n fornecido pelo usuário) de 
 ### Saídas
 
 ```
-1. Posição da letra inicial de cada palavra na matriz, na ordem em que as palavras foram lidas.
+1. Posição da letra inicial de cada palavra na matriz, na ordem em que as
+palavras foram lidas.
 ```
 
 ### Exemplo de Entrada
@@ -44,79 +53,81 @@ FI
 #include <iostream>
 #include <utility>
 
-bool procuraHorizontal(char **matriz, int tamMatriz, const std::string &palavraBuscada, std::pair<int, int>  indexMatriz){
+bool procuraHorizontal(char **matriz, int tamMatriz,
+                       const std::string &palavraBuscada,
+                       std::pair<int, int> indexMatriz) {
 
-    int tamPalavra{palavraBuscada.length()};
+  int tamPalavra{palavraBuscada.length()};
 
-    if(tamPalavra > (tamMatriz - indexMatriz.second))
-        return false;
-    
-    int i{0};
-    while(i < tamPalavra && matriz[indexMatriz.first][i + indexMatriz.second] == palavraBuscada[i])
-        i++;
-    
-    return (i == tamPalavra);
+  if (tamPalavra > (tamMatriz - indexMatriz.second))
+    return false;
 
+  int i{0};
+  while (i < tamPalavra &&
+         matriz[indexMatriz.first][i + indexMatriz.second] == palavraBuscada[i])
+    i++;
+
+  return (i == tamPalavra);
 }
 
-bool procuraVertical(char **matriz, int tamMatriz, const std::string &palavraBuscada, std::pair<int, int>  indexMatriz){
+bool procuraVertical(char **matriz, int tamMatriz,
+                     const std::string &palavraBuscada,
+                     std::pair<int, int> indexMatriz) {
 
-    int tamPalavra{palavraBuscada.length()};
+  int tamPalavra{palavraBuscada.length()};
 
-    if(tamPalavra > (tamMatriz - indexMatriz.first))
-        return false;
-    
-    int i{0};
-    while(i < tamPalavra && matriz[i + indexMatriz.first][indexMatriz.second] == palavraBuscada[i])
-        i++;
-    
-    return (i == tamPalavra);
+  if (tamPalavra > (tamMatriz - indexMatriz.first))
+    return false;
 
+  int i{0};
+  while (i < tamPalavra &&
+         matriz[i + indexMatriz.first][indexMatriz.second] == palavraBuscada[i])
+    i++;
+
+  return (i == tamPalavra);
 }
 
-int main(){
+int main() {
 
-    int n;
-    std::cin >> n;
+  int n;
+  std::cin >> n;
 
-    char **matriz{new char*[n]};
-    for(int i{0}; i<n; i++)
-        matriz[i] = new char[n];
-    
+  char **matriz{new char *[n]};
+  for (int i{0}; i < n; i++)
+    matriz[i] = new char[n];
 
-    for(int i{0}; i<n; i++)
-        for(int j{0}; j<n; j++)
-            std::cin >> matriz[i][j];
-    
-    int m;
-    std::cin >> m;
-    std::string palavra;
+  for (int i{0}; i < n; i++)
+    for (int j{0}; j < n; j++)
+      std::cin >> matriz[i][j];
 
-    int k;
+  int m;
+  std::cin >> m;
+  std::string palavra;
 
-    for(int i{0}; i<m; i++){
-        std::cin >> palavra;
+  int k;
 
-        k = 0;
-        while(
-            k < n*n && 
-            !procuraHorizontal(matriz, n, palavra, std::make_pair(int(k/n), (k%n))) &&
-            !procuraVertical(matriz, n, palavra, std::make_pair(int(k/n), (k%n)))
-        ){
-            k++;
-        }
+  for (int i{0}; i < m; i++) {
+    std::cin >> palavra;
 
-        if(k == n*n){
-            std::cout << "-1 -1\n";
-        }else{
-            std::cout << int(k/n) << " " << (k%n) << "\n";
-        }
-
+    k = 0;
+    while (k < n * n &&
+           !procuraHorizontal(matriz, n, palavra,
+                              std::make_pair(int(k / n), (k % n))) &&
+           !procuraVertical(matriz, n, palavra,
+                            std::make_pair(int(k / n), (k % n)))) {
+      k++;
     }
 
-    for(int i{0}; i<n; i++)
-        delete[] matriz[i];
-    delete[] matriz;
+    if (k == n * n) {
+      std::cout << "-1 -1\n";
+    } else {
+      std::cout << int(k / n) << " " << (k % n) << "\n";
+    }
+  }
 
-    return 0;
+  for (int i{0}; i < n; i++)
+    delete[] matriz[i];
+  delete[] matriz;
+
+  return 0;
 }
