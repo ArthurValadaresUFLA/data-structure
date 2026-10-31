@@ -1,0 +1,3 @@
+[lint.per-file-ignores]
+"conanfile.py" = ["RUF012"]
+"test_package/conanfile.py" = ["RUF012"]

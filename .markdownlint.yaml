@@ -1,0 +1,153 @@
+# .markdownlint.yaml
+# Referência das regras: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+default: true
+
+# ---------------------------------------------------------------------------
+# Títulos
+# ---------------------------------------------------------------------------
+MD001: true # níveis incrementam de um em um (h1 -> h2 -> h3)
+MD003:
+  style: atx # "# Título", nunca setext (===)
+MD018: true # espaço depois do # ("#Título" é erro)
+MD019: true # um único espaço depois do #
+MD022:
+  lines_above: 1 # linha em branco antes e depois de títulos
+  lines_below: 1
+MD023: true # títulos começam na coluna 0
+MD024:
+  siblings_only: true # repetir título só é erro entre irmãos
+MD025:
+  front_matter_title: "" # ignora "title:" do front matter
+MD026:
+  punctuation: ".,;:!" # "?" é permitido ("Como instalar?")
+MD036: true # não usar **negrito** como se fosse título
+MD041: false # primeira linha não precisa ser h1
+
+# ---------------------------------------------------------------------------
+# Listas
+# ---------------------------------------------------------------------------
+MD004:
+  style: dash # sempre "-", nunca "*" ou "+"
+MD005: true # indentação consistente no mesmo nível
+MD007:
+  indent: 2 # sublistas com 2 espaços
+MD029:
+  style: one_or_ordered # "1. 1. 1." ou "1. 2. 3."
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
+MD032: true # listas cercadas por linhas em branco
+
+# ---------------------------------------------------------------------------
+# Espaçamento e whitespace
+# ---------------------------------------------------------------------------
+MD009:
+  br_spaces: 2 # 2 espaços finais = quebra de linha explícita
+  strict: false
+MD010:
+  code_blocks: true # sem tabs, inclusive dentro de blocos de código
+MD012:
+  maximum: 1 # no máximo 1 linha em branco seguida
+MD027: true # um espaço após ">" em citações
+MD028: true # sem linha em branco dentro de citação
+MD047: true # arquivo termina com exatamente uma quebra de linha
+
+# ---------------------------------------------------------------------------
+# Comprimento de linha
+# ---------------------------------------------------------------------------
+MD013:
+  line_length: 100
+  code_blocks: false # blocos de código podem ser longos (comandos)
+  tables: false # tabelas também
+  headings: false
+  stern:
+    true # só reclama se a linha puder ser quebrada
+    # (URLs longas sem espaço passam)
+
+# ---------------------------------------------------------------------------
+# Blocos de código
+# ---------------------------------------------------------------------------
+MD014: true # não prefixar comandos com "$" sem mostrar saída
+MD031: true # linhas em branco ao redor de blocos cercados
+MD038: true # sem espaços dentro de `código inline`
+MD040:
+  allowed_languages: [] # linguagem obrigatória (```cpp, ```bash, ```text)
+MD046:
+  style: fenced # sempre ``` e nunca bloco indentado
+MD048:
+  style: backtick # ``` em vez de ~~~
+
+# ---------------------------------------------------------------------------
+# Ênfase
+# ---------------------------------------------------------------------------
+MD037: true # sem espaços dentro de ênfase ("** texto **")
+MD049:
+  style: asterisk # *itálico*
+MD050:
+  style: asterisk # **negrito**
+
+# ---------------------------------------------------------------------------
+# Links e imagens
+# ---------------------------------------------------------------------------
+MD011: true # sintaxe de link invertida "(texto)[url]"
+MD034: true # URL solta precisa de <...> ou [texto](url)
+MD039: true # sem espaços dentro do texto do link
+MD042: true # sem links vazios "[texto]()"
+MD045: true # imagens precisam de texto alternativo
+MD051: true # âncoras "#secao" precisam existir
+MD052: true # referências [texto][ref] precisam estar definidas
+MD053: true # definições de referência não usadas
+MD054:
+  autolink: true
+  inline: true
+  full: true
+  collapsed: true
+  shortcut: true
+  url_inline: false # [https://x](https://x) deveria ser <https://x>
+
+# ---------------------------------------------------------------------------
+# Tabelas
+# ---------------------------------------------------------------------------
+MD055:
+  style: leading_and_trailing # | a | b |
+MD056: true # mesmo número de colunas em todas as linhas
+MD058: true # linhas em branco ao redor de tabelas
+
+# ---------------------------------------------------------------------------
+# HTML e separadores
+# ---------------------------------------------------------------------------
+MD033:
+  allowed_elements: # só o HTML que costuma ser necessário
+    - br
+    - details
+    - summary
+    - img
+    - picture
+    - source
+    - kbd
+    - sub
+    - sup
+MD035:
+  style: "---" # separador horizontal
+
+# ---------------------------------------------------------------------------
+# Nomes próprios (capitalização correta, fora de blocos de código)
+# ---------------------------------------------------------------------------
+MD044:
+  code_blocks: false
+  html_elements: false
+  names:
+    - C++
+    - CMake
+    - CTest
+    - Catch2
+    - Conan
+    - GCC
+    - GitHub
+    - GoogleTest
+    - Markdown
+    - YAML
+    - pre-commit
