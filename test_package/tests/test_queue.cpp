@@ -65,7 +65,7 @@ TEMPLATE_TEST_CASE("Queue<int>: ordem FIFO", "[queue][fifo]", ArrayQueue<int>,
   REQUIRE_THROWS_AS(queue.dequeue(), std::runtime_error);
 }
 
-TEMPLATE_TEST_CASE("Queue<int>: reutilizacao apos esvaziar", "[queue][reuse]",
+TEMPLATE_TEST_CASE("Queue<int>: reutilização após esvaziar", "[queue][reuse]",
                    ArrayQueue<int>, LinkedQueue<int>) {
   TestType queue = makeQueue<TestType>(4);
 
@@ -80,14 +80,14 @@ TEMPLATE_TEST_CASE("Queue<int>: reutilizacao apos esvaziar", "[queue][reuse]",
   }
 }
 
-TEMPLATE_TEST_CASE("Queue<int>: copia e movimentacao", "[queue][copy]",
+TEMPLATE_TEST_CASE("Queue<int>: cópia e movimentação", "[queue][copy]",
                    ArrayQueue<int>, LinkedQueue<int>) {
   TestType queue = makeQueue<TestType>(8);
   queue.queue(1);
   queue.queue(2);
   queue.queue(3);
 
-  SECTION("a copia e profunda e preserva a ordem") {
+  SECTION("a cópia é profunda e preserva a ordem") {
     TestType copy(queue);
     queue.dequeue();
     copy.queue(4);
@@ -101,7 +101,7 @@ TEMPLATE_TEST_CASE("Queue<int>: copia e movimentacao", "[queue][copy]",
     REQUIRE(queue.peek() == 2);
   }
 
-  SECTION("copia de fila que deu a volta no buffer") {
+  SECTION("cópia de fila que deu a volta no buffer") {
     // forca o inicio a andar para o meio do array circular
     TestType wrapped = makeQueue<TestType>(4);
     for (int v : {1, 2, 3, 4}) {
@@ -119,7 +119,7 @@ TEMPLATE_TEST_CASE("Queue<int>: copia e movimentacao", "[queue][copy]",
     REQUIRE(wrapped.size() == 4);
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other = makeQueue<TestType>(8);
     other.queue(99);
     other = queue;
@@ -129,20 +129,20 @@ TEMPLATE_TEST_CASE("Queue<int>: copia e movimentacao", "[queue][copy]",
     REQUIRE(queue.size() == 3);
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = queue;
     queue = alias;
     REQUIRE(queue.size() == 3);
     REQUIRE(queue.peek() == 1);
   }
 
-  SECTION("movimentacao") {
+  SECTION("movimentação") {
     TestType moved(std::move(queue));
     REQUIRE(moved.size() == 3);
     REQUIRE(moved.dequeue() == 1);
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other = makeQueue<TestType>(8);
     other = std::move(queue);
     REQUIRE(other.size() == 3);
@@ -150,7 +150,7 @@ TEMPLATE_TEST_CASE("Queue<int>: copia e movimentacao", "[queue][copy]",
   }
 }
 
-TEMPLATE_TEST_CASE("Queue<std::string>: operacoes basicas", "[queue][string]",
+TEMPLATE_TEST_CASE("Queue<std::string>: operações básicas", "[queue][string]",
                    ArrayQueue<std::string>, LinkedQueue<std::string>) {
   TestType queue = makeQueue<TestType>();
 
@@ -163,7 +163,7 @@ TEMPLATE_TEST_CASE("Queue<std::string>: operacoes basicas", "[queue][string]",
   REQUIRE(queue.peek() == "c");
 }
 
-TEMPLATE_TEST_CASE("Queue<int>: comparacao com std::queue (aleatorio)",
+TEMPLATE_TEST_CASE("Queue<int>: comparação com std::queue (aleatório)",
                    "[queue][random]", ArrayQueue<int>, LinkedQueue<int>) {
   std::mt19937 rng(2024);
   constexpr std::size_t capacity = 37;
@@ -200,7 +200,7 @@ TEST_CASE("ArrayQueue: capacidade fixa", "[queue][array][capacity]") {
   REQUIRE_THROWS_AS(queue.queue(4), std::runtime_error);
   REQUIRE(queue.size() == 3);
 
-  SECTION("desenfileirar libera espaco e o buffer da a volta") {
+  SECTION("desenfileirar libera espaço e o buffer dá a volta") {
     REQUIRE(queue.dequeue() == 1);
     REQUIRE_FALSE(queue.isFull());
     REQUIRE_NOTHROW(queue.queue(4));
@@ -236,7 +236,7 @@ TEST_CASE("LinkedQueue: muitos elementos", "[queue][linked][stress]") {
   }
 }
 
-TEST_CASE("QueueInterface: uso polimorfico", "[queue][interface]") {
+TEST_CASE("QueueInterface: uso polimórfico", "[queue][interface]") {
   std::vector<std::unique_ptr<QueueInterface<int>>> queues;
   queues.push_back(std::make_unique<ArrayQueue<int>>(10));
   queues.push_back(std::make_unique<LinkedQueue<int>>());

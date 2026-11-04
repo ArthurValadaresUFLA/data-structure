@@ -57,7 +57,7 @@ TEMPLATE_TEST_CASE("List<int>: push e pushBack", "[list][add]",
                    SinglyLinkedList<int>, DoublyLinkedList<int>) {
   TestType list;
 
-  SECTION("push insere no inicio") {
+  SECTION("push insere no início") {
     list.push(1);
     list.push(2);
     list.push(3);
@@ -88,7 +88,7 @@ TEMPLATE_TEST_CASE("List<int>: insertAt", "[list][insert]",
   list.pushBack(20);
   list.pushBack(30);
 
-  SECTION("no inicio") {
+  SECTION("no início") {
     list.insertAt(0, 5);
     REQUIRE(contents(list) == Values{5, 10, 20, 30});
   }
@@ -99,12 +99,12 @@ TEMPLATE_TEST_CASE("List<int>: insertAt", "[list][insert]",
     REQUIRE(contents(list) == Values{10, 15, 20, 25, 30});
   }
 
-  SECTION("na posicao size() insere ao final") {
+  SECTION("na posição size() insere ao final") {
     list.insertAt(3, 40);
     REQUIRE(contents(list) == Values{10, 20, 30, 40});
   }
 
-  SECTION("posicao alem do tamanho insere ao final") {
+  SECTION("posição além do tamanho insere ao final") {
     list.insertAt(100, 40);
     REQUIRE(contents(list) == Values{10, 20, 30, 40});
   }
@@ -115,7 +115,7 @@ TEMPLATE_TEST_CASE("List<int>: insertAt", "[list][insert]",
     REQUIRE(contents(empty) == Values{1});
   }
 
-  SECTION("o ultimo inserido continua sendo o fim da lista") {
+  SECTION("o último inserido continua sendo o fim da lista") {
     list.insertAt(3, 40);
     list.pushBack(50);
     REQUIRE(contents(list) == Values{10, 20, 30, 40, 50});
@@ -124,7 +124,7 @@ TEMPLATE_TEST_CASE("List<int>: insertAt", "[list][insert]",
   }
 }
 
-TEMPLATE_TEST_CASE("List<int>: remocoes", "[list][remove]",
+TEMPLATE_TEST_CASE("List<int>: remoções", "[list][remove]",
                    SinglyLinkedList<int>, DoublyLinkedList<int>) {
   TestType list;
   for (int v : {1, 2, 3, 4, 5}) {
@@ -143,7 +143,7 @@ TEMPLATE_TEST_CASE("List<int>: remocoes", "[list][remove]",
     REQUIRE(contents(list) == Values{1, 2, 3, 4, 6});
   }
 
-  SECTION("removeAt no meio, inicio e fim") {
+  SECTION("removeAt no meio, início e fim") {
     REQUIRE(list.removeAt(2) == 3);
     REQUIRE(list.removeAt(0) == 1);
     REQUIRE(list.removeAt(2) == 5);
@@ -155,7 +155,7 @@ TEMPLATE_TEST_CASE("List<int>: remocoes", "[list][remove]",
     REQUIRE(list.size() == 5);
   }
 
-  SECTION("remover todos os elementos deixa a lista reutilizavel") {
+  SECTION("remover todos os elementos deixa a lista reutilizável") {
     while (!list.isEmpty()) {
       list.removeOnBegin();
     }
@@ -166,7 +166,7 @@ TEMPLATE_TEST_CASE("List<int>: remocoes", "[list][remove]",
     REQUIRE(contents(list) == Values{7, 8});
   }
 
-  SECTION("remover o unico elemento pelo fim") {
+  SECTION("remover o único elemento pelo fim") {
     TestType single;
     single.push(1);
     REQUIRE(single.removeAtEnd() == 1);
@@ -183,7 +183,7 @@ TEMPLATE_TEST_CASE("List<int>: busca e acesso", "[list][find]",
     list.pushBack(v);
   }
 
-  SECTION("find retorna a primeira ocorrencia") {
+  SECTION("find retorna a primeira ocorrência") {
     REQUIRE(list.find(10) == 0);
     REQUIRE(list.find(20) == 1);
     REQUIRE(list.find(30) == 2);
@@ -193,13 +193,13 @@ TEMPLATE_TEST_CASE("List<int>: busca e acesso", "[list][find]",
     REQUIRE(list.find(99) == list.size());
   }
 
-  SECTION("contains inclui o primeiro e o ultimo elemento") {
+  SECTION("contains inclui o primeiro e o último elemento") {
     REQUIRE(list.contains(10));
     REQUIRE(list.contains(20));
     REQUIRE_FALSE(list.contains(99));
   }
 
-  SECTION("operator[] le e escreve") {
+  SECTION("operator[] lê e escreve") {
     REQUIRE(list[2] == 30);
     list[2] = 99;
     REQUIRE(list[2] == 99);
@@ -231,7 +231,7 @@ TEMPLATE_TEST_CASE("List<int>: removeWhere", "[list][removeWhere]",
     REQUIRE(contents(list) == Values{1, 3, 5});
   }
 
-  SECTION("a posicao e a da lista original") {
+  SECTION("a posição é a da lista original") {
     std::vector<std::size_t> seen;
     list.removeWhere([&seen](std::size_t index, int) {
       seen.push_back(index);
@@ -241,7 +241,7 @@ TEMPLATE_TEST_CASE("List<int>: removeWhere", "[list][removeWhere]",
     REQUIRE(contents(list) == Values{4, 5, 6});
   }
 
-  SECTION("remover o primeiro e o ultimo") {
+  SECTION("remover o primeiro e o último") {
     list.removeWhere([](std::size_t, int v) { return v == 1 || v == 6; });
     REQUIRE(contents(list) == Values{2, 3, 4, 5});
     list.pushBack(7); // o fim precisa ter sido atualizado
@@ -256,20 +256,20 @@ TEMPLATE_TEST_CASE("List<int>: removeWhere", "[list][removeWhere]",
     REQUIRE(contents(list) == Values{1});
   }
 
-  SECTION("nenhuma correspondencia") {
+  SECTION("nenhuma correspondência") {
     list.removeWhere([](std::size_t, int) { return false; });
     REQUIRE(list.size() == 6);
   }
 }
 
-TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
+TEMPLATE_TEST_CASE("List<int>: cópia e movimentação", "[list][copy]",
                    SinglyLinkedList<int>, DoublyLinkedList<int>) {
   TestType list;
   for (int v : {1, 2, 3}) {
     list.pushBack(v);
   }
 
-  SECTION("a copia e profunda e preserva a ordem") {
+  SECTION("a cópia é profunda e preserva a ordem") {
     TestType copy(list);
     list.removeOnBegin();
     copy.pushBack(4);
@@ -277,7 +277,7 @@ TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
     REQUIRE(contents(copy) == Values{1, 2, 3, 4});
   }
 
-  SECTION("copia de lista vazia") {
+  SECTION("cópia de lista vazia") {
     TestType empty;
     TestType copy(empty);
     REQUIRE(copy.isEmpty());
@@ -285,7 +285,7 @@ TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
     REQUIRE(contents(copy) == Values{1});
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other;
     other.push(99);
     other = list;
@@ -294,13 +294,13 @@ TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
     REQUIRE(contents(list) == Values{1, 2, 3});
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = list;
     list = alias;
     REQUIRE(contents(list) == Values{1, 2, 3});
   }
 
-  SECTION("movimentacao esvazia a origem") {
+  SECTION("movimentação esvazia a origem") {
     TestType moved(std::move(list));
     REQUIRE(contents(moved) == Values{1, 2, 3});
     REQUIRE(list.isEmpty()); // NOLINT: estado apos mover e especificado
@@ -308,7 +308,7 @@ TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
     REQUIRE(contents(list) == Values{5});
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other;
     other.push(99);
     other = std::move(list);
@@ -316,7 +316,7 @@ TEMPLATE_TEST_CASE("List<int>: copia e movimentacao", "[list][copy]",
   }
 }
 
-TEMPLATE_TEST_CASE("List<std::string>: operacoes basicas", "[list][string]",
+TEMPLATE_TEST_CASE("List<std::string>: operações básicas", "[list][string]",
                    SinglyLinkedList<std::string>,
                    DoublyLinkedList<std::string>) {
   TestType list;
@@ -333,7 +333,7 @@ TEMPLATE_TEST_CASE("List<std::string>: operacoes basicas", "[list][string]",
   REQUIRE(list.size() == 2);
 }
 
-TEMPLATE_TEST_CASE("List<int>: comparacao com std::list (aleatorio)",
+TEMPLATE_TEST_CASE("List<int>: comparação com std::list (aleatório)",
                    "[list][random]", SinglyLinkedList<int>,
                    DoublyLinkedList<int>) {
   std::mt19937 rng(12345);
@@ -384,7 +384,7 @@ TEMPLATE_TEST_CASE("List<int>: comparacao com std::list (aleatorio)",
   REQUIRE(contents(list) == Values(reference.begin(), reference.end()));
 }
 
-TEST_CASE("ListInterface: uso polimorfico", "[list][interface]") {
+TEST_CASE("ListInterface: uso polimórfico", "[list][interface]") {
   std::vector<std::unique_ptr<ListInterface<int>>> lists;
   lists.push_back(std::make_unique<SinglyLinkedList<int>>());
   lists.push_back(std::make_unique<DoublyLinkedList<int>>());
