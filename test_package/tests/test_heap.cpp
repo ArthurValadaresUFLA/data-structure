@@ -64,7 +64,7 @@ TEMPLATE_TEST_CASE("Heap<int>: heap vazio", "[heap][empty]", MaxHeap<int>,
   REQUIRE_THROWS_AS(heap.removeRoot(), std::out_of_range);
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: insercao e remocao em ordem", "[heap][order]",
+TEMPLATE_TEST_CASE("Heap<int>: inserção e remoção em ordem", "[heap][order]",
                    MaxHeap<int>, MinHeap<int>, Tournament<int>) {
   TestType heap(16);
   Values input{5, 3, 9, 1, 7, 3, 8, -2, 0, 9};
@@ -79,7 +79,7 @@ TEMPLATE_TEST_CASE("Heap<int>: insercao e remocao em ordem", "[heap][order]",
   REQUIRE(heap.isEmpty());
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: peekRoot nao remove", "[heap][peek]",
+TEMPLATE_TEST_CASE("Heap<int>: peekRoot não remove", "[heap][peek]",
                    MaxHeap<int>, MinHeap<int>, Tournament<int>) {
   TestType heap(4);
   heap.insert(2);
@@ -101,7 +101,7 @@ TEMPLATE_TEST_CASE("Heap<int>: capacidade fixa", "[heap][capacity]",
   REQUIRE_THROWS_AS(heap.insert(4), std::runtime_error);
   REQUIRE(heap.getSize() == 3);
 
-  SECTION("remover libera espaco") {
+  SECTION("remover libera espaço") {
     heap.removeRoot();
     REQUIRE_FALSE(heap.isFull());
     REQUIRE_NOTHROW(heap.insert(4));
@@ -123,7 +123,7 @@ TEMPLATE_TEST_CASE("Heap<int>: capacidade um", "[heap][capacity]",
   REQUIRE(heap.removeRoot() == 8);
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: reutilizacao e duplicados", "[heap][reuse]",
+TEMPLATE_TEST_CASE("Heap<int>: reutilização e duplicados", "[heap][reuse]",
                    MaxHeap<int>, MinHeap<int>, Tournament<int>) {
   TestType heap(10);
 
@@ -152,7 +152,7 @@ TEMPLATE_TEST_CASE("Heap<int>: from(array, n)", "[heap][from]", MaxHeap<int>,
   }
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: indices de pai e filhos", "[heap][index]",
+TEMPLATE_TEST_CASE("Heap<int>: índices de pai e filhos", "[heap][index]",
                    MaxHeap<int>, MinHeap<int>, Tournament<int>) {
   TestType heap(8);
 
@@ -167,7 +167,7 @@ TEMPLATE_TEST_CASE("Heap<int>: indices de pai e filhos", "[heap][index]",
   REQUIRE(heap.parentOf(0) == 0); // a raiz e pai de si mesma
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: copia e movimentacao", "[heap][copy]",
+TEMPLATE_TEST_CASE("Heap<int>: cópia e movimentação", "[heap][copy]",
                    MaxHeap<int>, MinHeap<int>, Tournament<int>) {
   TestType heap(8);
   for (int v : {3, 1, 4, 1, 5}) {
@@ -175,7 +175,7 @@ TEMPLATE_TEST_CASE("Heap<int>: copia e movimentacao", "[heap][copy]",
   }
   const Values expected = expectedOrder<TestType>({3, 1, 4, 1, 5});
 
-  SECTION("a copia e independente do original") {
+  SECTION("a cópia é independente do original") {
     TestType copy(heap);
     heap.removeRoot();
     copy.insert(100);
@@ -185,7 +185,7 @@ TEMPLATE_TEST_CASE("Heap<int>: copia e movimentacao", "[heap][copy]",
     REQUIRE(drain(copy).size() == 6);
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other(2);
     other.insert(99);
     other = heap;
@@ -195,18 +195,18 @@ TEMPLATE_TEST_CASE("Heap<int>: copia e movimentacao", "[heap][copy]",
     REQUIRE(heap.getSize() == 5);
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = heap;
     heap = alias;
     REQUIRE(drain(heap) == expected);
   }
 
-  SECTION("construtor de movimentacao") {
+  SECTION("construtor de movimentação") {
     TestType moved(std::move(heap));
     REQUIRE(drain(moved) == expected);
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other(2);
     other.insert(99);
     other = std::move(heap);
@@ -214,7 +214,7 @@ TEMPLATE_TEST_CASE("Heap<int>: copia e movimentacao", "[heap][copy]",
   }
 }
 
-TEMPLATE_TEST_CASE("Heap<std::string>: operacoes basicas", "[heap][string]",
+TEMPLATE_TEST_CASE("Heap<std::string>: operações básicas", "[heap][string]",
                    MaxHeap<std::string>, MinHeap<std::string>) {
   TestType heap(4);
   heap.insert("banana");
@@ -227,7 +227,7 @@ TEMPLATE_TEST_CASE("Heap<std::string>: operacoes basicas", "[heap][string]",
   REQUIRE(heap.removeRoot() == (isMin ? "cereja" : "abacaxi"));
 }
 
-TEMPLATE_TEST_CASE("Heap<int>: comparacao com std::multiset (aleatorio)",
+TEMPLATE_TEST_CASE("Heap<int>: comparação com std::multiset (aleatório)",
                    "[heap][random]", MaxHeap<int>, MinHeap<int>,
                    Tournament<int>) {
   std::mt19937 rng(99);
@@ -256,7 +256,7 @@ TEMPLATE_TEST_CASE("Heap<int>: comparacao com std::multiset (aleatorio)",
   }
 }
 
-TEST_CASE("MaxHeap/MinHeap: operator[] expoe o array do heap",
+TEST_CASE("MaxHeap/MinHeap: operator[] expõe o array do heap",
           "[heap][index]") {
   MaxHeap<int> max(8);
   for (int v : {3, 9, 5, 1}) {
@@ -292,7 +292,7 @@ TEST_CASE("AbstractHeap: igualdade entre heaps", "[heap][equality]") {
   REQUIRE_FALSE(a == b);
 }
 
-TEST_CASE("Tournament: operator[] acessa nos da arvore", "[heap][tournament]") {
+TEST_CASE("Tournament: operator[] acessa nós da árvore", "[heap][tournament]") {
   Tournament<int> tournament(4);
 
   REQUIRE_THROWS_AS(tournament[0], std::out_of_range); // raiz vazia
@@ -306,7 +306,7 @@ TEST_CASE("Tournament: operator[] acessa nos da arvore", "[heap][tournament]") {
   REQUIRE_THROWS_AS(tournament[100], std::out_of_range);
 }
 
-TEST_CASE("Tournament: capacidade que nao e potencia de dois",
+TEST_CASE("Tournament: capacidade que não é potência de dois",
           "[heap][tournament]") {
   Tournament<int> tournament(5);
 
@@ -327,7 +327,7 @@ TEST_CASE("Tournament: capacidade que nao e potencia de dois",
   REQUIRE(tournament.isEmpty());
 }
 
-TEST_CASE("HeapInterface: uso polimorfico", "[heap][interface]") {
+TEST_CASE("HeapInterface: uso polimórfico", "[heap][interface]") {
   std::vector<std::unique_ptr<HeapInterface<int>>> heaps;
   heaps.push_back(std::make_unique<MaxHeap<int>>(8));
   heaps.push_back(std::make_unique<MinHeap<int>>(8));
