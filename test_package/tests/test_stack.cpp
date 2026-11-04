@@ -65,7 +65,7 @@ TEMPLATE_TEST_CASE("Stack<int>: ordem LIFO", "[stack][lifo]", ArrayStack<int>,
   REQUIRE_THROWS_AS(stack.unstack(), std::runtime_error);
 }
 
-TEMPLATE_TEST_CASE("Stack<int>: reutilizacao apos esvaziar", "[stack][reuse]",
+TEMPLATE_TEST_CASE("Stack<int>: reutilização após esvaziar", "[stack][reuse]",
                    ArrayStack<int>, LinkedStack<int>) {
   TestType stack = makeStack<TestType>();
 
@@ -80,14 +80,14 @@ TEMPLATE_TEST_CASE("Stack<int>: reutilizacao apos esvaziar", "[stack][reuse]",
   }
 }
 
-TEMPLATE_TEST_CASE("Stack<int>: copia e movimentacao", "[stack][copy]",
+TEMPLATE_TEST_CASE("Stack<int>: cópia e movimentação", "[stack][copy]",
                    ArrayStack<int>, LinkedStack<int>) {
   TestType stack = makeStack<TestType>();
   stack.stackUp(1);
   stack.stackUp(2);
   stack.stackUp(3);
 
-  SECTION("a copia e profunda e preserva a ordem") {
+  SECTION("a cópia é profunda e preserva a ordem") {
     TestType copy(stack);
     stack.unstack();
     copy.stackUp(4);
@@ -101,13 +101,13 @@ TEMPLATE_TEST_CASE("Stack<int>: copia e movimentacao", "[stack][copy]",
     REQUIRE(stack.peek() == 2);
   }
 
-  SECTION("copia de pilha vazia") {
+  SECTION("cópia de pilha vazia") {
     TestType empty = makeStack<TestType>();
     TestType copy(empty);
     REQUIRE(copy.empty());
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other = makeStack<TestType>();
     other.stackUp(99);
     other = stack;
@@ -117,20 +117,20 @@ TEMPLATE_TEST_CASE("Stack<int>: copia e movimentacao", "[stack][copy]",
     REQUIRE(stack.size() == 3);
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = stack;
     stack = alias;
     REQUIRE(stack.size() == 3);
     REQUIRE(stack.peek() == 3);
   }
 
-  SECTION("movimentacao") {
+  SECTION("movimentação") {
     TestType moved(std::move(stack));
     REQUIRE(moved.size() == 3);
     REQUIRE(moved.unstack() == 3);
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other = makeStack<TestType>();
     other = std::move(stack);
     REQUIRE(other.size() == 3);
@@ -138,7 +138,7 @@ TEMPLATE_TEST_CASE("Stack<int>: copia e movimentacao", "[stack][copy]",
   }
 }
 
-TEMPLATE_TEST_CASE("Stack<std::string>: operacoes basicas", "[stack][string]",
+TEMPLATE_TEST_CASE("Stack<std::string>: operações básicas", "[stack][string]",
                    ArrayStack<std::string>, LinkedStack<std::string>) {
   TestType stack = makeStack<TestType>();
 
@@ -151,7 +151,7 @@ TEMPLATE_TEST_CASE("Stack<std::string>: operacoes basicas", "[stack][string]",
   REQUIRE(stack.peek() == "a");
 }
 
-TEMPLATE_TEST_CASE("Stack<int>: comparacao com std::stack (aleatorio)",
+TEMPLATE_TEST_CASE("Stack<int>: comparação com std::stack (aleatório)",
                    "[stack][random]", ArrayStack<int>, LinkedStack<int>) {
   std::mt19937 rng(777);
   TestType stack = makeStack<TestType>(50);
@@ -217,7 +217,7 @@ TEST_CASE("LinkedStack: muitos elementos", "[stack][linked][stress]") {
   }
 }
 
-TEST_CASE("StackInterface: uso polimorfico", "[stack][interface]") {
+TEST_CASE("StackInterface: uso polimórfico", "[stack][interface]") {
   std::vector<std::unique_ptr<StackInterface<int>>> stacks;
   stacks.push_back(std::make_unique<ArrayStack<int>>(10));
   stacks.push_back(std::make_unique<LinkedStack<int>>());
