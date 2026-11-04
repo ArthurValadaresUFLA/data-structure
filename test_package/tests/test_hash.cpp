@@ -51,13 +51,13 @@ TEMPLATE_TEST_CASE("HashTable<int>: tabela vazia", "[hash][empty]",
                    LinkedHashTable<int>, OpenAddressHashTable<int>) {
   TestType table(kSmallCapacity, intHash);
 
-  SECTION("nao contem nenhum valor") {
+  SECTION("não contém nenhum valor") {
     REQUIRE_FALSE(table.contains(0));
     REQUIRE_FALSE(table.contains(1));
     REQUIRE_FALSE(table.contains(-1));
   }
 
-  SECTION("remover de tabela vazia nao lanca excecao") {
+  SECTION("remover de tabela vazia não lança exceção") {
     REQUIRE_NOTHROW(table.remove(42));
     REQUIRE_FALSE(table.contains(42));
   }
@@ -71,7 +71,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: sem capacidade", "[hash][capacity]",
   REQUIRE_THROWS_AS(table.contains(1), std::logic_error);
 }
 
-TEMPLATE_TEST_CASE("HashTable<int>: funcao hash invalida", "[hash][capacity]",
+TEMPLATE_TEST_CASE("HashTable<int>: função hash inválida", "[hash][capacity]",
                    LinkedHashTable<int>, OpenAddressHashTable<int>) {
   REQUIRE_THROWS_AS(TestType(8, std::function<std::size_t(int, std::size_t)>()),
                     std::invalid_argument);
@@ -86,13 +86,13 @@ TEMPLATE_TEST_CASE("HashTable<int>: add e contains", "[hash][add]",
     REQUIRE(table.contains(10));
   }
 
-  SECTION("valores nao adicionados continuam ausentes") {
+  SECTION("valores não adicionados continuam ausentes") {
     table.add(10);
     REQUIRE_FALSE(table.contains(11));
     REQUIRE_FALSE(table.contains(9));
   }
 
-  SECTION("varios valores distintos") {
+  SECTION("vários valores distintos") {
     constexpr std::array values{1, 2, 3, 4, 5};
 
     for (int v : values) {
@@ -123,7 +123,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: add e contains", "[hash][add]",
     REQUIRE_FALSE(ref.contains(8));
   }
 
-  SECTION("adicionar duplicado nao quebra a tabela") {
+  SECTION("adicionar duplicado não quebra a tabela") {
     table.add(5);
     REQUIRE_NOTHROW(table.add(5));
     REQUIRE(table.contains(5));
@@ -140,7 +140,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: remove", "[hash][remove]",
     REQUIRE_FALSE(table.contains(1));
   }
 
-  SECTION("remove nao afeta os demais valores") {
+  SECTION("remove não afeta os demais valores") {
     table.add(1);
     table.add(2);
     table.add(3);
@@ -150,14 +150,14 @@ TEMPLATE_TEST_CASE("HashTable<int>: remove", "[hash][remove]",
     REQUIRE(table.contains(3));
   }
 
-  SECTION("remover valor inexistente nao altera a tabela") {
+  SECTION("remover valor inexistente não altera a tabela") {
     table.add(1);
     REQUIRE_NOTHROW(table.remove(999));
     REQUIRE(table.contains(1));
     REQUIRE_FALSE(table.contains(999));
   }
 
-  SECTION("remover duas vezes o mesmo valor e seguro") {
+  SECTION("remover duas vezes o mesmo valor é seguro") {
     table.add(1);
     table.remove(1);
     REQUIRE_NOTHROW(table.remove(1));
@@ -171,7 +171,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: remove", "[hash][remove]",
     REQUIRE_FALSE(table.contains(5));
   }
 
-  SECTION("re-adicionar apos remover") {
+  SECTION("re-adicionar após remover") {
     table.add(1);
     table.remove(1);
     table.add(1);
@@ -183,7 +183,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: remove", "[hash][remove]",
 // Colisões
 // ---------------------------------------------------------------------------
 
-TEMPLATE_TEST_CASE("HashTable<int>: colisoes", "[hash][collision]",
+TEMPLATE_TEST_CASE("HashTable<int>: colisões", "[hash][collision]",
                    LinkedHashTable<int>, OpenAddressHashTable<int>) {
   // Todos os multiplos de 1024 caem no indice 0 de uma tabela de 64 posicoes.
   TestType table(kSmallCapacity, intHash);
@@ -197,7 +197,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: colisoes", "[hash][collision]",
     table.add(v);
   }
 
-  SECTION("todos os valores colidentes sao encontrados") {
+  SECTION("todos os valores colidentes são encontrados") {
     for (int v : colliding) {
       REQUIRE(table.contains(v));
     }
@@ -217,7 +217,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: colisoes", "[hash][collision]",
     }
   }
 
-  SECTION("remover o primeiro e o ultimo valor inseridos") {
+  SECTION("remover o primeiro e o último valor inseridos") {
     table.remove(colliding.front());
     table.remove(colliding.back());
     REQUIRE_FALSE(table.contains(colliding.front()));
@@ -227,7 +227,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: colisoes", "[hash][collision]",
   }
 }
 
-TEMPLATE_TEST_CASE("HashTable<int>: funcao hash maior que a capacidade",
+TEMPLATE_TEST_CASE("HashTable<int>: função hash maior que a capacidade",
                    "[hash][collision]", LinkedHashTable<int>,
                    OpenAddressHashTable<int>) {
   // A funcao devolve um indice muito acima da capacidade: a tabela precisa
@@ -251,7 +251,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: grande volume", "[hash][stress]",
     table.add(i);
   }
 
-  SECTION("todos os valores inseridos sao encontrados") {
+  SECTION("todos os valores inseridos são encontrados") {
     for (int i = 0; i < N; ++i) {
       REQUIRE(table.contains(i));
     }
@@ -259,7 +259,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: grande volume", "[hash][stress]",
     REQUIRE_FALSE(table.contains(-1));
   }
 
-  SECTION("remover os pares mantem apenas os impares") {
+  SECTION("remover os pares mantém apenas os ímpares") {
     for (int i = 0; i < N; i += 2) {
       table.remove(i);
     }
@@ -272,7 +272,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: grande volume", "[hash][stress]",
     }
   }
 
-  SECTION("remover tudo deixa a tabela vazia e reutilizavel") {
+  SECTION("remover tudo deixa a tabela vazia e reutilizável") {
     for (int i = 0; i < N; ++i) {
       table.remove(i);
     }
@@ -312,13 +312,13 @@ TEMPLATE_TEST_CASE("HashTable<int>: ciclos repetidos de add/remove",
 // Cópia e movimentação (regra dos cinco)
 // ---------------------------------------------------------------------------
 
-TEMPLATE_TEST_CASE("HashTable<int>: copia e movimentacao", "[hash][copy]",
+TEMPLATE_TEST_CASE("HashTable<int>: cópia e movimentação", "[hash][copy]",
                    LinkedHashTable<int>, OpenAddressHashTable<int>) {
   TestType table(kSmallCapacity, intHash);
   table.add(1);
   table.add(2);
 
-  SECTION("a copia e independente do original") {
+  SECTION("a cópia é independente do original") {
     TestType copy(table);
     table.remove(1);
     copy.add(3);
@@ -329,7 +329,7 @@ TEMPLATE_TEST_CASE("HashTable<int>: copia e movimentacao", "[hash][copy]",
     REQUIRE_FALSE(table.contains(3));
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other(kSmallCapacity, intHash);
     other.add(99);
     other = table;
@@ -341,20 +341,20 @@ TEMPLATE_TEST_CASE("HashTable<int>: copia e movimentacao", "[hash][copy]",
     REQUIRE(other.contains(2));
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = table;
     table = alias;
     REQUIRE(table.contains(1));
     REQUIRE(table.contains(2));
   }
 
-  SECTION("construtor de movimentacao") {
+  SECTION("construtor de movimentação") {
     TestType moved(std::move(table));
     REQUIRE(moved.contains(1));
     REQUIRE(moved.contains(2));
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other(kSmallCapacity, intHash);
     other = std::move(table);
     REQUIRE(other.contains(1));
@@ -375,17 +375,17 @@ TEST_CASE("OpenAddressHashTable: capacidade fixa", "[hash][open][capacity]") {
   table.add(3);
   REQUIRE(table.isFull());
 
-  SECTION("valor novo em tabela cheia lanca excecao") {
+  SECTION("valor novo em tabela cheia lança exceção") {
     REQUIRE_THROWS_AS(table.add(4), std::runtime_error);
     REQUIRE_FALSE(table.contains(4));
   }
 
-  SECTION("valor ja presente em tabela cheia nao lanca") {
+  SECTION("valor já presente em tabela cheia não lança") {
     REQUIRE_NOTHROW(table.add(2));
     REQUIRE(table.isFull());
   }
 
-  SECTION("remover libera espaco (reaproveita a lapide)") {
+  SECTION("remover libera espaço (reaproveita a lápide)") {
     table.remove(2);
     REQUIRE_FALSE(table.isFull());
     REQUIRE_NOTHROW(table.add(4));
@@ -400,7 +400,7 @@ TEST_CASE("OpenAddressHashTable: capacidade fixa", "[hash][open][capacity]") {
   }
 }
 
-TEST_CASE("LinkedHashTable: withHashOf devolve a lista do indice",
+TEST_CASE("LinkedHashTable: withHashOf devolve a lista do índice",
           "[hash][linked]") {
   LinkedHashTable<int> table(4, intHash);
 
@@ -419,7 +419,7 @@ TEST_CASE("LinkedHashTable: withHashOf devolve a lista do indice",
 // Tipo não numérico
 // ---------------------------------------------------------------------------
 
-TEMPLATE_TEST_CASE("HashTable<std::string>: operacoes basicas",
+TEMPLATE_TEST_CASE("HashTable<std::string>: operações básicas",
                    "[hash][string]", LinkedHashTable<std::string>,
                    OpenAddressHashTable<std::string>) {
   TestType table(kSmallCapacity, stringHash);
@@ -444,7 +444,7 @@ TEMPLATE_TEST_CASE("HashTable<std::string>: operacoes basicas",
 // Uso polimórfico via interface
 // ---------------------------------------------------------------------------
 
-TEST_CASE("HashTableInterface: uso polimorfico", "[hash][interface]") {
+TEST_CASE("HashTableInterface: uso polimórfico", "[hash][interface]") {
   std::vector<std::unique_ptr<HashTableInterface<int>>> tables;
   tables.push_back(
       std::make_unique<LinkedHashTable<int>>(kSmallCapacity, intHash));
