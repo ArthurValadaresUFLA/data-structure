@@ -24,7 +24,7 @@
 #include "data-structure/tree/binary_search_tree/interface/BinarySearchTreeInterface.h"
 #include "data-structure/tree/binary_search_tree/interface/DoublyLinkedBinarySearchTreeInterface.h"
 
-TEMPLATE_TEST_CASE("BST<int>: arvore vazia", "[tree][empty]",
+TEMPLATE_TEST_CASE("BST<int>: árvore vazia", "[tree][empty]",
                    BinarySearchTree<int>, DoublyLinkedBinarySearchTree<int>) {
   TestType tree;
 
@@ -49,7 +49,7 @@ TEMPLATE_TEST_CASE("BST<int>: insert e search", "[tree][insert]",
   REQUIRE(tree.search(100) == nullptr);
 }
 
-TEMPLATE_TEST_CASE("BST<int>: estrutura dos nos", "[tree][structure]",
+TEMPLATE_TEST_CASE("BST<int>: estrutura dos nós", "[tree][structure]",
                    BinarySearchTree<int>, DoublyLinkedBinarySearchTree<int>) {
   TestType tree;
   for (int v : {50, 30, 70, 20}) {
@@ -66,7 +66,7 @@ TEMPLATE_TEST_CASE("BST<int>: estrutura dos nos", "[tree][structure]",
   REQUIRE(tree.search(20)->childCount() == 0);
 }
 
-TEMPLATE_TEST_CASE("BST<int>: valores iguais vao para a direita",
+TEMPLATE_TEST_CASE("BST<int>: valores iguais vão para a direita",
                    "[tree][duplicates]", BinarySearchTree<int>,
                    DoublyLinkedBinarySearchTree<int>) {
   TestType tree;
@@ -104,20 +104,20 @@ TEMPLATE_TEST_CASE("BST<int>: remove", "[tree][remove]", BinarySearchTree<int>,
     REQUIRE(tree.search(30)->getLeft() == nullptr);
   }
 
-  SECTION("no com um filho") {
+  SECTION("nó com um filho") {
     tree.remove(60); // tem apenas o filho direito (65)
     requireOnly({50, 30, 70, 20, 40, 80, 65});
     REQUIRE(tree.search(70)->getLeft()->getValue() == 65);
   }
 
-  SECTION("no com dois filhos (sucessor e o filho direito)") {
+  SECTION("nó com dois filhos (sucessor é o filho direito)") {
     tree.remove(30); // sucessor: 40, filho direito direto
     requireOnly({50, 70, 20, 40, 60, 80, 65});
     REQUIRE(tree.search(50)->getLeft()->getValue() == 40);
     REQUIRE(tree.search(40)->getLeft()->getValue() == 20);
   }
 
-  SECTION("no com dois filhos (sucessor mais fundo)") {
+  SECTION("nó com dois filhos (sucessor mais fundo)") {
     tree.remove(70); // sucessor: 80? nao: minimo da direita (80) e ele mesmo
     requireOnly({50, 30, 20, 40, 60, 80, 65});
     REQUIRE(tree.search(50)->getRight()->getValue() == 80);
@@ -132,7 +132,7 @@ TEMPLATE_TEST_CASE("BST<int>: remove", "[tree][remove]", BinarySearchTree<int>,
     REQUIRE(tree.search(70)->getLeft()->getValue() == 65);
   }
 
-  SECTION("valor ausente nao altera a arvore") {
+  SECTION("valor ausente não altera a árvore") {
     REQUIRE_NOTHROW(tree.remove(999));
     requireOnly({50, 30, 70, 20, 40, 60, 80, 65});
   }
@@ -147,7 +147,7 @@ TEMPLATE_TEST_CASE("BST<int>: remove", "[tree][remove]", BinarySearchTree<int>,
   }
 }
 
-TEMPLATE_TEST_CASE("BST<int>: raiz com um unico filho", "[tree][remove]",
+TEMPLATE_TEST_CASE("BST<int>: raiz com um único filho", "[tree][remove]",
                    BinarySearchTree<int>, DoublyLinkedBinarySearchTree<int>) {
   TestType tree;
   tree.insert(1);
@@ -161,14 +161,14 @@ TEMPLATE_TEST_CASE("BST<int>: raiz com um unico filho", "[tree][remove]",
   REQUIRE(tree.search(2)->getLeft()->getValue() == 0);
 }
 
-TEMPLATE_TEST_CASE("BST<int>: copia e movimentacao", "[tree][copy]",
+TEMPLATE_TEST_CASE("BST<int>: cópia e movimentação", "[tree][copy]",
                    BinarySearchTree<int>, DoublyLinkedBinarySearchTree<int>) {
   TestType tree;
   for (int v : {5, 3, 8, 1, 4}) {
     tree.insert(v);
   }
 
-  SECTION("a copia e profunda") {
+  SECTION("a cópia é profunda") {
     TestType copy(tree);
     tree.remove(3);
     copy.insert(100);
@@ -180,13 +180,13 @@ TEMPLATE_TEST_CASE("BST<int>: copia e movimentacao", "[tree][copy]",
     REQUIRE(copy.search(3) != tree.search(5)); // nos distintos
   }
 
-  SECTION("copia de arvore vazia") {
+  SECTION("cópia de árvore vazia") {
     TestType empty;
     TestType copy(empty);
     REQUIRE(copy.search(1) == nullptr);
   }
 
-  SECTION("atribuicao por copia") {
+  SECTION("atribuição por cópia") {
     TestType other;
     other.insert(99);
     other = tree;
@@ -196,7 +196,7 @@ TEMPLATE_TEST_CASE("BST<int>: copia e movimentacao", "[tree][copy]",
     }
   }
 
-  SECTION("auto-atribuicao e segura") {
+  SECTION("auto-atribuição é segura") {
     auto &alias = tree;
     tree = alias;
     for (int v : {5, 3, 8, 1, 4}) {
@@ -204,14 +204,14 @@ TEMPLATE_TEST_CASE("BST<int>: copia e movimentacao", "[tree][copy]",
     }
   }
 
-  SECTION("movimentacao") {
+  SECTION("movimentação") {
     TestType moved(std::move(tree));
     for (int v : {5, 3, 8, 1, 4}) {
       REQUIRE(moved.search(v) != nullptr);
     }
   }
 
-  SECTION("atribuicao por movimentacao") {
+  SECTION("atribuição por movimentação") {
     TestType other;
     other.insert(99);
     other = std::move(tree);
@@ -220,7 +220,7 @@ TEMPLATE_TEST_CASE("BST<int>: copia e movimentacao", "[tree][copy]",
   }
 }
 
-TEMPLATE_TEST_CASE("BST<std::string>: operacoes basicas", "[tree][string]",
+TEMPLATE_TEST_CASE("BST<std::string>: operações básicas", "[tree][string]",
                    BinarySearchTree<std::string>,
                    DoublyLinkedBinarySearchTree<std::string>) {
   TestType tree;
@@ -235,7 +235,7 @@ TEMPLATE_TEST_CASE("BST<std::string>: operacoes basicas", "[tree][string]",
   REQUIRE(tree.search("uva") != nullptr);
 }
 
-TEMPLATE_TEST_CASE("BST<int>: arvore degenerada (profunda)",
+TEMPLATE_TEST_CASE("BST<int>: árvore degenerada (profunda)",
                    "[tree][stress]", BinarySearchTree<int>,
                    DoublyLinkedBinarySearchTree<int>) {
   // Insercao ordenada gera uma lista: copia e destruicao precisam ser
@@ -251,7 +251,7 @@ TEMPLATE_TEST_CASE("BST<int>: arvore degenerada (profunda)",
   REQUIRE(tree.search(N) == nullptr);
 }
 
-TEMPLATE_TEST_CASE("BST<int>: comparacao com std::multiset (aleatorio)",
+TEMPLATE_TEST_CASE("BST<int>: comparação com std::multiset (aleatório)",
                    "[tree][random]", BinarySearchTree<int>,
                    DoublyLinkedBinarySearchTree<int>) {
   std::mt19937 rng(31337);
@@ -320,7 +320,7 @@ TEST_CASE("DoublyLinkedBinarySearchTree: ponteiros para o pai",
   }
   verifyParents();
 
-  SECTION("a raiz nao possui pai") {
+  SECTION("a raiz não possui pai") {
     DoublyLinkedBinarySearchTree<int> small;
     small.insert(2);
     small.insert(1);
@@ -331,7 +331,7 @@ TEST_CASE("DoublyLinkedBinarySearchTree: ponteiros para o pai",
   }
 }
 
-TEST_CASE("BinarySearchTreeInterface: uso polimorfico", "[tree][interface]") {
+TEST_CASE("BinarySearchTreeInterface: uso polimórfico", "[tree][interface]") {
   std::unique_ptr<BinarySearchTreeInterface<int>> tree =
       std::make_unique<BinarySearchTree<int>>();
   tree->insert(2);
